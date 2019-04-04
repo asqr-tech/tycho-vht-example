@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Automatic-Module-Name: com.vht.tycho.plugin1
-Bundle-SymbolicName: com.vht.tycho.plugin1
-Bundle-Name: Plugin1
-Bundle-Version: 1.0.0.201904031309
-Bundle-ManifestVersion: 2
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: VHT
-
