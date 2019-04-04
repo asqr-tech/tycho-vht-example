@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Ftamework Core Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.core;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Import-Package: org.w3c.dom
+Export-Package: org.eclipse.vtp.framework.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
