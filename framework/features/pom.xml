@@ -12,8 +12,4 @@
 		<artifactId>com.vht.tycho.framework</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-
-	<modules>
-		<!-- <module>com.vht.tycho.feature1</module> -->
-	</modules>
 </project>
