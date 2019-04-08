@@ -2,12 +2,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.vht.tycho</groupId>
+	<artifactId>com.vht.tycho.desktop.features</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
 	<parent>
 		<groupId>com.vht.tycho</groupId>
-		<artifactId>com.vht.tycho.releng</artifactId>
+		<artifactId>com.vht.tycho.framework</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.vht.tycho.update</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>eclipse-repository</packaging>
+
+	<modules>
+		<!-- <module>com.vht.tycho.feature1</module> -->
+	</modules>
 </project>

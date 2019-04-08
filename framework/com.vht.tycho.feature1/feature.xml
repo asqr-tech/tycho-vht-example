@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.vht.tycho.feature"
+      id="com.vht.tycho.feature1"
       label="Feature"
       version="1.0.0.qualifier"
       provider-name="VHT">
@@ -17,13 +17,6 @@
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="com.vht.tycho.plugin1"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-         
    <plugin
          id="org.eclipse.vtp.framework.core"
          download-size="0"
