@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.vtp.framework.core.actions">
+      <action
+            id="org.eclipse.vtp.framework.webservices.actions.webservice-call"
+            type="org.eclipse.vtp.framework.webservices.actions.WebServiceCallAction"
+            name="Web Service Call Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Continue"
+               normal="true">
+         </result>
+         <result
+               id="error.general"
+               name="Web Service Connectivity Error"
+               normal="false">
+         </result>
+      </action>
+   </extension>
+
+   <extension
+         point="org.eclipse.vtp.framework.core.configurations">
+      <configuration
+            id="org.eclipse.vtp.framework.webservices.configurations.webservice"
+            type="org.eclipse.vtp.framework.webservices.configurations.WebServiceConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/webservices/configurations"
+            xml-tag="call"
+            name="Web Service Configuration">
+      </configuration>
+   </extension>
+         
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+   </extension>
+
+</plugin>

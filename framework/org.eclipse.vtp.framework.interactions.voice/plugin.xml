@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   
+   <extension
+         point="org.eclipse.vtp.framework.interactions.core.interactionTypes">
+      <interaction-type
+            id="org.eclipse.vtp.framework.interactions.voice.interaction"
+            name="Voice Interaction"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.vtp.framework.interactions.core.contenttypes">
+      <content-type
+            id="org.eclipse.vtp.framework.interactions.voice.media.content.audio"
+            element-name="audio-content"
+            element-uri="http://www.eclipse.org/vtp/media/voice/content"
+            class="org.eclipse.vtp.framework.interactions.voice.media.AudioContent"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.interactions.core.inputtypes">
+      <input-type
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.grxml"
+            element-name="grxml-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            class="org.eclipse.vtp.framework.interactions.voice.media.GrxmlInputGrammar"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInBooleanInputGrammar"
+            element-name="builtin-boolean-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.boolean"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInDateInputGrammar"
+            element-name="builtin-date-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.date"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInDigitsInputGrammar"
+            element-name="builtin-digits-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.digits"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInCurrencyInputGrammar"
+            element-name="builtin-currency-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.currency"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInNumberInputGrammar"
+            element-name="builtin-number-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.number"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInPhoneInputGrammar"
+            element-name="builtin-phone-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.number"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.BuiltInTimeInputGrammar"
+            element-name="builtin-time-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.time"/>
+      <input-type
+            class="org.eclipse.vtp.framework.interactions.voice.media.DynamicInputGrammar"
+            element-name="dynamic-input-grammar"
+            element-uri="http://www.eclipse.org/vtp/media/voice/input"
+            id="org.eclipse.vtp.framework.interactions.voice.media.input.dynamic">
+      </input-type>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.interactions.core.formatterTypes">
+      <formatter
+            id="org.eclipse.vtp.framework.interactions.voice.media.formatter"
+            name="Simple English Voice Formatter"
+            vendor-name="OpenMethods"
+            interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+            class="org.eclipse.vtp.framework.interactions.voice.media.SimpleEnglishVoiceFormatter"/>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="org.eclipse.vtp.framework.interactions.voice.services.voice-platform"
+            type="org.eclipse.vtp.framework.interactions.voice.services.VoicePlatform"
+            name="Voice Platform"
+            scope="execution"
+            lazy="true">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=voice">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+
+</plugin>

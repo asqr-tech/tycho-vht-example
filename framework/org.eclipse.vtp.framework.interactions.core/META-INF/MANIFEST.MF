@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Framework Interactions Core Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.interactions.core;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.vtp.framework.core;bundle-version="4.0.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.eclipse.vtp.framework.common;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.spi;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.util;bundle-version="4.0.0"
+Import-Package: org.osgi.framework
+Export-Package: org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.framework.interactions.core.actions,
+ org.eclipse.vtp.framework.interactions.core.commands,
+ org.eclipse.vtp.framework.interactions.core.configurations,
+ org.eclipse.vtp.framework.interactions.core.conversation,
+ org.eclipse.vtp.framework.interactions.core.media,
+ org.eclipse.vtp.framework.interactions.core.observers,
+ org.eclipse.vtp.framework.interactions.core.platforms,
+ org.eclipse.vtp.framework.interactions.core.services,
+ org.eclipse.vtp.framework.interactions.core.support
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

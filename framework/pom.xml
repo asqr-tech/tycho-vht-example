@@ -1,17 +1,26 @@
 <project>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.vht.tycho</groupId>
-    <artifactId>com.vht.tycho.framework</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.vht.tycho</groupId>
+	<artifactId>com.vht.tycho.framework</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <parent>
-        <groupId>com.vht.tycho</groupId>
-        <artifactId>com.vht.tycho.root</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>com.vht.tycho</groupId>
+		<artifactId>com.vht.tycho.root</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
-    <modules>
-        <module>org.eclipse.vtp.framework.core</module>
-    </modules>
+	<modules>
+		<module>org.eclipse.vtp.framework.core</module>
+		<module>org.eclipse.vtp.framework.spi</module>
+		<module>org.eclipse.vtp.framework.util</module>
+		<module>org.eclipse.vtp.framework.common</module>
+		<module>org.eclipse.vtp.framework.databases</module>
+		<module>org.eclipse.vtp.framework.engine</module>
+		<module>org.eclipse.vtp.framework.interactions.core</module>
+		<module>org.eclipse.vtp.framework.interactions.voice</module>
+		<module>org.eclipse.vtp.framework.scripting.rhino</module>
+		<module>org.eclipse.vtp.framework.webservices</module>
+	</modules>
 </project>

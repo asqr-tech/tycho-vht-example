@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Framework Databases Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.databases;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.vtp.framework.core;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.common;bundle-version="4.0.0"
+Export-Package: org.eclipse.vtp.framework.databases,
+ org.eclipse.vtp.framework.databases.actions,
+ org.eclipse.vtp.framework.databases.configurations,
+ org.eclipse.vtp.framework.databases.services
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

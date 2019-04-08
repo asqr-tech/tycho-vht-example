@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension-point
+         id="interactionTypes"
+         name="Eclipse VTP Interaction Types"
+         schema="schema/interactionTypes.exsd"/>
+         
+   <extension-point
+         id="contenttypes"
+         name="Eclipse VTP Content Types"
+         schema="schema/contenttypes.exsd"/>
+         
+   <extension-point
+         id="formatterTypes"
+         name="Eclipse VTP Formatter Types"
+         schema="schema/formatterTypes.exsd"/>
+         
+   <extension-point
+         id="inputtypes"
+         name="Eclipse VTP Input Types"
+         schema="schema/inputtypes.exsd"/>
+   
+   <extension
+         point="org.eclipse.vtp.framework.interactions.core.contenttypes">
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.TextContent"
+            element-name="text-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.text"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.ContentComposite"
+            element-name="composite-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.composite"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.ReferencedContent"
+            element-name="referenced-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.referenced"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.NumberContent"
+            element-name="number-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.number"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.DigitsContent"
+            element-name="digits-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.digits"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.OrdinalContent"
+            element-name="ordinal-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.ordinal"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.DateContent"
+            element-name="date-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.date"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.MoneyContent"
+            element-name="money-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.money"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.LettersContent"
+            element-name="letters-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.letters"/>
+      <content-type
+            class="org.eclipse.vtp.framework.interactions.core.media.PlaceholderContent"
+            element-name="placeholder-content"
+            element-uri="http://www.eclipse.org/vtp/media/content"
+            id="org.eclipse.vtp.framework.interactions.core.media.content.placeholder">
+      </content-type>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.actions">
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.initial"
+            type="org.eclipse.vtp.framework.interactions.core.actions.InitialAction"
+            name="Initial Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.final"
+            type="org.eclipse.vtp.framework.interactions.core.actions.FinalAction"
+            name="Final Action"
+            blocking="false">
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.output-message"
+            type="org.eclipse.vtp.framework.interactions.core.actions.OutputMessageAction"
+            name="Output Message Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.output.message"
+               name="Output Message Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.meta-data-message"
+            type="org.eclipse.vtp.framework.interactions.core.actions.MetaDataMessageAction"
+            name="Meta-data Message Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.meta-data.message"
+               name="Meta-data Message Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.meta-data-request"
+            type="org.eclipse.vtp.framework.interactions.core.actions.MetaDataRequestAction"
+            name="Meta-data Request Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.meta-data.request"
+               name="Meta-data Request Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.input-request"
+            type="org.eclipse.vtp.framework.interactions.core.actions.InputRequestAction"
+            name="Input Request Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.input.noinput"
+               name="No Input Error"
+               normal="false">
+         </result>
+         <result
+               id="error.input.nomatch"
+               name="No Match Error"
+               normal="false">
+         </result>
+         <result
+               id="error.input.request"
+               name="Input Request Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.selection-request"
+            type="org.eclipse.vtp.framework.interactions.core.actions.SelectionRequestAction"
+            name="Selection Request Action"
+            blocking="false">
+         <result
+               id="*"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.input.noinput"
+               name="No Input Error"
+               normal="false">
+         </result>
+         <result
+               id="error.input.nomatch"
+               name="No Match Error"
+               normal="false">
+         </result>
+         <result
+               id="error.selection.request"
+               name="Selection Request Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.data-request"
+            type="org.eclipse.vtp.framework.interactions.core.actions.DataRequestAction"
+            name="Data Request Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.input.noinput"
+               name="No Input Error"
+               normal="false">
+         </result>
+         <result
+               id="error.input.nomatch"
+               name="No Match Error"
+               normal="false">
+         </result>
+         <result
+               id="error.data.request"
+               name="Data Request Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.external-reference"
+            type="org.eclipse.vtp.framework.interactions.core.actions.ExternalReferenceAction"
+            name="External Reference Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.external.reference"
+               name="External Reference Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.interactions.core.actions.transfer-message"
+            type="org.eclipse.vtp.framework.interactions.core.actions.BridgeMessageAction"
+            name="Transfer Message Action"
+            blocking="false">
+         <result
+               id="Call Transfered"
+               name="Call Transfered"
+               normal="true">
+         </result>
+         <result
+               id="Line Busy"
+               name="Line Busy"
+               normal="true">
+         </result>
+         <result
+               id="No Answer"
+               name="No Answer"
+               normal="true">
+         </result>
+         <result
+               id="error.bridge.message"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.connection.noauthorization"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.connection.baddestination"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.connection.noroute"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.connection.noresource"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.connection.protocol"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.unsupported.transfer.bridge"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+         <result
+               id="error.unsupported.uri"
+               name="Bridge Message Error"
+               normal="false">
+         </result>
+      </action>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.common.dataTypes">
+      <object-type
+            name="Platform">
+         <field
+               name="ANI"
+               type="String">
+         </field>
+         <field
+               name="DNIS"
+               type="String">
+         </field>
+         <field
+               name="Brand"
+               type="String">
+         </field>
+      </object-type>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.content-manager"
+            type="org.eclipse.vtp.framework.interactions.core.services.ContentManager"
+            name="Content Manager"
+            scope="process"
+            lazy="false">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.input-manager"
+            type="org.eclipse.vtp.framework.interactions.core.services.InputManager"
+            name="Input Manager"
+            scope="process"
+            lazy="false">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.interaction-type-registry"
+            type="org.eclipse.vtp.framework.interactions.core.services.InteractionTypeRegistry"
+            name="Interaction Type Registry"
+            scope="process"
+            lazy="false">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.formatter-registry"
+            type="org.eclipse.vtp.framework.interactions.core.services.FormatterRegistry"
+            name="Formatter Registry"
+            scope="process"
+            lazy="false">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.language-registry"
+            type="org.eclipse.vtp.framework.interactions.core.services.LanguageRegistry"
+            name="Language Registry"
+            scope="process"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.media-provider-registry"
+            type="org.eclipse.vtp.framework.interactions.core.services.MediaProviderRegistry"
+            name="Media Provider Registry"
+            scope="process"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.language-selection"
+            type="org.eclipse.vtp.framework.interactions.core.services.LanguageSelection"
+            name="Language Selection"
+            scope="session"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.conversation"
+            type="org.eclipse.vtp.framework.interactions.core.services.Conversation"
+            name="Conversation"
+            scope="execution"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.interactions.core.services.platform-selector"
+            type="org.eclipse.vtp.framework.interactions.core.services.PlatformSelector"
+            name="Platform Selector"
+            scope="execution"
+            lazy="true">
+      </service>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.configurations">
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.language"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.LanguageConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="language"
+            name="Language Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.media-provider"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.MediaProviderConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="media-provider"
+            name="Media Provider Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.shared-content"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.SharedContentConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="shared-content"
+            name="Shared Content Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.media-provider-binding"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.MediaProviderBindingConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="media-provider-binding"
+            name="Media Provider Binding Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.meta-data"
+            name="VTP Framework Meta-data Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.MetaDataConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="meta-data">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.meta-data-item"
+            name="VTP Framework Meta-data Item Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.MetaDataItemConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="meta-data-item">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.output-message"
+            name="Output Message Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.OutputMessageConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="output-message">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.transfer-message"
+            name="Transfer Message Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.TransferMessageConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="transfer-message">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.bridge-message"
+            name="Bridge Message Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.BridgeMessageConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="bridge-message">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.input-request"
+            name="Input Request Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.InputRequestConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="input-request">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.selection-request"
+            name="Selection Request Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.SelectionRequestConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="selection-request">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.data-request"
+            name="Data Request Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.DataRequestConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="data-request">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.interactions.core.configurations.external-reference"
+            name="External Reference Configuration"
+            type="org.eclipse.vtp.framework.interactions.core.configurations.ExternalReferenceConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/interactions/core/configurations"
+            xml-tag="external-reference">
+      </configuration>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.observers">
+      <observer
+            id="org.eclipse.vtp.framework.interactions.core.observers.meta-data-message"
+            type="org.eclipse.vtp.framework.interactions.core.observers.MetaDataMessageObserver"
+            name="Meta-data Message Observer"
+            blocking="false">
+      </observer>
+   </extension>
+   <extension-point id="extendedEvents" name="Extended Action Events" schema="schema/extendedEvents.exsd"/>
+   
+</plugin>

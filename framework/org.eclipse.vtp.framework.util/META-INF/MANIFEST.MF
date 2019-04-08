@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Framework Utilities Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.util
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Import-Package: org.osgi.framework;resolution:=optional,
+ org.osgi.service.cm;resolution:=optional,
+ org.osgi.service.log;resolution:=optional,
+ org.osgi.util.tracker;resolution:=optional
+Export-Package: org.eclipse.vtp.framework.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
