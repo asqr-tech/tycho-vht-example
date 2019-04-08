@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.vht.tycho.feature1_1.0.0.qualifier.jar" id="com.vht.tycho.feature1" version="1.0.0.qualifier">
-      <category name="tychoopenvxml"/>
-   </feature>
-   <feature url="features/com.vht.tycho.feature2_1.0.0.qualifier.jar" id="com.vht.tycho.feature2" version="1.0.0.qualifier">
-      <category name="tychoopenvxml"/>
-   </feature>
    <feature url="features/org.eclipse.vtp.framework.feature_4.0.0.qualifier.jar" id="org.eclipse.vtp.framework.feature" version="4.0.0.qualifier">
       <category name="tychoopenvxml"/>
    </feature>

@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.vtp.framework.common" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.vtp.framework.common" id="dataTypes" name="Data Object Types"/>
+      </appInfo>
+      <documentation>
+         Definitions of data object types that can be shared between actions in the process engine.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+         <documentation>
+            Extension point declaration.
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="object-type"/>
+            <element ref="object-implementation"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The extension point ID.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  The ID of  this group of types.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  The name of  this group of types.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="object-type">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+         <documentation>
+            Inline definition of a data object type.
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="field" minOccurs="1" maxOccurs="unbounded"/>
+         </choice>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The unique name of this object type.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="primary-field" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="field">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name"/>
+         </appInfo>
+         <documentation>
+            Defines a named field of an object type.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The unique name of this field.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The type of this field. Must be one of Array, Boolean, Date, Decimal. Number, String, or the name of another declared object type.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="initial-value" type="string">
+            <annotation>
+               <documentation>
+                  The initial value of this field when an object of this type is created.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="secured" type="boolean">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="object-implementation">
+      <annotation>
+         <documentation>
+            Full custom implementation of the IDataObject interface.
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="field" minOccurs="0" maxOccurs="unbounded"/>
+         </choice>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="primary-field" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="factory-class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.vtp.framework.common.IExternalDataType"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         3.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;pre&gt;
+   &lt;extension
+         point=&quot;org.eclipse.vtp.framework.core.dataTypes&quot;&gt;
+      &lt;object-type
+            name=&quot;myInlineType&quot;&gt;
+         &lt;field
+               name=&quot;myField1&quot;
+               type=&quot;String&quot;
+               initial-value=&quot;foo&quot;&gt;
+         &lt;/field&gt;
+         &lt;field
+               name=&quot;myField2&quot;
+               type=&quot;myExternalType&quot;&gt;
+         &lt;/field&gt;
+      &lt;/object-type&gt;
+      &lt;object-type-definition
+            name=&quot;myExternalType&quot;
+            source=&quot;objectTypes/myExternalType.xml&quot;&gt;
+      &lt;/object-type-definition&gt;
+   &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         See the org.eclipse.vtp.framework.core.IDataObject interface and its sub-interfaces in the same package.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         None.
+      </documentation>
+   </annotation>
+
+
+</schema>

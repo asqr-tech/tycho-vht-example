@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Framework Rhino Scripting Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.scripting.rhino;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.vtp.framework.core;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.common;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.util;bundle-version="4.0.0"
+Import-Package: org.mozilla.javascript
+Export-Package: org.eclipse.vtp.framework.javascript,
+ org.eclipse.vtp.framework.javascript.services
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

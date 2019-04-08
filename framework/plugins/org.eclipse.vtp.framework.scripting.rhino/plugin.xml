@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="org.eclipse.vtp.framework.javascript.services.scripting-provider"
+            name="JavaScript Scripting Provder"
+            scope="process"
+            type="org.eclipse.vtp.framework.javascript.services.JavaScriptProvider">
+         <identifier
+               name="org.eclipse.vtp.framework.common.IScriptingProvider">
+            <qualifier
+                  name="SCRIPTING_LANGUAGE=JavaScript">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+
+</plugin>

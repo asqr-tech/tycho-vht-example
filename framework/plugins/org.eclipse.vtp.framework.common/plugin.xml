@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+         
+   <extension-point id="dataTypes" name="Data Object Types"
+         schema="schema/dataTypes.exsd"/>
+
+   <extension
+         point="org.eclipse.vtp.framework.core.actions">
+      <action
+            id="org.eclipse.vtp.framework.common.actions.end"
+            type="org.eclipse.vtp.framework.common.actions.EndAction"
+            name="End Action"
+            blocking="false">
+         <result
+               id="error.end"
+               name="End Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.exit"
+            type="org.eclipse.vtp.framework.common.actions.ExitAction"
+            name="Exit Action"
+            blocking="false">
+         <result
+               id="error.exit"
+               name="Exit Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.forward"
+            type="org.eclipse.vtp.framework.common.actions.ForwardAction"
+            name="Forward Action"
+            blocking="false">
+         <result
+               id="error.forward"
+               name="Forward Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.include"
+            type="org.eclipse.vtp.framework.common.actions.IncludeAction"
+            name="Include Action"
+            blocking="false">
+         <result
+               id="*"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.include"
+               name=".Include Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.scripted"
+            type="org.eclipse.vtp.framework.common.actions.ScriptedAction"
+            name="Scripted Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.script"
+               name="Script Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.no-op"
+            type="org.eclipse.vtp.framework.common.actions.NoOpAction"
+            name="No Operation Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.portal"
+            type="org.eclipse.vtp.framework.common.actions.PortalAction"
+            name="Portal Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.assignment"
+            type="org.eclipse.vtp.framework.common.actions.AssignmentAction"
+            name="Assignment Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="error.assign"
+               name="Assignment Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            id="org.eclipse.vtp.framework.common.actions.branch"
+            type="org.eclipse.vtp.framework.common.actions.BranchAction"
+            name="Branch Action"
+            blocking="false">
+         <result
+               id="*"
+               name="Next"
+               normal="true">
+         </result>
+         <result
+               id="default"
+               name="None"
+               normal="true">
+         </result>
+         <result
+               id="error.branch"
+               name="Branching Error"
+               normal="false">
+         </result>
+      </action>
+      <action
+            blocking="false"
+            id="org.eclipse.vtp.framework.common.actions.broadcastreceiver"
+            name="Broadcast Receiver"
+            type="org.eclipse.vtp.framework.common.actions.BroadcastReceiverAction">
+         <result
+               id="default"
+               name="Continue"
+               normal="true">
+         </result>
+      </action>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.configurations">
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.assignment"
+            type="org.eclipse.vtp.framework.common.configurations.AssignmentConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="assignment"
+            name="Assignment Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.branch"
+            type="org.eclipse.vtp.framework.common.configurations.BranchConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="branch"
+            name="Branch Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.brand"
+            type="org.eclipse.vtp.framework.common.configurations.BrandConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="brand"
+            name="Brand Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.data-type"
+            type="org.eclipse.vtp.framework.common.configurations.DataTypeConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="data-type"
+            name="Data Type Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.field"
+            type="org.eclipse.vtp.framework.common.configurations.FieldConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="field"
+            name="Data Type Field Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.dispatch"
+            type="org.eclipse.vtp.framework.common.configurations.DispatchConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="dispatch"
+            name="Dispatch Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.exit"
+            type="org.eclipse.vtp.framework.common.configurations.ExitConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="exit"
+            name="Exit Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.script"
+            type="org.eclipse.vtp.framework.common.configurations.ScriptConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="script"
+            name="Script Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.variable-mapping"
+            type="org.eclipse.vtp.framework.common.configurations.VariableMappingConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="variable-mapping"
+            name="Variable Mapping Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.common.configurations.initial"
+            name="Initial Configuration"
+            type="org.eclipse.vtp.framework.common.configurations.InitialConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/common/configurations"
+            xml-tag="initial">
+      </configuration>
+   </extension>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.observers">
+      <observer
+            id="org.eclipse.vtp.framework.common.observers.scripted"
+            type="org.eclipse.vtp.framework.common.observers.ScriptedObserver"
+            name="Scripted Observer"
+            blocking="false">
+      </observer>
+   </extension>
+         
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="org.eclipse.vtp.framework.common.services.brand-registry"
+            type="org.eclipse.vtp.framework.common.services.BrandRegistry"
+            name="Brand Registry"
+            scope="process"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.brand-selection"
+            type="org.eclipse.vtp.framework.common.services.BrandSelection"
+            name="Brand Selection"
+            scope="session"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.data-type-registry"
+            type="org.eclipse.vtp.framework.common.services.DataTypeRegistry"
+            name="Data Type Registry"
+            scope="process"
+            lazy="false">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.variable-registry"
+            type="org.eclipse.vtp.framework.common.services.VariableRegistry"
+            name="Variable Registry"
+            scope="session"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.controller"
+            type="org.eclipse.vtp.framework.common.services.Controller"
+            name="Process Controller Interface"
+            scope="execution"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.process-scripting"
+            type="org.eclipse.vtp.framework.common.services.ScriptingService"
+            name="Process-Level Scripting Service"
+            scope="process"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.session-scripting"
+            type="org.eclipse.vtp.framework.common.services.ScriptingService"
+            name="Session-Level Scripting Service"
+            scope="session"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.execution-scripting"
+            type="org.eclipse.vtp.framework.common.services.ScriptingService"
+            name="Execution-Level Scripting Service"
+            scope="execution"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.action-scripting"
+            type="org.eclipse.vtp.framework.common.services.ScriptingService"
+            name="Action-Level Scripting Service"
+            scope="action"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.process-scriptable-logger"
+            type="org.eclipse.vtp.framework.common.services.ScriptableLogger"
+            name="Process-Level Scriptable Logger"
+            scope="process"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.session-scriptable-logger"
+            type="org.eclipse.vtp.framework.common.services.ScriptableLogger"
+            name="Session-Level Scriptable Logger"
+            scope="session"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.execution-scriptable-logger"
+            type="org.eclipse.vtp.framework.common.services.ScriptableLogger"
+            name="Execution-Level Scriptable Logger"
+            scope="execution"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.action-scriptable-logger"
+            type="org.eclipse.vtp.framework.common.services.ScriptableLogger"
+            name="Action-Level Scriptable Logger"
+            scope="action"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.scriptable-process-context"
+            type="org.eclipse.vtp.framework.common.services.ScriptableProcessContext"
+            name="Process-Level Scriptable Context"
+            scope="process"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.scriptable-session-context"
+            type="org.eclipse.vtp.framework.common.services.ScriptableSessionContext"
+            name="Session-Level Scriptable Context"
+            scope="session"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.scriptable-execution-context"
+            type="org.eclipse.vtp.framework.common.services.ScriptableExecutionContext"
+            name="Execution-Level Scriptable Context"
+            scope="execution"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.services.scriptable-action-context"
+            type="org.eclipse.vtp.framework.common.services.ScriptableActionContext"
+            name="Action-Level Scriptable Context"
+            scope="action"
+            lazy="true">
+      </service>
+      <service
+            id="org.eclipse.vtp.framework.common.lastresult"
+            lazy="true"
+            name="Last Result Data Structure"
+            scope="session"
+            type="org.eclipse.vtp.framework.common.services.LastResult">
+      </service>
+   </extension>
+
+</plugin>

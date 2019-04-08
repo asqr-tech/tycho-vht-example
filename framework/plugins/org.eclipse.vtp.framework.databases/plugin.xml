@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.vtp.framework.core.actions">
+      <action
+            id="org.eclipse.vtp.framework.databases.actions.database-query"
+            type="org.eclipse.vtp.framework.databases.actions.DatabaseQueryAction"
+            name="Database Query Action"
+            blocking="false">
+         <result
+               id="default"
+               name="Continue"
+               normal="true">
+         </result>
+         <result
+               id="error.database.connection"
+               name="Database Connectivity Error"
+               normal="false">
+         </result>
+      </action>
+   </extension>
+
+   <extension
+         point="org.eclipse.vtp.framework.core.configurations">
+      <configuration
+            id="org.eclipse.vtp.framework.databases.configurations.jdbc-database"
+            type="org.eclipse.vtp.framework.databases.configurations.JdbcDatabaseConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/databases/configurations"
+            xml-tag="jdbc-database"
+            name="JDBC Database Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.databases.configurations.jndi-database"
+            type="org.eclipse.vtp.framework.databases.configurations.JndiDatabaseConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/databases/configurations"
+            xml-tag="jndi-database"
+            name="JNDI Database Configuration">
+      </configuration>
+      <configuration
+            id="org.eclipse.vtp.framework.databases.configurations.database-query"
+            type="org.eclipse.vtp.framework.databases.configurations.DatabaseQueryConfiguration"
+            xml-namespace="http://eclipse.org/vtp/xml/framework/databases/configurations"
+            xml-tag="query"
+            name="Database Query Configuration">
+      </configuration>
+   </extension>
+         
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="org.eclipse.vtp.framework.databases.services.database-registry"
+            type="org.eclipse.vtp.framework.databases.services.DatabaseRegistry"
+            name="Database Registry"
+            scope="process"
+            lazy="true">
+      </service>
+   </extension>
+
+</plugin>

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Framework Webservices Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.webservices;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.vtp.framework.core;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.common;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.util;bundle-version="4.0.0"
+Export-Package: org.eclipse.vtp.framework.webservices.actions,
+ org.eclipse.vtp.framework.webservices.configurations,
+ org.eclipse.vtp.framework.webservices.configurations.document
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

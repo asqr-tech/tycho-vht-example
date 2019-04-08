@@ -14,9 +14,16 @@
 	</parent>
 
 	<modules>
-		<module>features/com.vht.tycho.feature2</module>
 		<module>features/org.eclipse.vtp.framework.feature</module>
-		<module>com.vht.tycho.feature1</module>
-		<module>org.eclipse.vtp.framework.core</module>
+		<module>plugins/org.eclipse.vtp.framework.common</module>
+		<module>plugins/org.eclipse.vtp.framework.core</module>
+		<module>plugins/org.eclipse.vtp.framework.databases</module>
+		<module>plugins/org.eclipse.vtp.framework.engine</module>
+		<module>plugins/org.eclipse.vtp.framework.interactions.core</module>
+		<module>plugins/org.eclipse.vtp.framework.interactions.voice</module>
+		<module>plugins/org.eclipse.vtp.framework.scripting.rhino</module>
+		<module>plugins/org.eclipse.vtp.framework.spi</module>
+		<module>plugins/org.eclipse.vtp.framework.util</module>
+		<module>plugins/org.eclipse.vtp.framework.webservices</module>
 	</modules>
 </project>

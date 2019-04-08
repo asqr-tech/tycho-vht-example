@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="resources" name="VTP Framework Resources" schema="schema/resources.exsd"/>
+   <extension-point id="definitions" name="VTP Framework Process Definitions" schema="schema/definitions.exsd"/>
+   <extension-point id="externalPackageEntries" name="External Package Entries" schema="schema/externalPackageEntries.exsd"/>
+   <extension
+         point="org.eclipse.vtp.framework.common.dataTypes">
+      <object-type
+            name="Platform">
+         <field
+               name="Brand"
+               type="String">
+         </field>
+         <field
+               name="ANI"
+               type="String">
+         </field>
+         <field
+               name="DNIS"
+               type="String">
+         </field>
+      </object-type>
+   </extension>
+
+</plugin>

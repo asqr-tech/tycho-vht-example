@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Framework Common Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.framework.common;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.vtp.framework.core;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.spi;bundle-version="4.0.0",
+ org.eclipse.vtp.framework.util;bundle-version="4.0.0",
+ org.eclipse.core.runtime
+Export-Package: org.eclipse.vtp.framework.common,
+ org.eclipse.vtp.framework.common.actions,
+ org.eclipse.vtp.framework.common.commands,
+ org.eclipse.vtp.framework.common.configurations,
+ org.eclipse.vtp.framework.common.controller,
+ org.eclipse.vtp.framework.common.observers,
+ org.eclipse.vtp.framework.common.services,
+ org.eclipse.vtp.framework.common.support
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
