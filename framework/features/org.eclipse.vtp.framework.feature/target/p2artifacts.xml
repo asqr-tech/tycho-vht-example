@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='org.eclipse.update.feature' id='org.eclipse.vtp.framework.feature' version='4.0.0.201904081059'>
+  <artifact classifier='org.eclipse.update.feature' id='org.eclipse.vtp.framework.feature' version='4.0.0.201904090556'>
     <properties size='6'>
-      <property name='artifact.size' value='1136'/>
-      <property name='download.size' value='1136'/>
+      <property name='artifact.size' value='1151'/>
+      <property name='download.size' value='1151'/>
       <property name='maven-groupId' value='com.vht.tycho'/>
       <property name='maven-artifactId' value='org.eclipse.vtp.framework.feature'/>
       <property name='maven-version' value='4.0.0-SNAPSHOT'/>

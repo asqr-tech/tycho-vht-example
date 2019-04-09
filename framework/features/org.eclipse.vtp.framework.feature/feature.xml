@@ -86,7 +86,7 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
+	<plugin
          id="org.mozilla.javascript"
          download-size="0"
          install-size="0"

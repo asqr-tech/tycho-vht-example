@@ -14,5 +14,14 @@
 	</parent>
 
 	<modules>
+		<module>features/com.openmethods.openvxml.idriver.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.all.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.avp.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.cvp.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.genesys.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.prophecy.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.vtop.feature</module>
+		<module>features/com.openmethods.openvxml.platforms.vxmlb.feature</module>
+		<module>com.openmethods.openvxml.idriver</module>
 	</modules>
 </project>
