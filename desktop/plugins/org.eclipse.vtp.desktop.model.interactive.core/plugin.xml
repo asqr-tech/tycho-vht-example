@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+    <extension-point id="mediaFileTypes" name="Eclipse Voice Tools Media File Types" schema="schema/mediaFileTypes.exsd"/>
+    <extension-point id="mediaProjects" name="Eclipse Voice Tools Media Project Types" schema="schema/mediaProjects.exsd"/>
+	<extension-point id="bindingTypes" name="OpenVXML Generic Configuration Binding Types" schema="schema/bindingTypes.exsd"/>
+	<extension-point id="defaultSettings" name="OpenVXML Default Settings Groups" schema="schema/defaultSettings.exsd"/>
+   
+   <extension
+         point="org.eclipse.vtp.desktop.model.interactive.core.mediaFileTypes">
+      <media-type
+            class="org.eclipse.vtp.desktop.model.interactive.core.internal.GrammarFileFactory"
+            id="org.eclipse.vtp.desktop.model.interactive.core.mediafile.grammar"
+            type-name="Grammar File">
+         <mapping extension="grxml"/>
+         <mapping extension="gram"/>
+         <mapping
+               extension="grammar"/>
+         <mapping
+               extension="gsl"
+               />
+         <mapping
+               extension="abnf">
+         </mapping>
+      </media-type>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.interactive.core.bindingTypes">
+      <binding-type
+            class="org.eclipse.vtp.desktop.model.interactive.core.configuration.generic.GrammarBindingItem"
+            id="org.eclipse.vtp.configuration.generic.items.grammar">
+      </binding-type>
+      <binding-type
+            class="org.eclipse.vtp.desktop.model.interactive.core.configuration.generic.PromptBindingItem"
+            id="org.eclipse.vtp.configuration.generic.items.prompt">
+      </binding-type>
+      <binding-type
+            class="org.eclipse.vtp.desktop.model.interactive.core.configuration.generic.PropertyBindingItem"
+            id="org.eclipse.vtp.configuration.generic.items.property">
+      </binding-type>
+   </extension>
+   <extension
+         id="InteractiveWorkflowProjectBuilder"
+         name="Interactive Workflow Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="false">
+         <run
+               class="org.eclipse.vtp.desktop.model.interactive.core.builders.InteractiveWorkflowProjectBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="MediaProjectBuilder"
+         name="Media project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="false">
+         <run
+               class="org.eclipse.vtp.desktop.model.interactive.core.builders.MediaProjectBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="InteractiveWorkflowProjectNature"
+         name="Interactive Workflow Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.eclipse.vtp.desktop.model.interactive.core.natures.InteractiveWorkflowProjectNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.eclipse.vtp.desktop.model.interactive.core.InteractiveWorkflowProjectBuilder">
+      </builder>
+      <builder
+            id="org.eclipse.vtp.desktop.model.core.WorkflowProjectBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.workflowProjectFactories">
+      <project-factory
+            class="org.eclipse.vtp.desktop.model.interactive.core.internal.InteractiveWorkflowProjectFactory"
+            nature-id="org.eclipse.vtp.desktop.model.interactive.core.InteractiveWorkflowProjectNature">
+      </project-factory>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.configurationContexts">
+      <context
+            class="org.eclipse.vtp.desktop.model.interactive.core.internal.context.InteractionTypeContext"
+            id="org.eclipse.vtp.desktop.model.interactive.core.interactiontypecontext">
+      </context>
+      <context-binding
+            context-id="org.eclipse.vtp.desktop.model.interactive.core.interactiontypecontext"
+            filter-class="org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowProject">
+      </context-binding>
+      <context
+            class="org.eclipse.vtp.desktop.model.interactive.core.internal.context.LanguageContext"
+            id="org.eclipse.vtp.desktop.model.interactive.core.languagecontext">
+      </context>
+      <context-binding
+            context-id="org.eclipse.vtp.desktop.model.interactive.core.languagecontext"
+            filter-class="org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowProject">
+      </context-binding>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.configurationManagers">
+      <configuration-manager
+            class="org.eclipse.vtp.desktop.model.interactive.core.configuration.generic.GenericBindingManager"
+            id="org.eclipse.vtp.configuration.generic">
+      </configuration-manager>
+   </extension>
+</plugin>

@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Attached Data Module UI
+Bundle-SymbolicName: org.eclipse.vtp.modules.attacheddata.ui;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.vtp.desktop.core,
+ org.eclipse.vtp.desktop.model.core,
+ org.eclipse.vtp.desktop.model.elements.core,
+ org.eclipse.vtp.desktop.model.interactive.core,
+ org.eclipse.vtp.desktop.projects.core,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.vtp.framework.common,
+ org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.desktop.editors.core,
+ org.eclipse.ui.forms,
+ org.eclipse.vtp.desktop.media.core,
+ org.eclipse.vtp.modules.interactive.ui,
+ org.eclipse.vtp.desktop.export
+Bundle-ClassPath: .

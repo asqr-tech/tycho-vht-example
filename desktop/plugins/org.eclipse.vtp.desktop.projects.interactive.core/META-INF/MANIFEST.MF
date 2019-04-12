@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Interactive Projects Core
+Bundle-SymbolicName: org.eclipse.vtp.desktop.projects.interactive.core;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.vtp.desktop.projects.interactive.core.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.forms,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.navigator.resources,
+ org.eclipse.vtp.desktop.core,
+ org.eclipse.vtp.desktop.media.core,
+ org.eclipse.vtp.desktop.model.core,
+ org.eclipse.vtp.desktop.model.interactive.core,
+ org.eclipse.vtp.desktop.projects.core,
+ org.eclipse.jface.text,
+ org.eclipse.jdt,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.ui,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.core.expressions
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.vtp.desktop.projects.interactive.core,
+ org.eclipse.vtp.desktop.projects.interactive.core.properties,
+ org.eclipse.vtp.desktop.projects.interactive.core.util,
+ org.eclipse.vtp.desktop.projects.interactive.core.view,
+ org.eclipse.vtp.desktop.projects.interactive.core.wizards
+

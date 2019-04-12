@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="org.eclipse.vtp.desktop.export.category"
+            class="org.eclipse.vtp.desktop.export.internal.wizards.ExportWizard"
+            icon="icons/folder_open.gif"
+            id="org.eclipse.vtp.desktop.export.wizard.webapp"
+            name="Web Application">
+      </wizard>
+      <category
+            id="org.eclipse.vtp.desktop.export.category"
+            name="Voice Tools">
+      </category>
+   </extension>
+   
+  <extension-point id="exportAgents" name="Project Export Agents" schema="schema/exportAgents.exsd"/>
+  <extension-point id="configurationExporters" name="Configuration Exporters" schema="schema/configurationExporters.exsd"/>
+    
+</plugin>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog-definition>
+	<workflow id="" name="Blank Dialog">
+		<model>
+			<elements>
+				<element
+					id="cbb0fc79382a4f039e6f8eb5fef8b1cd"
+					name="Begin Dialog"
+					type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+							name="type"
+							value="org.eclipse.vtp.modules.standard.ui.modelEntry"/>
+					</properties>
+					<configuration>
+						<custom-config xmlns="http://www.eclipse.org/vtp/namespaces/config"/>
+					</configuration>
+				</element>
+			</elements>
+			<connectors>
+			</connectors>
+		</model>
+		<design orientation="2" paper-size="org.eclipse.vtp.desktop.editors.core.Letter">
+			<ui-element id="cbb0fc79382a4f039e6f8eb5fef8b1cd" x="475" y="42"/>
+		</design>
+	</workflow>
+</dialog-definition>

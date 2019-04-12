@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fragment-definition>
+	<fragment>
+		<model
+			xml-version="1.0.0">
+			<elements>
+				<element
+					id="cbb0fc79382a4f039e6f8eb5fef8b1cd"
+					name="Begin Fragment"
+					type="org.eclipse.vtp.desktop.editors.core.elements.primitive">
+					<properties>
+						<property
+							name="type"
+							value="org.eclipse.vtp.desktop.editors.core.beginFragment" />
+					</properties>
+					<configuration>
+						<custom-config xmlns="http://www.eclipse.org/vtp/namespaces/config">
+							<declarations>
+							</declarations>
+						</custom-config>
+						</configuration>
+				</element>
+			</elements>
+			<connectors>
+			</connectors>
+		</model>
+		<design>
+			<canvas id="1" name="Main Canvas" orientation="2">
+				<ui-element id="cbb0fc79382a4f039e6f8eb5fef8b1cd" x="79" y="55"/>
+			</canvas>
+		</design>
+	</fragment>
+	<dialogs>
+	</dialogs>
+</fragment-definition>

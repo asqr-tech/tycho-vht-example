@@ -3,5 +3,8 @@
    <feature url="features/org.eclipse.vtp.framework.feature_4.0.0.qualifier.jar" id="org.eclipse.vtp.framework.feature" version="4.0.0.qualifier">
       <category name="tychoopenvxml"/>
    </feature>
+   <feature url="features/com.openmethods.openvxml.idriver.feature_4.0.0.qualifier.jar" id="com.openmethods.openvxml.idriver.feature" version="4.0.0.qualifier">
+      <category name="tychoopenvxml"/>
+   </feature>
    <category-def name="tychoopenvxml" label="Tycho OpenVXML"/>
 </site>

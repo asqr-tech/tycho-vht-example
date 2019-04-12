@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eclipse Voice Tools Export Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.desktop.export;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Activator: org.eclipse.vtp.desktop.export.internal.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.vtp.desktop.model.core,
+ org.eclipse.vtp.desktop.model.interactive.core,
+ org.eclipse.vtp.desktop.media.core,
+ org.eclipse.vtp.framework.common,
+ org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.core.resources
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.eclipse.ui,
+ javax.servlet.http
+Export-Package: org.eclipse.vtp.desktop.export
+Bundle-Vendor: Eclipse.org

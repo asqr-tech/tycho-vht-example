@@ -13,7 +13,9 @@
 		<relativePath>./releng/com.vht.tycho.configuration</relativePath>
 	</parent>
 	<modules>
+		<module>desktop</module>
 		<module>framework</module>
+		<module>platforms</module>
 		<module>releng</module>
 	</modules>
 	<build>

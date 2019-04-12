@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="com.openmethods.openvxml.platforms.cvp.services.platform"
+            lazy="true"
+            name="CVP Platform"
+            scope="execution"
+            type="com.openmethods.openvxml.platforms.cvp.services.CvpPlatform">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=CVP">
+            </qualifier>
+         </identifier>
+      </service>
+      <service
+            id="com.openmethods.openvxml.platforms.uccx.services.platform"
+            lazy="true"
+            name="UCCX Platform"
+            scope="execution"
+            type="com.openmethods.openvxml.platforms.cvp.services.UCCXVoicePlatform">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=UCCX">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+
+</plugin>
