@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.model.legacy;singleton:=t
+ rue
+Export-Package: org.eclipse.vtp.desktop.model.legacy.v3_xTo3_X,org.ecl
+ ipse.vtp.desktop.model.legacy.v3_xTo3_X.legacysupport,org.eclipse.vtp
+ .desktop.model.legacy.v3_xTo3_X.update
+Bundle-Name: Converters for Legacy Model Versions
+Bundle-Version: 4.0.0.201904120843
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.ui,org.eclipse.vtp.framework.util,org.eclipse.vtp.desktop.p
+ rojects.core,org.eclipse.ui.navigator,org.eclipse.ui.ide,org.eclipse.
+ vtp.desktop.model.interactive.core,org.eclipse.vtp.desktop.projects.v
+ oice,org.eclipse.vtp.desktop.model.interactive.voice,org.eclipse.vtp.
+ desktop.model.core
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
+

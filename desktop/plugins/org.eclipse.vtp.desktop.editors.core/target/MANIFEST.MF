@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.editors.core;singleton:=t
+ rue
+Export-Package: org.eclipse.vtp.desktop.editors.core,org.eclipse.vtp.d
+ esktop.editors.core.actions,org.eclipse.vtp.desktop.editors.core.conf
+ iguration,org.eclipse.vtp.desktop.editors.core.controller,org.eclipse
+ .vtp.desktop.editors.core.dialogs,org.eclipse.vtp.desktop.editors.cor
+ e.impl,org.eclipse.vtp.desktop.editors.core.internal.configuration,or
+ g.eclipse.vtp.desktop.editors.core.model,org.eclipse.vtp.desktop.edit
+ ors.core.widgets
+Bundle-Name: OpenVXML Core Editors Plug-in
+Bundle-Version: 4.0.0.201904120843
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.equinox.registry,org.eclipse.ui,org.eclipse.ui.forms,org.ec
+ lipse.ui.editors,org.eclipse.ui.ide,org.eclipse.vtp.framework.common,
+ org.eclipse.vtp.framework.interactions.core,org.eclipse.vtp.framework
+ .databases,org.eclipse.vtp.framework.webservices,org.eclipse.vtp.fram
+ ework.util,org.eclipse.vtp.desktop.core,org.eclipse.vtp.desktop.views
+ ,org.eclipse.vtp.desktop.model.core;visibility:=reexport,org.eclipse.
+ vtp.desktop.media.core,org.eclipse.vtp.desktop.projects.core,org.ecli
+ pse.vtp.desktop.editors.themes.core,org.eclipse.vtp.desktop.model.ele
+ ments.core,org.eclipse.vtp.desktop.model.interactive.core
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.vtp.desktop.editors.core.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
+

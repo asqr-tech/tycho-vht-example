@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.vtp.framework.feature"
       label="VTP Framework feature"
-      version="4.0.0.201904120843">
+      version="4.0.0.201904090556">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -20,70 +20,70 @@
          id="org.eclipse.vtp.framework.common"
          download-size="133"
          install-size="279"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.core"
          download-size="11"
          install-size="29"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.databases"
          download-size="33"
          install-size="65"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.engine"
          download-size="165"
          install-size="356"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.interactions.core"
          download-size="236"
          install-size="523"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.interactions.voice"
          download-size="125"
          install-size="268"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.scripting.rhino"
          download-size="11"
          install-size="19"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.spi"
          download-size="8"
          install-size="8"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.util"
          download-size="42"
          install-size="80"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.webservices"
          download-size="28"
          install-size="53"
-         version="4.0.0.201904120843"
+         version="4.0.0.201904090556"
          unpack="false"/>
 
 	<plugin

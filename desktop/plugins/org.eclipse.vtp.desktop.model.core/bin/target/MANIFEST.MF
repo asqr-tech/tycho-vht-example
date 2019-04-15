@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.model.core;singleton:=tru
+ e
+Export-Package: org.eclipse.vtp.desktop.model.core,org.eclipse.vtp.des
+ ktop.model.core.branding,org.eclipse.vtp.desktop.model.core.builders,
+ org.eclipse.vtp.desktop.model.core.configuration,org.eclipse.vtp.desk
+ top.model.core.design,org.eclipse.vtp.desktop.model.core.event,org.ec
+ lipse.vtp.desktop.model.core.extension,org.eclipse.vtp.desktop.model.
+ core.internal,org.eclipse.vtp.desktop.model.core.internal.branding,or
+ g.eclipse.vtp.desktop.model.core.internal.design,org.eclipse.vtp.desk
+ top.model.core.internal.event,org.eclipse.vtp.desktop.model.core.natu
+ res,org.eclipse.vtp.desktop.model.core.schema,org.eclipse.vtp.desktop
+ .model.core.wsdl,org.eclipse.vtp.desktop.model.core.wsdl.soap
+Bundle-Name: Eclipse Voice Tools Model Core Plug-in
+Bundle-Version: 4.0.0.201904120843
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.co
+ re.resources,org.eclipse.vtp.framework.util,org.eclipse.vtp.desktop.c
+ ore,org.eclipse.ui.ide,org.eclipse.core.expressions,org.apache.derby,
+ org.apache.xerces
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.desktop.model.core.WorkflowCore
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
+

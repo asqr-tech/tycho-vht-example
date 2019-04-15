@@ -9,7 +9,7 @@
 
 	<parent>
 		<groupId>com.vht.tycho</groupId>
-		<artifactId>com.vht.tycho.desktop</artifactId>
+		<artifactId>com.vht.tycho.framework</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 

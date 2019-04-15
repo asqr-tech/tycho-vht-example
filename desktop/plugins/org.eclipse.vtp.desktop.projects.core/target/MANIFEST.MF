@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.projects.core;singleton:=
+ true
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.ui,org.eclipse.ui.forms,org.eclipse.ui.ide,org.eclipse.ui.n
+ avigator,org.eclipse.jdt,org.eclipse.jdt.core,org.eclipse.jdt.ui,org.
+ eclipse.vtp.framework.common,org.eclipse.vtp.framework.engine,org.ecl
+ ipse.vtp.framework.interactions.core,org.eclipse.vtp.framework.util,o
+ rg.eclipse.vtp.framework.databases,org.eclipse.vtp.framework.webservi
+ ces,org.eclipse.vtp.desktop.core,org.apache.xerces;visibility:=reexpo
+ rt,org.eclipse.vtp.desktop.model.core,org.eclipse.ui.navigator.resour
+ ces,org.eclipse.jface.text
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
+Export-Package: org.eclipse.vtp.desktop.projects.core,org.eclipse.vtp.
+ desktop.projects.core.builder,org.eclipse.vtp.desktop.projects.core.d
+ ialogs,org.eclipse.vtp.desktop.projects.core.properties,org.eclipse.v
+ tp.desktop.projects.core.util,org.eclipse.vtp.desktop.projects.core.v
+ iew,org.eclipse.vtp.desktop.projects.core.wizards
+Bundle-Name: Eclipse VTP Projects Core Plug-in
+Bundle-Version: 4.0.0.201904120843
+Bundle-ClassPath: .
+Bundle-Localization: plugin
+Bundle-Activator: org.eclipse.vtp.desktop.projects.core.DesktopCorePlu
+ gin
+

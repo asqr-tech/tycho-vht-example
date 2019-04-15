@@ -30,8 +30,8 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
-	<plugin
+
+   <plugin
          id="com.openmethods.openvxml.idriver.ui"
          download-size="0"
          install-size="0"
