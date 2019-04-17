@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.vtp.modules.database.ui.editors.DatabaseTableEditor"
+            default="true"
+            extensions="dbt"
+            id="org.eclipse.vtp.modules.database.tableeditor"
+            name="Workflow Database Table Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <file-association
+            content-type="org.eclipse.core.runtime.text"
+            file-extensions="dbt">
+      </file-association>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.editors.core.componentPropertiesPanelProvider">
+      <provider
+            class="org.eclipse.vtp.modules.database.ui.properties.DatabaseQueryComponentPropertiesPanelProvider">
+      </provider>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElementExporter">
+      <primitive-configuration-exporter
+            class="org.eclipse.vtp.modules.database.ui.export.DatabaseConfigurationExporter"
+            id="org.eclipse.vtp.modules.database.simplequery">
+      </primitive-configuration-exporter>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElement">
+      <primitive
+            icon="icons/database.gif"
+            id="org.eclipse.vtp.modules.database.simplequery"
+            name="Database Query">
+         <information_provider
+               class="org.eclipse.vtp.modules.database.ui.DatabaseQueryInformationProvider">
+         </information_provider>
+      </primitive>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.export.exportAgents">
+      <agent
+            class="org.eclipse.vtp.modules.database.ui.export.DatabaseExportAgent"
+            id="org.eclipse.vtp.modules.database.ui.export.agent">
+      </agent>
+   </extension>
+
+</plugin>

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mantis Theme Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.desktop.editors.themes.mantis;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.vtp.desktop.core,
+ org.eclipse.vtp.desktop.editors.themes.core,
+ org.eclipse.vtp.desktop.model.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

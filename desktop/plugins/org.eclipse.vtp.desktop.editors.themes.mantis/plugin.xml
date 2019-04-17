@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.desktop.editors.themes.core.editorTheme">
+      <theme
+            class="org.eclipse.vtp.desktop.editors.themes.mantis.MantisTheme"
+            id="org.eclipse.vtp.desktop.editors.themes.mantis"
+            name="Mantis">
+      </theme>
+   </extension>
+
+</plugin>

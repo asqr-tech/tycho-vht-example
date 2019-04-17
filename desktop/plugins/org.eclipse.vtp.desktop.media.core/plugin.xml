@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="mediaConfigurationScreens" name="Eclipse Voice Tools Media Configuration Screens" schema="schema/mediaConfigurationScreens.exsd"/>
+   <extension-point id="contentCreatorPanels" name="Eclipse Voice Tools Desktop Media Content Creators" schema="schema/contentCreatorPanels.exsd"/>
+   <extension-point id="inputCreatorPanels" name="Eclipse Voice Tools Desktop Media Content Creators" schema="schema/inputCreatorPanels.exsd"/>
+   <extension-point id="mediaDefaultPanel" name="Media Default Panels" schema="schema/mediaDefaultPanel.exsd"/>
+   <extension
+         point="org.eclipse.vtp.desktop.media.core.contentCreatorPanels">
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.TextContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.text"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.ReferenceContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.referenced"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.NumberContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.number"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.DigitsContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.digits"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.OrdinalContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.ordinal"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.DateContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.date"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.MoneyContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.money"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.LettersContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.letters"/>
+      <content-creator
+            class="org.eclipse.vtp.desktop.media.core.PlaceholderContentCreatorPanel"
+            content-type="org.eclipse.vtp.framework.interactions.core.media.content.placeholder">
+      </content-creator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.vtp.desktop.media.core.preferences.MediaDefaultsPreferencePage"
+            id="org.eclipse.vtp.desktop.media.core.mediadefaults"
+            name="Media Defaults">
+      </page>
+   </extension>
+
+</plugin>

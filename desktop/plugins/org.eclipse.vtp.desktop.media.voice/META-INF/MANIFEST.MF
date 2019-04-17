@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Voice Media Bundle
+Bundle-SymbolicName: org.eclipse.vtp.desktop.media.voice;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Activator: org.eclipse.vtp.desktop.media.voice.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.vtp.desktop.core,
+ org.eclipse.vtp.desktop.model.core,
+ org.eclipse.vtp.desktop.model.interactive.core,
+ org.eclipse.vtp.desktop.model.interactive.voice,
+ org.eclipse.vtp.desktop.media.core,
+ org.eclipse.vtp.desktop.model.elements.core,
+ org.eclipse.vtp.modules.interactive.ui,
+ org.eclipse.ui.forms,
+ org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.framework.interactions.voice
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="VoiceProjectNature"
+         name="Voice Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.eclipse.vtp.desktop.model.interactive.voice.natures.VoiceProjectNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.eclipse.vtp.desktop.model.interactive.core.MediaProjectBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.interactive.core.mediaProjects">
+      <media-project-type
+            class="org.eclipse.vtp.desktop.model.interactive.voice.internal.VoiceProjectFactory"
+            id="org.eclipse.vtp.desktop.model.interactive.voice.project"
+            interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+            name="Voice Project"
+            nature-id="org.eclipse.vtp.desktop.model.interactive.voice.VoiceProjectNature"/>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.interactive.core.mediaFileTypes">
+      <media-type
+            class="org.eclipse.vtp.desktop.model.interactive.voice.internal.AudioFileFactory"
+            id="org.eclipse.vtp.desktop.projects.voice.mediafile.audio"
+            type-name="Audio File">
+         <mapping extension="vox"/>
+         <mapping extension="wav"/>
+         <mapping extension="3gp"/>
+         <mapping extension="mpg"/>
+         <mapping
+               extension="au">
+         </mapping>
+      </media-type>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.interactive.core.defaultSettings">
+      <element-default-settings
+            element-type="org.eclipse.vtp.modules.interactive.optionSet"
+            interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction">
+         <default-setting
+               default-value="Dtmf Only"
+               name="input-mode">
+         </default-setting>
+         <default-setting
+               name="barge-in" default-value="true">
+         </default-setting>
+         <default-setting
+               name="initial-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="termination-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="speech-incomplete-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="speech-complete-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="max-speech-timeout" default-value="10">
+         </default-setting>
+         <default-setting
+               name="confidence-level" default-value="50">
+         </default-setting>
+         <default-setting
+               name="sensitivity-level" default-value="50">
+         </default-setting>
+         <default-setting
+               name="speed-vs-accuracy" default-value="50">
+         </default-setting>
+         <default-setting
+               default-value="2"
+               name="interdigit-timeout">
+         </default-setting>
+      </element-default-settings>
+      <element-default-settings
+            element-type="org.eclipse.vtp.modules.interactive.question"
+            interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction">
+         <default-setting
+               default-value="Dtmf Only"
+               name="input-mode">
+         </default-setting>
+         <default-setting
+               name="barge-in" default-value="true">
+         </default-setting>
+         <default-setting
+               name="initial-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="interdigit-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="termination-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="termination-character" default-value="#">
+         </default-setting>
+         <default-setting
+               name="speech-incomplete-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="speech-complete-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="max-speech-timeout" default-value="10">
+         </default-setting>
+         <default-setting
+               name="confidence-level" default-value="50">
+         </default-setting>
+         <default-setting
+               name="sensitivity-level" default-value="50">
+         </default-setting>
+         <default-setting
+               name="speed-vs-accuracy" default-value="50">
+         </default-setting>
+      </element-default-settings>
+      <element-default-settings
+            element-type="org.eclipse.vtp.modules.interactive.playPrompt"
+            interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction">
+         <default-setting
+               name="barge-in" default-value="true">
+         </default-setting>
+      </element-default-settings>
+      <element-default-settings
+            element-type="org.eclipse.vtp.modules.interactive.record"
+            interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction">
+         <default-setting
+               name="barge-in" default-value="true">
+         </default-setting>
+         <default-setting
+               name="play-beep" default-value="true">
+         </default-setting>
+         <default-setting
+               name="dtmf-termination" default-value="true">
+         </default-setting>
+         <default-setting
+               name="initial-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="final-silence-timeout" default-value="3">
+         </default-setting>
+         <default-setting
+               name="max-record-time" default-value="300">
+         </default-setting>
+      </element-default-settings>
+   </extension>
+
+</plugin>

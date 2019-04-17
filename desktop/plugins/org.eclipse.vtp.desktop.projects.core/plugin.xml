@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="VoiceApplicationBuilder"
+         name="%application.builder"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationBuilder"/>
+      </builder>
+   </extension>
+   <extension
+         id="VoiceApplicationFragmentBuilder"
+         name="%application.builder"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationFragmentBuilder"/>
+      </builder>
+   </extension>
+   
+   <extension
+         id="VoiceApplicationNature"
+         name="%application.nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationNature"/>
+      </runtime>
+      <builder id="org.eclipse.vtp.desktop.projects.core.VoiceApplicationBuilder"/>
+   </extension>
+
+   <extension
+         id="VoiceApplicationFragmentNature"
+         name="Application Fragment Nature"
+         point="org.eclipse.core.resources.natures">
+      <builder id="org.eclipse.vtp.desktop.projects.core.VoiceApplicationFragmentBuilder"/>
+      <runtime>
+         <run class="org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationFragmentNature"/>
+      </runtime>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.vtp.desktop.projects.core.wizards"
+            name="Voice Tools Wizards"/>
+      <wizard
+            canFinishEarly="false"
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateDialogWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.dialog.wizard"
+            name="New Dialog"
+            project="false">
+         <selection
+               class="org.eclipse.core.resources.IResource"
+               name="IResource Selection"/>
+      </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateBusinessObjectWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.businessobject.wizard"
+            name="Business Object"
+            project="false">
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IBusinessObjectSet"
+               name="IBusinessObjectSet Selection"/>
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IBusinessObject"
+               name="IBusinessObject">
+         </selection>
+      </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateWorkflowDesignFolderWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.designfolder.wizard"
+            name="Design Folder"
+            project="false">
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDesignItemContainer"
+               name="IDesignItemContainer"/>
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDesignDocument"
+               name="IDesignDocument">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateWorkflowProjectWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.workflowprojectwizard"
+            name="Workflow"
+            project="true">
+      </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateWorkflowDesignDocumentWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.designdocument.wizard"
+            name="Design Document"
+            project="false">
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDesignItemContainer"
+               name="IDesignItemContainer">
+         </selection>
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDesignDocument"
+               name="IDesignDocument">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateDatabaseWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.database.wizard"
+            name="Workflow Database"
+            project="false">
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDatabaseSet"
+               name="IDatabaseSet">
+         </selection>
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDatabase"
+               name="IDatabase">
+         </selection>
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDatabaseTable"
+               name="IDatabaseTable">
+         </selection>
+      </wizard>
+      <wizard
+            category="org.eclipse.vtp.desktop.projects.core.wizards"
+            class="org.eclipse.vtp.desktop.projects.core.wizards.CreateDatabaseTableWizard"
+            hasPages="true"
+            id="org.eclipse.vtp.desktop.projects.core.databasetable.wizard"
+            name="Workflow Database Table"
+            project="false">
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDatabase"
+               name="IDatabase">
+         </selection>
+         <selection
+               class="org.eclipse.vtp.desktop.model.core.IDatabaseTable"
+               name="IDatabaseTable">
+         </selection>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.vtp.desktop.projects.core.properties.WorkflowProjectConfigurationPropertyPage"
+            id="org.eclipse.vtp.desktop.projects.core.appproperties"
+            name="Build Path">
+         <enabledWhen>
+            <adapt
+                  type="org.eclipse.core.resources.IProject">
+               <test
+                     property="org.eclipse.core.resources.projectNature"
+                     value="org.eclipse.vtp.desktop.model.core.WorkflowProjectNature">
+               </test>
+            </adapt>
+         </enabledWhen>
+      </page>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            id="org.eclipse.vtp.desktop.projects.core.projectsview"
+            name="Workflow Projects"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension
+                  pattern="org.eclipse.vtp.desktop.projects.core.navigatorContent1"/>
+           <contentExtension pattern="org.eclipse.vtp.desktop.projects.core.linkHelper"/>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="org.eclipse.vtp.desktop.projects.core.view.WorkflowProjectContentProvider"
+            id="org.eclipse.vtp.desktop.projects.core.navigatorContent1"
+            labelProvider="org.eclipse.vtp.desktop.projects.core.view.WorkflowProjectLabelProvider"
+            name="Workflow Content Provider"
+            priority="normal">
+         <triggerPoints>
+         	<or>
+	            <adapt type="org.eclipse.core.resources.IProject">
+	               <test
+                      forcePluginActivation="true"
+                      property="org.eclipse.vtp.desktop.model.core.isWorkflow"/>
+	            </adapt>
+	            <instanceof value="org.eclipse.vtp.desktop.model.core.IWorkflowResource"/>
+	        </or>
+         </triggerPoints>
+         <possibleChildren>
+         	<or>
+         		<instanceof value="org.eclipse.vtp.desktop.model.core.IWorkflowResource"/>
+         		<instanceof value="org.eclipse.core.resources.IResource"/>
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+           </adapt>
+         	</or>
+         </possibleChildren>
+<!--         <override
+               policy="InvokeAlwaysRegardlessOfSuppressedExt"
+               suppressedExtensionId="org.eclipse.team.ui.resourceContent"/>-->
+         <override
+               policy="InvokeAlwaysRegardlessOfSuppressedExt"
+               suppressedExtensionId="org.eclipse.ui.navigator.resourceContent"/>
+		<actionProvider
+				class="org.eclipse.ui.internal.navigator.resources.actions.NewActionProvider"
+				overrides="org.eclipse.ui.navigator.resources.NewActions">
+			<enablement>
+				<and>
+					<instanceof value="org.eclipse.vtp.desktop.model.core.IWorkflowResource"/>
+				</and>
+			</enablement>
+		</actionProvider>
+       <actionProvider
+             class="org.eclipse.ui.internal.navigator.resources.actions.OpenActionProvider"
+             overrides="org.eclipse.ui.navigator.resources.OpenActions">
+		 <enablement>
+			<or>
+				<instanceof value="org.eclipse.vtp.desktop.model.core.IDependency" />
+				<instanceof value="org.eclipse.vtp.desktop.model.core.IBusinessObject"/>
+				<instanceof value="org.eclipse.vtp.desktop.model.core.IDesignDocument"/>
+    <instanceof
+          value="org.eclipse.vtp.desktop.model.core.IDatabaseTable">
+    </instanceof>
+			</or>
+         </enablement>
+       </actionProvider>
+		   <commonWizard
+		        menuGroupId="group.new"
+		        type="new"
+		        wizardId="org.eclipse.vtp.desktop.projects.core.businessobject.wizard">
+		     <enablement>
+		        <or>
+		           <instanceof value="org.eclipse.vtp.desktop.model.core.IBusinessObjectSet"/>
+		           <instanceof value="org.eclipse.vtp.desktop.model.core.IBusinessObject"/>
+		        </or>
+		     </enablement>
+		  </commonWizard>
+		   <commonWizard
+		        menuGroupId="group.new"
+		        type="new"
+		        wizardId="org.eclipse.vtp.desktop.projects.core.designfolder.wizard">
+		     <enablement>
+		        <or>
+		           <instanceof value="org.eclipse.vtp.desktop.model.core.IDesignRootFolder"/>
+		           <instanceof value="org.eclipse.vtp.desktop.model.core.IDesignFolder"/>
+		           <instanceof value="org.eclipse.vtp.desktop.model.core.IDesignDocument"/>
+		        </or>
+		     </enablement>
+		  </commonWizard>
+         <dropAssistant
+               class="org.eclipse.vtp.desktop.projects.core.view.DependencyDropAssistant"
+               id="org.eclipse.vtp.desktop.projects.core.view.dependencydropassistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDependencySet">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDependency">
+                  </instanceof>
+               </or></possibleDropTargets>
+         </dropAssistant>
+         <commonWizard
+               menuGroupId="group.new"
+               type="new"
+               wizardId="org.eclipse.vtp.desktop.projects.core.designdocument.wizard">
+            <enablement>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignRootFolder">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignFolder">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignDocument">
+                  </instanceof>
+               </or>
+            </enablement>
+         </commonWizard>
+         <actionProvider
+               class="org.eclipse.vtp.desktop.projects.core.view.EditActionProvider"
+               id="org.eclipse.vtp.desktop.projects.core.view.EditActionProvider"
+               priority="normal">
+            <enablement>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignFolder">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignDocument">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignRootFolder">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabase">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabaseTable">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IWebserviceDescriptor">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IBusinessObject">
+                  </instanceof>
+               </or>
+            </enablement>
+         </actionProvider>
+         <commonSorter
+               class="org.eclipse.vtp.desktop.projects.core.view.WorkflowViewerSorter"
+               id="org.eclipse.vtp.desktop.projects.core.view.WorkflowViewerSorter">
+            <parentExpression>
+               <or>
+                  <adapt
+                        type="org.eclipse.core.resources.IProject">
+                     <test
+                           forcePluginActivation="true"
+                           property="org.eclipse.vtp.desktop.model.core.isWorkflow">
+                     </test>
+                  </adapt>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IWorkflowResource">
+                  </instanceof>
+               </or>
+            </parentExpression>
+         </commonSorter>
+         <commonWizard
+               menuGroupId="group.new"
+               type="new"
+               wizardId="org.eclipse.vtp.desktop.projects.core.database.wizard">
+            <enablement>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabaseSet">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabase">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabaseTable">
+                  </instanceof>
+               </or>
+            </enablement>
+         </commonWizard>
+         <commonWizard
+               menuGroupId="group.new"
+               type="new"
+               wizardId="org.eclipse.vtp.desktop.projects.core.databasetable.wizard">
+            <enablement>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabase">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDatabaseTable">
+                  </instanceof>
+               </or>
+            </enablement>
+         </commonWizard>
+         <dropAssistant
+               class="org.eclipse.vtp.desktop.projects.core.view.DesignDropAssistant"
+               id="org.eclipse.vtp.desktop.projects.core.designdropassistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignItemContainer">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignDocument">
+                  </instanceof>
+               </or></possibleDropTargets>
+         </dropAssistant>
+         <actionProvider
+               class="org.eclipse.vtp.desktop.projects.core.view.RefactorActionProvider"
+               id="org.eclipse.vtp.desktop.projects.core.view.RefactorActionProvider">
+            <enablement>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignFolder">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IDesignDocument">
+                  </instanceof>
+               </or>
+            </enablement>
+         </actionProvider>
+         <dropAssistant
+               class="org.eclipse.vtp.desktop.projects.core.view.WebserviceDropAssistant"
+               id="org.eclipse.vtp.desktop.projects.core.webservicedropassistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IWebserviceSet">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.vtp.desktop.model.core.IWebserviceDescriptor">
+                  </instanceof>
+               </or></possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
+    <extension
+          point="org.eclipse.ui.navigator.linkHelper">
+       <linkHelper
+             class="org.eclipse.vtp.desktop.projects.core.view.WorkflowLinkHelper"
+             id="org.eclipse.vtp.desktop.projects.core.linkHelper">
+          <selectionEnablement>
+             <or>
+                <instanceof
+                      value="org.eclipse.vtp.desktop.model.core.IWorkflowResource">
+                </instanceof>
+             </or>
+          </selectionEnablement>
+          <editorInputEnablement>
+             <instanceof value="org.eclipse.ui.IFileEditorInput"/>
+          </editorInputEnablement>
+       </linkHelper>
+    </extension>
+
+</plugin>

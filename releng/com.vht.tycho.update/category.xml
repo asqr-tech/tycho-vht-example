@@ -17,6 +17,11 @@
 		version="4.0.0.qualifier">
 		<category name="tychoopenvxml" />
 	</feature>
+	<feature
+		url="features/org.eclipse.vtp.desktop.feature_4.0.0.qualifier.jar"
+		id="org.eclipse.vtp.desktop.feature" version="4.0.0.qualifier">
+		<category name="tychoopenvxml" />
+	</feature>
 
 	<category-def name="tychoopenvxml" label="Tycho OpenVXML" />
 </site>

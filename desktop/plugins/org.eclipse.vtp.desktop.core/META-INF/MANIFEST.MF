@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eclipse Voice Tools Desktop Core Plug-in
+Bundle-SymbolicName: org.eclipse.vtp.desktop.core;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.vtp.desktop.core.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.vtp.framework.interactions.core
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.vtp.desktop.core,
+ org.eclipse.vtp.desktop.core.custom,
+ org.eclipse.vtp.desktop.core.dialogs,
+ org.eclipse.vtp.desktop.core.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
