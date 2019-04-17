@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.modules.database.ui;singleton:=tr
+ ue
+Bundle-Name: Database Module UI
+Bundle-Version: 4.0.0.201904120843
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.ui,org.eclipse.ui.forms,org.eclipse.ui.ide,org.eclipse.vtp.
+ desktop.core,org.eclipse.vtp.desktop.model.core,org.eclipse.vtp.deskt
+ op.editors.themes.core,org.eclipse.vtp.desktop.editors.core,org.eclip
+ se.vtp.desktop.model.elements.core,org.eclipse.vtp.desktop.projects.c
+ ore,org.eclipse.vtp.framework.util,org.eclipse.vtp.framework.common,o
+ rg.eclipse.vtp.framework.databases,org.eclipse.vtp.desktop.export,org
+ .eclipse.vtp.framework.core
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.modules.database.ui.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

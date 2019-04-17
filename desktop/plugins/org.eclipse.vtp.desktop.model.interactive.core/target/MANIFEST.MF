@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.model.interactive.core;si
+ ngleton:=true
+Export-Package: org.eclipse.vtp.desktop.model.interactive.core,org.ecl
+ ipse.vtp.desktop.model.interactive.core.builders,org.eclipse.vtp.desk
+ top.model.interactive.core.configuration.generic,org.eclipse.vtp.desk
+ top.model.interactive.core.content,org.eclipse.vtp.desktop.model.inte
+ ractive.core.input,org.eclipse.vtp.desktop.model.interactive.core.int
+ ernal,org.eclipse.vtp.desktop.model.interactive.core.internal.context
+ ,org.eclipse.vtp.desktop.model.interactive.core.internal.mediadefault
+ s,org.eclipse.vtp.desktop.model.interactive.core.mediadefaults,org.ec
+ lipse.vtp.desktop.model.interactive.core.natures
+Bundle-Name: Interactive Project Model
+Bundle-Version: 4.0.0.201904120843
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.vtp.desktop.model.core,org.eclipse.vtp.framework.interactio
+ ns.core,org.eclipse.vtp.desktop.core,org.eclipse.ui,org.eclipse.vtp.f
+ ramework.util,org.eclipse.ui.ide
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Activator: org.eclipse.vtp.desktop.model.interactive.core.Inter
+ activeWorkflowCore
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

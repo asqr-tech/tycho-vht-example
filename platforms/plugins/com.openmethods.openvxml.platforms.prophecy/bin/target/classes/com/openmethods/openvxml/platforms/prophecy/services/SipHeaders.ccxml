@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ccxml version="1.0">
+  <eventprocessor>
+    <transition event="connection.alerting">
+		<var name="Headers" expr="''" />
+			<script>
+for (i in event$.connection.protocol.sip.headers)
+{
+	Headers += i + '=' + event$.connection.protocol.sip.headers[i] + '&amp;';
+}
+			</script>
+			<log expr="Headers"/>
+    <accept/>
+    </transition>
+    <transition event="connection.connected">
+      <log expr="'*** Call was accepted ***'"/>
+		<var name="Headers" expr="''" />
+			<script>
+for (i in event$.connection.protocol.sip.headers)
+{
+	Headers += i + '=' + event$.connection.protocol.sip.headers[i] + '&amp;';
+}
+			</script>
+			<log expr="Headers"/>
+      <disconnect/>
+    </transition>
+    <transition event="connection.disconnected">
+      <log expr="'*** Call was disconnected ***'"/>
+		<var name="Headers" expr="''" />
+			<script>
+for (i in event$.connection.protocol.sip.headers)
+{
+	Headers += i + '=' + event$.connection.protocol.sip.headers[i] + '&amp;';
+}
+			</script>
+			<log expr="Headers"/>
+      <exit/>
+    </transition>
+    <transition event="connection.failed">
+		<var name="Headers" expr="''" />
+			<script>
+for (i in event$.connection.protocol.sip.headers)
+{
+	Headers += i + '=' + event$.connection.protocol.sip.headers[i] + '&amp;';
+}
+			</script>
+			<log expr="Headers"/>
+      <exit/>
+    </transition>
+  </eventprocessor>
+</ccxml>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: com.openmethods.openvxml.platforms.genesys;single
+ ton:=true
+Bundle-Name: Genesys Plug-in
+Bundle-Version: 1.0.0.201904120843
+Bundle-ClassPath: .
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.vtp.framework.int
+ eractions.core,org.eclipse.vtp.framework.interactions.voice,org.eclip
+ se.vtp.framework.util,org.eclipse.vtp.framework.core
+Bundle-ManifestVersion: 2
+Bundle-Activator: com.openmethods.openvxml.platforms.genesys.Activator
+Bundle-Vendor: OPENMETHODS
+Eclipse-LazyStart: true
+

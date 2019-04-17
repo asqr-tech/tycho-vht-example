@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.modules.interactive.ui;singleton:
+ =true
+Export-Package: org.eclipse.vtp.modules.interactive.ui,org.eclipse.vtp
+ .modules.interactive.ui.dialogs,org.eclipse.vtp.modules.interactive.u
+ i.export,org.eclipse.vtp.modules.interactive.ui.properties,org.eclips
+ e.vtp.modules.interactive.ui.views
+Bundle-Name: Interactive Module UI
+Bundle-Version: 4.0.0.201904120843
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.ui,org.eclipse.ui.forms,org.eclipse.vtp.framework.util;bund
+ le-version="4.0.0",org.eclipse.vtp.framework.core;bundle-version="4.0
+ .0",org.eclipse.vtp.framework.common;bundle-version="4.0.0",org.eclip
+ se.vtp.framework.interactions.core;bundle-version="4.0.0",org.eclipse
+ .vtp.desktop.core;bundle-version="4.0.0",org.eclipse.vtp.desktop.mode
+ l.core;bundle-version="4.0.0",org.eclipse.vtp.desktop.model.elements.
+ core;bundle-version="4.0.0",org.eclipse.vtp.desktop.model.interactive
+ .core;bundle-version="4.0.0",org.eclipse.vtp.desktop.projects.core;bu
+ ndle-version="4.0.0",org.eclipse.vtp.desktop.editors.core;bundle-vers
+ ion="4.0.0",org.eclipse.vtp.desktop.media.core;bundle-version="4.0.0"
+ ,org.eclipse.vtp.desktop.export;bundle-version="4.0.0",org.eclipse.vt
+ p.modules.standard.ui;bundle-version="4.0.0"
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.modules.interactive.ui.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

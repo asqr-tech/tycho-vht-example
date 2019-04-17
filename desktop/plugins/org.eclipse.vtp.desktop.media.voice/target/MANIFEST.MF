@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.media.voice;singleton:=tr
+ ue
+Bundle-Name: Voice Media Bundle
+Bundle-Version: 4.0.0.201904120843
+Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.vt
+ p.desktop.core,org.eclipse.vtp.desktop.model.core,org.eclipse.vtp.des
+ ktop.model.interactive.core,org.eclipse.vtp.desktop.model.interactive
+ .voice,org.eclipse.vtp.desktop.media.core,org.eclipse.vtp.desktop.mod
+ el.elements.core,org.eclipse.vtp.modules.interactive.ui,org.eclipse.u
+ i.forms,org.eclipse.vtp.framework.interactions.core,org.eclipse.vtp.f
+ ramework.interactions.voice
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.desktop.media.voice.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.modules.standard.ui;singleton:=tr
+ ue
+Export-Package: org.eclipse.vtp.modules.standard.ui
+Bundle-Name: Standard Module UI
+Bundle-Version: 4.0.0.201904120843
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,org.eclipse.ui
+ .forms,org.eclipse.vtp.desktop.core,org.eclipse.vtp.desktop.model.cor
+ e,org.eclipse.vtp.desktop.editors.themes.core,org.eclipse.vtp.desktop
+ .editors.core,org.eclipse.vtp.desktop.model.elements.core,org.eclipse
+ .vtp.desktop.projects.core,org.eclipse.vtp.framework.util,org.eclipse
+ .vtp.framework.common,org.eclipse.vtp.desktop.export,org.eclipse.ui.i
+ de
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.modules.standard.ui.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

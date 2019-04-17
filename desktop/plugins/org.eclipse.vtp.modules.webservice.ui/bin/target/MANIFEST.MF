@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.modules.webservice.ui;singleton:=
+ true
+Bundle-Name: Webservice Module UI
+Bundle-Version: 4.0.0.201904120843
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,org.eclipse.ui
+ .ide,org.eclipse.ui.forms,org.eclipse.vtp.framework.util,org.eclipse.
+ vtp.desktop.core,org.eclipse.vtp.desktop.model.core,org.eclipse.vtp.d
+ esktop.model.elements.core,org.eclipse.vtp.desktop.editors.core,org.e
+ clipse.vtp.desktop.projects.core,org.eclipse.vtp.framework.webservice
+ s,org.eclipse.vtp.framework.core,org.eclipse.vtp.desktop.export
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.modules.webservice.ui.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

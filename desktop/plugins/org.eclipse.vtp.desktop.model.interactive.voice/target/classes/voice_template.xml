@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<voice:descriptor xmlns:voice="http://eclipse.org/vtp/xml/media/voice#1.0">
+	<voice:shared-content/>
+</voice:descriptor>

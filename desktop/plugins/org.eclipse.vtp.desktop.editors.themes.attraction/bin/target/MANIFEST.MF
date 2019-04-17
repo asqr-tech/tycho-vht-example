@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.editors.themes.attraction
+ ;singleton:=true
+Bundle-Name: OpenVXML Attraction Editor Theme Plug-in
+Bundle-Version: 4.0.0.201904120843
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.ui,org.eclipse.vt
+ p.framework.util,org.eclipse.vtp.desktop.core,org.eclipse.vtp.desktop
+ .editors.themes.core,org.eclipse.vtp.desktop.model.core
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Eclipse.org
+

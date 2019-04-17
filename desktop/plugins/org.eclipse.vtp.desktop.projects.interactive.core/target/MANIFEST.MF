@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.vtp.desktop.projects.interactive.core
+ ;singleton:=true
+Export-Package: org.eclipse.vtp.desktop.projects.interactive.core,org.
+ eclipse.vtp.desktop.projects.interactive.core.properties,org.eclipse.
+ vtp.desktop.projects.interactive.core.util,org.eclipse.vtp.desktop.pr
+ ojects.interactive.core.view,org.eclipse.vtp.desktop.projects.interac
+ tive.core.wizards
+Bundle-Name: Interactive Projects Core
+Bundle-Version: 4.0.0.201904120843
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,or
+ g.eclipse.ui,org.eclipse.ui.forms,org.eclipse.ui.ide,org.eclipse.ui.n
+ avigator,org.eclipse.ui.navigator.resources,org.eclipse.vtp.desktop.c
+ ore,org.eclipse.vtp.desktop.media.core,org.eclipse.vtp.desktop.model.
+ core,org.eclipse.vtp.desktop.model.interactive.core,org.eclipse.vtp.d
+ esktop.projects.core,org.eclipse.jface.text,org.eclipse.jdt,org.eclip
+ se.jdt.core,org.eclipse.jdt.ui,org.eclipse.vtp.framework.util,org.ecl
+ ipse.core.expressions
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.eclipse.vtp.desktop.projects.interactive.core.Ac
+ tivator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse.org
+

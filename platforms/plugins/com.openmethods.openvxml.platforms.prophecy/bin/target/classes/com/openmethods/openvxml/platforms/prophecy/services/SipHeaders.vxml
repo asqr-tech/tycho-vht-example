@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<vxml
+     xmlns="http://www.w3.org/2001/vxml" version="2.1">
+	<property name="documentmaxage" value="0" />
+	<property name="documentmaxstale" value="0" />
+	<form id="InitialForm" scope="document">
+		<var name="Headers" expr="''" />
+		<block name="InitialBlock">
+			<script>
+for (i in session.connection.protocol.sip)
+{
+	Headers += i + '=' + session.connection.protocol.sip[i] + '&amp;';
+}
+			</script>
+			<log expr="Headers"/>
+		</block>
+		<catch event="connection.disconnect.hangup">
+			<goto next="/Voxeo/-/next?75b7530f73f84588a8fdb56535d7debf=error.disconnect.hangup&amp;MODE=Prophecy" />
+		</catch>
+		<catch event="externalmessage.cpa.machine">
+			<goto next="/Voxeo/-/next?75b7530f73f84588a8fdb56535d7debf=externalmessage.cpa.machine&amp;MODE=Prophecy" />
+		</catch>
+	</form>
+</vxml>
