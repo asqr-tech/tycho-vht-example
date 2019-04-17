@@ -66,7 +66,7 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
     	if(PlatformUI.getWorkbench().saveAllEditors(true))
     	{
 	        @SuppressWarnings("unchecked")
-			List<IResource> selectedResources = getSelectedResources();
+			List<? extends IResource> selectedResources = getSelectedResources();
 	        IWorkflowResource wr = WorkflowCore.getDefault().getWorkflowModel().convertToWorkflowResource(selectedResources.get(0));
 	        if(wr != null && wr instanceof IInteractiveWorkflowProject)
 	        {
@@ -94,8 +94,7 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
 			return false;
 		}
 
-        @SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
         if (selectedResources.size() != 1) {
 			return false;
 		}

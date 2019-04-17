@@ -98,7 +98,7 @@ public class CopyAction extends SelectionListenerAction {
      */
     public void run() {
         @SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
         IResource[] resources = selectedResources
                 .toArray(new IResource[selectedResources.size()]);
 
@@ -186,7 +186,7 @@ public class CopyAction extends SelectionListenerAction {
 		}
 
         @SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
         if (selectedResources.size() == 0) {
 			return false;
 		}
