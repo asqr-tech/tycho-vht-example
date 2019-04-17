@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.framework.core.actions">
+      <action
+            blocking="false"
+            id="com.openmethods.openvxml.idriver.actions.idriverinit"
+            name="I-Driver Initialization Observer"
+            type="com.openmethods.openvxml.idriver.runtime.actions.IDriverInitAction">
+         <result
+               id="default"
+               name="Continue"
+               normal="true">
+         </result>
+         <result
+               id="error.nodriver"
+               name="error.nodriver"
+               normal="false">
+         </result>
+      </action>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.framework.core.configurations">
+      <configuration
+            id="com.openmethods.openvxml.idriver.configuration"
+            name="IDriver Configuration"
+            type="com.openmethods.openvxml.idriver.runtime.configuration.IDriverConfiguration"
+            xml-namespace="http://openvxml.org/xml/platforms/configurations"
+            xml-tag="idriver-config">
+      </configuration>
+   </extension>
+
+</plugin>

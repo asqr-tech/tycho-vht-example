@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OVXML AVP Platform Support
+Bundle-SymbolicName: com.openmethods.openvxml.platforms.avp; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: OpenMethods.com
+Require-Bundle: org.eclipse.vtp.framework.core,
+ org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.framework.interactions.voice,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.vtp.framework.common

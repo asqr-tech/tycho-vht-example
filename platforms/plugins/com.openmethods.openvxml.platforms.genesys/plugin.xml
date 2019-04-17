@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="com.openmethods.openvxml.platforms.genesys.services.platform"
+            type="com.openmethods.openvxml.platforms.genesys.services.GenesysVoicePlatform"
+            name="GVP Platform"
+            scope="execution"
+            lazy="true">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=GVP">
+            </qualifier>
+         </identifier>
+      </service>
+      <service
+            id="com.openmethods.openvxml.platforms.genesys.services.platform8"
+            lazy="true"
+            name="GVP 8 Platform"
+            scope="execution"
+            type="com.openmethods.openvxml.platforms.genesys.services.GenesysVoicePlatform8">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=GVP8">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.framework.interactions.core.extendedEvents">
+      <extended-event
+            name="externalmessage.cpa.machine">
+      </extended-event>
+      <extended-event
+            name="externalmessage.cpa.beep">
+      </extended-event>
+   </extension>
+
+</plugin>

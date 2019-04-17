@@ -22,6 +22,17 @@
 		<module>features/com.openmethods.openvxml.platforms.prophecy.feature</module>
 		<module>features/com.openmethods.openvxml.platforms.vtop.feature</module>
 		<module>features/com.openmethods.openvxml.platforms.vxmlb.feature</module>
-		<module>com.openmethods.openvxml.idriver</module>
+		<!-- Plugins -->
+		<module>plugins/com.openmethods.openvxml.idriver</module>
+		<module>plugins/com.openmethods.openvxml.idriver.runtime</module>
+		<module>plugins/com.openmethods.openvxml.idriver.ui</module>
+		<module>plugins/com.openmethods.openvxml.platforms.avp</module>
+		<module>plugins/com.openmethods.openvxml.platforms.avpwithidriver</module>
+		<module>plugins/com.openmethods.openvxml.platforms.cvp</module>
+		<module>plugins/com.openmethods.openvxml.platforms.dialogic</module>
+		<module>plugins/com.openmethods.openvxml.platforms.genesys</module>
+		<module>plugins/com.openmethods.openvxml.platforms.prophecy</module>
+		<module>plugins/com.openmethods.openvxml.platforms.vtop</module>
+		<module>plugins/com.openmethods.openvxml.platforms.vxmlb</module>
 	</modules>
 </project>

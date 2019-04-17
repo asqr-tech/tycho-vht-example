@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Vtop
+Bundle-SymbolicName: com.openmethods.openvxml.platforms.vtop;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: OPENMETHODS
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.vtp.framework.core,
+ org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.framework.interactions.voice,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.vtp.framework.common;bundle-version="4.0.0"
