@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.vtp.desktop.editors.core">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.vtp.desktop.editors.core" id="editorTheme" name="OpenVXML Editor Theme"/>
+      </appInfo>
+      <documentation>
+         This extension point allows the definition of graphical themes for the rendering of dialog and application graphs within the OpenVXML Editors.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="theme"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="theme">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.vtp.desktop.editors.core.theme.Theme"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

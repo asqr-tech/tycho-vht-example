@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElement">
+      <primitive
+            icon="icons/soap.gif"
+            id="org.eclipse.vtp.modules.webservice.soap"
+            name="Soap Webservice">
+         <information_provider
+               class="org.eclipse.vtp.modules.webservice.ui.WebserviceCallInformationProvider">
+         </information_provider>
+      </primitive>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.editors.core.componentPropertiesPanelProvider">
+      <provider
+            class="org.eclipse.vtp.modules.webservice.ui.properties.SoapWebservicePropertiesPanelProvider">
+      </provider>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.configurationManagers">
+      <configuration-manager
+            class="org.eclipse.vtp.modules.webservice.ui.configuration.WebserviceBindingManager"
+            id="org.eclipse.vtp.configuration.webservicecall">
+      </configuration-manager>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElementExporter">
+      <primitive-configuration-exporter
+            class="org.eclipse.vtp.modules.webservice.ui.export.WebserviceConfigurationExporter"
+            id="org.eclipse.vtp.modules.webservice.soap">
+      </primitive-configuration-exporter>
+   </extension>
+
+</plugin>

@@ -12,4 +12,30 @@
 		<artifactId>com.vht.tycho.root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+	<modules>
+		<module>features/org.eclipse.vtp.desktop.feature</module>
+		<module>plugins/org.eclipse.vtp.desktop.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.editors.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.editors.themes.attraction</module>
+		<module>plugins/org.eclipse.vtp.desktop.editors.themes.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.editors.themes.mantis</module>
+		<module>plugins/org.eclipse.vtp.desktop.editors.voice</module>
+		<module>plugins/org.eclipse.vtp.desktop.export</module>
+		<module>plugins/org.eclipse.vtp.desktop.media.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.media.voice</module>
+		<module>plugins/org.eclipse.vtp.desktop.model.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.model.elements.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.model.interactive.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.model.interactive.voice</module>
+		<module>plugins/org.eclipse.vtp.desktop.model.legacy</module>
+		<module>plugins/org.eclipse.vtp.desktop.projects.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.projects.interactive.core</module>
+		<module>plugins/org.eclipse.vtp.desktop.projects.voice</module>
+		<module>plugins/org.eclipse.vtp.desktop.views</module>
+		<module>plugins/org.eclipse.vtp.modules.attacheddata.ui</module>
+		<module>plugins/org.eclipse.vtp.modules.database.ui</module>
+		<module>plugins/org.eclipse.vtp.modules.interactive.ui</module>
+		<module>plugins/org.eclipse.vtp.modules.standard.ui</module>
+		<module>plugins/org.eclipse.vtp.modules.webservice.ui</module>
+	</modules>
 </project>

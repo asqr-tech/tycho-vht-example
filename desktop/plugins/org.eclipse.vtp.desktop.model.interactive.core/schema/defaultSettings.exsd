@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.vtp.desktop.model.interactive.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.vtp.desktop.model.interactive.core" id="defaultSettings" name="OpenVXML Default Settings Groups"/>
+      </appInfo>
+      <documentation>
+         [Enter description of this extension point.]
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="element-default-settings" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="element-default-settings">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="element-type"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="default-setting" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="element-type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="interaction-type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="default-setting">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="default-value" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

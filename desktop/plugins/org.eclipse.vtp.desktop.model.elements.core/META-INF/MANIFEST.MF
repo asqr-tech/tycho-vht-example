@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: VTP Model Elements Core
+Bundle-SymbolicName: org.eclipse.vtp.desktop.model.elements.core;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Activator: org.eclipse.vtp.desktop.model.elements.core.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.vtp.desktop.model.core,
+ org.eclipse.vtp.desktop.core,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.ui.ide,
+ org.eclipse.vtp.desktop.views,
+ org.eclipse.core.resources,
+ org.eclipse.vtp.framework.common,
+ org.eclipse.vtp.desktop.projects.core,
+ org.eclipse.vtp.desktop.export
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.vtp.desktop.model.elements.core,
+ org.eclipse.vtp.desktop.model.elements.core.configuration,
+ org.eclipse.vtp.desktop.model.elements.core.export,
+ org.eclipse.vtp.desktop.model.elements.core.internal,
+ org.eclipse.vtp.desktop.model.elements.core.internal.views

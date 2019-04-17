@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.configurationManagers">
+      <configuration-manager
+            class="org.eclipse.vtp.modules.attacheddata.ui.configuration.post.AttachedDataManager"
+            id="org.eclipse.vtp.configuration.attacheddata"
+            xml-namespace="http://eclipse.org/vtp/xml/configuration/attacheddata"
+            xml-tag="bindings">
+      </configuration-manager>
+      <configuration-manager
+            class="org.eclipse.vtp.modules.attacheddata.ui.configuration.request.AttachedDataManager"
+            id="org.eclipse.vtp.configuration.attacheddata.request"
+            xml-namespace="http://eclipse.org/vtp/xml/configuration/attacheddata/request"
+            xml-tag="bindings">
+      </configuration-manager>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.editors.core.componentPropertiesPanelProvider">
+      <provider
+            class="org.eclipse.vtp.modules.attacheddata.ui.configuration.ConnectorPropertiesPanelProvider">
+      </provider>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElementExporter">
+      <primitive-configuration-exporter
+            class="org.eclipse.vtp.modules.attacheddata.ui.export.AttachedDataRequestConfigurationExporter"
+            id="org.eclipse.vtp.modules.attacheddata.adrequest">
+      </primitive-configuration-exporter>
+   </extension>
+
+</plugin>

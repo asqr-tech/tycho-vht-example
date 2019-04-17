@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="primitiveElement" name="VTP Privitive Element Specialization" schema="schema/primitiveElement.exsd"/>
+   <extension-point id="primitiveElementExporter" name="Primitive Element Configuration Exporter" schema="schema/primitiveElementExporter.exsd"/>
+   <extension-point id="dialogElement" name="OpenVXML Dialog Element" schema="schema/dialogElement.exsd"/>
+
+   <extension
+         point="org.eclipse.vtp.desktop.views.palletProvider">
+      <pallet_provider class="org.eclipse.vtp.desktop.model.elements.core.internal.views.PrimitivePalletProvider"/>
+      <pallet_provider class="org.eclipse.vtp.desktop.model.elements.core.internal.views.DialogPalletProvider"/>
+      <pallet_provider class="org.eclipse.vtp.desktop.model.elements.core.internal.views.ApplicationFragmentPalletProvider"/>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.dialogElement">
+      <dialog-element
+            id="org.eclipse.vtp.desktop.editors.core.blankDialog"
+            name="Blank Dialog"
+            template="dialogs/Blank.dialog"/>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.elementType">
+      <element_type
+            class="org.eclipse.vtp.desktop.model.elements.core.internal.PrimitiveElement"
+            id="org.eclipse.vtp.desktop.model.elements.core.basic"/>
+      <element_type
+            class="org.eclipse.vtp.desktop.model.elements.core.internal.DialogElement"
+            id="org.eclipse.vtp.desktop.model.elements.core.dialog"/>
+      <element_type
+            class="org.eclipse.vtp.desktop.model.elements.core.internal.ApplicationFragmentElement"
+            id="org.eclipse.vtp.desktop.model.elements.core.include"/>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.export.configurationExporters">
+      <configuration-exporter
+            class="org.eclipse.vtp.desktop.model.elements.core.export.PrimitiveElementConfigurationExporter"
+            id="org.eclipse.vtp.desktop.model.elements.core.basic">
+      </configuration-exporter>
+      <configuration-exporter
+            class="org.eclipse.vtp.desktop.model.elements.core.export.IncludeConfigurationExporter"
+            id="org.eclipse.vtp.desktop.model.elements.core.include">
+      </configuration-exporter>
+      <configuration-exporter
+            class="org.eclipse.vtp.desktop.model.elements.core.export.DialogElementConfigurationExporter"
+            id="org.eclipse.vtp.desktop.model.elements.core.dialog">
+      </configuration-exporter>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.configurationManagers">
+      <configuration-manager
+            class="org.eclipse.vtp.desktop.model.elements.core.configuration.FragmentConfigurationManager"
+            id="org.eclipse.vtp.configuration.include">
+      </configuration-manager>
+   </extension>
+</plugin>

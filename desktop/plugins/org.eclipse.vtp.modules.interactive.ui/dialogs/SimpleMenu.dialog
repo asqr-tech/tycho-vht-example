@@ -1,0 +1,492 @@
+<?xml version="1.0" ?>
+
+<dialog-definition>
+	<workflow id="" name="Menu Dialog">
+  <model>
+    <elements>
+      <element
+          id="cbb0fc79382a4f039e6f8eb5fef8b1cd"
+          name="Begin Dialog"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.modelEntry" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config" />
+					</configuration>
+      </element>
+      <element
+          id="8c15a4eff0e54363ad29c9017c8c695b"
+          name="PlayPrompt"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.interactive.playPrompt" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config" />
+					</configuration>
+      </element>
+      <element
+          id="e91fe4004370445db983b7ec06a14a58"
+          name="Option Set"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.interactive.optionSet" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config">
+          <choices />
+          <brand-order
+              brand="Default" />
+        </custom-config>
+					</configuration>
+      </element>
+      <element
+          id="582ff83437e54f12afdbeb95e39b5a2b"
+          name="Retry?"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.decision" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config">
+          <comparison
+              left-type="variable"
+              left-value="FailureType"
+              right-type="expression"
+              right-value="&apos;none&apos;"
+              type="equal" />
+        </custom-config>
+					</configuration>
+      </element>
+      <element
+          id="915d4579aab746009199a2659faee71b"
+          name="Initialize Variables"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.assignment" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config">
+          <declarations>
+            <variable
+                multiplicity="0"
+                name="TotalFailures"
+                type="Number"
+                value="0"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="NoInputFailures"
+                type="Number"
+                value="0"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="NoMatchFailures"
+                type="Number"
+                value="0"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="LimitType"
+                type="String"
+                value="total"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="TotalFailureLimit"
+                type="Number"
+                value="3"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="NoInputFailureLimit"
+                type="Number"
+                value="3"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="NoMatchFailureLimit"
+                type="Number"
+                value="3"
+                value-type="0" />
+            <variable
+                multiplicity="0"
+                name="FailureType"
+                type="String"
+                value="none"
+                value-type="0" />
+          </declarations>
+        </custom-config>
+					</configuration>
+      </element>
+      <element
+          id="f3a90a81cc594983ae0cab9d09bd87ab"
+          name="Check No Input Failure"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.script" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config">
+          <script>
+            Variables.TotalFailures++;
+            Variables.NoInputFailures++;
+            if(Variables.LimitType == &apos;total&apos;)
+            {
+            	if(Variables.TotalFailures &gt;= Variables.TotalFailureLimit)
+            	{
+            		Variables.FailureType  = &apos;noinput&apos;;
+            	}
+            	else
+            	{
+            		Variables.FailureType = &apos;none&apos;;
+            	}
+            }
+            else //individual failure limits
+            {
+            	if(Variables.NoInputFailures &gt;= Variables.NoInputFailureLimit)
+            	{
+            		Variables.FailureType = &apos;noinput&apos;;
+            	}
+            	else
+            	{
+            		Variables.FailureType = &apos;none&apos;;
+            	}
+            }
+          </script>
+        </custom-config>
+					</configuration>
+      </element>
+      <element
+          id="1e9af14996424446a8c6f666ff11a6a4"
+          name="Check No Match Failure"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.script" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config">
+          <script>
+            Variables.TotalFailures++;
+            Variables.NoMatchFailures++;
+            if(Variables.LimitType == &apos;total&apos;)
+            {
+            	if(Variables.TotalFailures &gt;= Variables.TotalFailureLimit)
+            	{
+            		Variables.FailureType  = &apos;nomatch&apos;;
+            	}
+            	else
+            	{
+            		Variables.FailureType = &apos;none&apos;;
+            	}
+            }
+            else //individual failure limits
+            {
+            	if(Variables.NoMatchFailures &gt;= Variables.NoMatchFailureLimit)
+            	{
+            		Variables.FailureType = &apos;nomatch&apos;;
+            	}
+            	else
+            	{
+            		Variables.FailureType = &apos;none&apos;;
+            	}
+            }
+          </script>
+        </custom-config>
+					</configuration>
+      </element>
+      <element
+          id="9d228da90efe41aba59df204f76488e9"
+          name="error.input.noinput"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.exit" />
+					</properties>
+					<configuration>
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config"
+            exit-type="Error" />
+					</configuration>
+      </element>
+      <element
+          id="23c0d4071f094999955fb254e2e25083"
+          name="Failure Type"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.decision" />
+					</properties>
+					<configuration>
+						<managed-config
+						    type="org.eclipse.vtp.configuration.attacheddata"
+						    xml-version="1.0.0" />
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config">
+          <comparison
+              left-type="variable"
+              left-value="FailureType"
+              right-type="expression"
+              right-value="&apos;noinput&apos;"
+              type="equal" />
+        </custom-config>
+					</configuration>
+      </element>
+      <element
+          id="e3170651fa3743548f0991c3fb2c843e"
+          name="error.input.nomatch"
+				    type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+						    name="type"
+						    value="org.eclipse.vtp.modules.standard.ui.exit" />
+					</properties>
+					<configuration>
+        <custom-config
+            xmlns="http://www.eclipse.org/vtp/namespaces/config"
+            exit-type="Error" />
+					</configuration>
+      </element>
+    </elements>
+    <connectors>
+      <connector
+          destination="9d228da90efe41aba59df204f76488e9"
+          id="0b202859c40546378d13d1a33e0d1521"
+          origin="23c0d4071f094999955fb254e2e25083">
+        <record
+            destinationname=""
+            sourcename="True" />
+      </connector>
+      <connector
+          destination="e3170651fa3743548f0991c3fb2c843e"
+          id="b5bcab9dd67a40a2aa289562554b9b64"
+          origin="23c0d4071f094999955fb254e2e25083">
+        <record
+            destinationname=""
+            sourcename="False" />
+      </connector>
+      <connector
+          destination="23c0d4071f094999955fb254e2e25083"
+          id="b89e15bda8e94be2b011ac3d3d42a65c"
+          origin="582ff83437e54f12afdbeb95e39b5a2b">
+        <record
+            destinationname=""
+            sourcename="False" />
+      </connector>
+      <connector
+          destination="582ff83437e54f12afdbeb95e39b5a2b"
+          id="e4d9205575e64cf6a428f113e382566c"
+          origin="f3a90a81cc594983ae0cab9d09bd87ab">
+        <record
+            destinationname=""
+            sourcename="Continue" />
+      </connector>
+      <connector
+          destination="582ff83437e54f12afdbeb95e39b5a2b"
+          id="6e31b2cb528b49e1ae24f73010547988"
+          origin="1e9af14996424446a8c6f666ff11a6a4">
+        <record
+            destinationname=""
+            sourcename="Continue" />
+      </connector>
+      <connector
+          destination="e91fe4004370445db983b7ec06a14a58"
+          id="802c7431d388404581ae8819e3512e97"
+          origin="8c15a4eff0e54363ad29c9017c8c695b">
+        <record
+            destinationname=""
+            sourcename="Continue" />
+      </connector>
+      <connector
+          destination="8c15a4eff0e54363ad29c9017c8c695b"
+          id="bd93ba869a40486d8b8a8d0a8b7dd5f4"
+          origin="582ff83437e54f12afdbeb95e39b5a2b">
+        <record
+            destinationname=""
+            sourcename="True" />
+      </connector>
+      <connector
+          destination="8c15a4eff0e54363ad29c9017c8c695b"
+          id="5732c81cde894c82b314d9a1b48e66b4"
+          origin="915d4579aab746009199a2659faee71b">
+        <record
+            destinationname=""
+            sourcename="Continue" />
+      </connector>
+      <connector
+          destination="915d4579aab746009199a2659faee71b"
+          id="684d35cf7bd346ada7f598f64f1f0d39"
+          origin="cbb0fc79382a4f039e6f8eb5fef8b1cd">
+        <record
+            destinationname=""
+            sourcename="Continue" />
+      </connector>
+      <connector
+          destination="f3a90a81cc594983ae0cab9d09bd87ab"
+          id="15947b4ee4464d7ab49bf49f5bb08370"
+          origin="e91fe4004370445db983b7ec06a14a58">
+        <record
+            destinationname=""
+            sourcename="error.input.noinput" />
+      </connector>
+      <connector
+          destination="1e9af14996424446a8c6f666ff11a6a4"
+          id="e54721bc88b743558d2eb86ba7341489"
+          origin="e91fe4004370445db983b7ec06a14a58">
+        <record
+            destinationname=""
+            sourcename="error.input.nomatch" />
+      </connector>
+    </connectors>
+  </model>
+  <design
+        orientation="2"
+        paper-size="org.eclipse.vtp.desktop.model.core.Letter">
+      <ui-element
+          id="cbb0fc79382a4f039e6f8eb5fef8b1cd"
+          x="475"
+          y="42" />
+      <ui-element
+          id="8c15a4eff0e54363ad29c9017c8c695b"
+          x="477"
+          y="226" />
+      <ui-element
+          id="e91fe4004370445db983b7ec06a14a58"
+          x="477"
+          y="346" />
+      <ui-element
+          id="582ff83437e54f12afdbeb95e39b5a2b"
+          x="164"
+          y="360" />
+      <ui-element
+          id="915d4579aab746009199a2659faee71b"
+          x="476"
+          y="132" />
+      <ui-element
+          id="f3a90a81cc594983ae0cab9d09bd87ab"
+          x="315"
+          y="295" />
+      <ui-element
+          id="1e9af14996424446a8c6f666ff11a6a4"
+          x="316"
+          y="397" />
+      <ui-element
+          id="9d228da90efe41aba59df204f76488e9"
+          x="80"
+          y="558" />
+      <ui-element
+          id="23c0d4071f094999955fb254e2e25083"
+          x="164"
+          y="460" />
+      <ui-element
+          id="e3170651fa3743548f0991c3fb2c843e"
+          x="259"
+          y="556" />
+      <ui-connector
+          id="0b202859c40546378d13d1a33e0d1521"
+          label-segment="0"
+          label-x="-13"
+          label-y="-4" />
+      <ui-connector
+          id="b5bcab9dd67a40a2aa289562554b9b64"
+          label-segment="0"
+          label-x="14"
+          label-y="-4" />
+      <ui-connector
+          id="b89e15bda8e94be2b011ac3d3d42a65c"
+          label-segment="0"
+          label-x="-19"
+          label-y="-5" />
+      <ui-connector
+          id="e4d9205575e64cf6a428f113e382566c"
+          label-segment="0"
+          label-x="1"
+          label-y="-13" />
+      <ui-connector
+          id="6e31b2cb528b49e1ae24f73010547988"
+          label-segment="0"
+          label-x="-1"
+          label-y="14" />
+      <ui-connector
+          id="802c7431d388404581ae8819e3512e97"
+          label-segment="0"
+          label-x="25"
+          label-y="-2" />
+      <ui-connector
+          id="bd93ba869a40486d8b8a8d0a8b7dd5f4"
+          label-segment="0"
+          label-x="-14"
+          label-y="4">
+        <mid-point
+            x="164"
+            y="225" />
+      </ui-connector>
+      <ui-connector
+          id="5732c81cde894c82b314d9a1b48e66b4"
+          label-segment="0"
+          label-x="25"
+          label-y="1" />
+      <ui-connector
+          id="684d35cf7bd346ada7f598f64f1f0d39"
+          label-segment="0"
+          label-x="23"
+          label-y="-6" />
+      <ui-connector
+          id="15947b4ee4464d7ab49bf49f5bb08370"
+          label-segment="0"
+          label-x="0"
+          label-y="0" />
+      <ui-connector
+          id="e54721bc88b743558d2eb86ba7341489"
+          label-segment="0"
+          label-x="0"
+          label-y="0" />
+  </design>
+  </workflow>
+</dialog-definition>

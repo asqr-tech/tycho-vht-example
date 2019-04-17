@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="palletProvider" name="Eclipse VTP Pallet Item Provider" schema="schema/palletProvider.exsd"/>
+   <extension-point id="pallet" name="Pallet Control" schema="schema/pallet.exsd"/>
+
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="vtpdesktopviews"
+            name="Eclipse VTP Views"/>
+      <view
+            category="vtpdesktopviews"
+            class="org.eclipse.vtp.desktop.views.pallet.PalletView"
+            id="org.eclipse.vtp.desktop.views.pallet"
+            name="Voice Pallet"/>
+   </extension>
+   <extension point="org.eclipse.ui.perspectives">
+      <perspective
+            icon="icons/application.gif"
+            class="org.eclipse.vtp.desktop.views.BisAnalystPerspectiveFactory"
+            name="OpenVXML"
+            id="org.eclipse.vtp.desktop.views.bisanalystperspective"/>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.views.pallet">
+      <pallet
+            class="org.eclipse.vtp.desktop.views.pallet.SimplePallet"
+            id="org.eclipse.vtp.desktop.views.pallet.simple"
+            name="Simple Pallet">
+      </pallet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.vtp.desktop.views.preferences.PalletPreferencePage"
+            id="org.eclipse.vtp.desktop.views.pallet.preferences"
+            name="Voice Pallet Type">
+      </page>
+   </extension>
+
+</plugin>

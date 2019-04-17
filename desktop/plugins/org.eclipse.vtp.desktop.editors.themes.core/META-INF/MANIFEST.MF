@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Editor Themes Core
+Bundle-SymbolicName: org.eclipse.vtp.desktop.editors.themes.core;singleton:=true
+Bundle-Version: 4.0.0.qualifier
+Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.vtp.desktop.model.core
+Export-Package: org.eclipse.vtp.desktop.editors.themes.core,
+ org.eclipse.vtp.desktop.editors.themes.core.commands,
+ org.eclipse.vtp.desktop.editors.themes.core.preferences
+Bundle-Activator: org.eclipse.vtp.desktop.editors.themes.core.Activator
+Bundle-ActivationPolicy: lazy
