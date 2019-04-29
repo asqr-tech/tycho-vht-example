@@ -89,7 +89,7 @@ public class InputRequestAction implements IAction
 				String value = context.getParameter(configuration.getDataName());
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "input.request.filled");
 					props.put("input.result", configuration.isSecured() ? "**Secured**" : String.valueOf(value));
 					context.report(IReporter.SEVERITY_INFO, "Got requested input \""
@@ -148,7 +148,7 @@ public class InputRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "input.request.noinput");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got no input for requested input.", props);
@@ -159,7 +159,7 @@ public class InputRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "error.disconnect.hangup");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got disconnect during interaction.", props);
@@ -170,7 +170,7 @@ public class InputRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "input.request.nomatch");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got no match for requested input.", props);
@@ -224,7 +224,7 @@ public class InputRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "input.request.before");
 					context.report(IReporter.SEVERITY_INFO, "Requesting input \""
 						+ configuration.getDataName() + "\".", props);

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<design-document
+			xml-version="4.0.0">
+	<workflow id="[[flow_id]]" name="Main Canvas">
+		<model>
+			<elements>
+				<element
+					id="[[begin_id]]"
+					name="Begin"
+					type="org.eclipse.vtp.desktop.model.elements.core.basic">
+					<properties>
+						<property
+							name="type"
+							value="org.eclipse.vtp.modules.standard.ui.appbegin" />
+					</properties>
+					<configuration>
+						<custom-config xmlns="http://www.eclipse.org/vtp/namespaces/config">
+							<entry-name value=""/>
+							<declarations>
+							</declarations>
+						</custom-config>
+					</configuration>
+				</element>
+			</elements>
+			<connectors>
+			</connectors>
+		</model>
+		<design orientation="2">
+			<ui-element id="[[begin_id]]" x="79" y="55"/>
+		</design>
+	</workflow>
+	<dialogs>
+	</dialogs>
+</design-document>

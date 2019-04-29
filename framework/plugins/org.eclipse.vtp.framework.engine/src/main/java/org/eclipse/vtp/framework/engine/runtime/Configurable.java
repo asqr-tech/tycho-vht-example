@@ -31,94 +31,80 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public abstract class Configurable extends Component
-{
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public abstract class Configurable extends Component {
 	/** Index of objects returned by configuration queries. */
-	private final Map configurationIndex;
+	private final Map<String, LinkedList> configurationIndex;
 
 	/**
 	 * Creates a new Configurable.
 	 * 
 	 * @param blueprint The blueprint of the process.
-	 * @param type The type of the configurable component.
-	 * @param elements The configuration data or <code>null</code> for no
-	 *          configuration data.
+	 * @param type      The type of the configurable component.
+	 * @param elements  The configuration data or <code>null</code> for no
+	 *                  configuration data.
 	 * @throws NullPointerException If the supplied blueprint is <code>null</code>.
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	protected Configurable(Blueprint blueprint, Class type, Element[] elements)
-			throws NullPointerException
-	{
+	protected Configurable(Blueprint blueprint, Class<?> type, Element[] elements) throws NullPointerException {
 		super(blueprint, type);
-		HashMap configurationIndex = new HashMap();
-		LinkedList elementList = new LinkedList();
-		for (int i = 0; elements != null && i < elements.length; ++i)
-		{
+		HashMap<String, LinkedList> configurationIndex = new HashMap<String, LinkedList>();
+		LinkedList<Element> elementList = new LinkedList<Element>();
+		for (int i = 0; elements != null && i < elements.length; ++i) {
 			if (elements[i] == null)
 				continue;
 			Element element = elements[i];
 			elementList.addLast(element);
 		}
-		for (Iterator i = elementList.iterator(); i.hasNext();)
-		{
-			Element element = (Element)i.next();
-			Collection configurationList = blueprint.createConfigurations(element);
-			for (Iterator j = configurationList.iterator(); j.hasNext();)
-			{
-				Configuration configuration = (Configuration)j.next();
-				Set identifierSet = configuration.getIdentifiers();
-				for (Iterator k = identifierSet.iterator(); k.hasNext();)
-				{
-					String identifier = (String)k.next();
-					LinkedList items = (LinkedList)configurationIndex.get(identifier);
+		for (Iterator<Element> i = elementList.iterator(); i.hasNext();) {
+			Element element = (Element) i.next();
+			Collection<?> configurationList = blueprint.createConfigurations(element);
+			for (Iterator<?> j = configurationList.iterator(); j.hasNext();) {
+				Configuration configuration = (Configuration) j.next();
+				Set<?> identifierSet = configuration.getIdentifiers();
+				for (Iterator<?> k = identifierSet.iterator(); k.hasNext();) {
+					String identifier = (String) k.next();
+					LinkedList<Configuration> items = (LinkedList<Configuration>) configurationIndex.get(identifier);
 					if (items == null)
-						configurationIndex.put(identifier, items = new LinkedList());
+						configurationIndex.put(identifier, items = new LinkedList<Configuration>());
 					items.addLast(configuration);
 				}
 			}
 		}
-		for (Iterator i = configurationIndex.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
-			entry.setValue(Collections.unmodifiableList(new ArrayList(
-					(LinkedList)entry.getValue())));
+		for (Iterator<?> i = configurationIndex.entrySet().iterator(); i.hasNext();) {
+			Map.Entry<?, List<?>> entry = (Map.Entry) i.next();
+			entry.setValue(Collections.unmodifiableList(new ArrayList<Object>((LinkedList<?>) entry.getValue())));
 		}
-		this.configurationIndex = Collections.unmodifiableMap(new HashMap(
-				configurationIndex));
+		this.configurationIndex = Collections.unmodifiableMap(new HashMap<String, LinkedList>(configurationIndex));
 	}
 
-	public void solidifyConfigurations(IContext serviceRegistry)
-	{
-		Iterator it = configurationIndex.values().iterator();
-		while(it.hasNext())
-		{
-			List items = (List)it.next();
-			for(int i = 0; i < items.size(); i++)
-			{
-				((Configuration)items.get(i)).solidify(serviceRegistry);
+	public void solidifyConfigurations(IContext serviceRegistry) {
+		Iterator<LinkedList> it = configurationIndex.values().iterator();
+		while (it.hasNext()) {
+			List<?> items = (List<?>) it.next();
+			for (int i = 0; i < items.size(); i++) {
+				((Configuration) items.get(i)).solidify(serviceRegistry);
 			}
 		}
 	}
-	
+
 	/**
 	 * Looks up a single configuration object in the supplied scope with the
 	 * specified identifier.
 	 * 
-	 * @param identifier The identifier of the configuration object to return.
-	 * @param serviceRegistry The service registry that is bound to the
-	 *          configurable component.
+	 * @param identifier      The identifier of the configuration object to return.
+	 * @param serviceRegistry The service registry that is bound to the configurable
+	 *                        component.
 	 * @return A single configuration object or <code>null</code> if one is not
 	 *         found.
 	 */
-	protected Object lookupConfiguration(String identifier,
-			IContext serviceRegistry)
-	{
-		List items = (List)configurationIndex.get(identifier);
+	protected Object lookupConfiguration(String identifier, IContext serviceRegistry) {
+		List<?> items = (List<?>) configurationIndex.get(identifier);
 		if (items == null || items.isEmpty())
 			return null;
 		Object item = items.iterator().next();
 		if (item instanceof Configuration)
-			return ((Configuration)item).createInstance(serviceRegistry);
+			return ((Configuration) item).createInstance(serviceRegistry);
 		else
 			return item;
 	}
@@ -127,27 +113,22 @@ public abstract class Configurable extends Component
 	 * Returns all the configuration objects in the supplied scope with the
 	 * specified identifier.
 	 * 
-	 * @param identifier The identifier of the configuration objects to return.
-	 * @param serviceRegistry The service registry that is bound to the
-	 *          configurable component.
-	 * @return All the configuration objects or <code>null</code> if none are
-	 *         found.
+	 * @param identifier      The identifier of the configuration objects to return.
+	 * @param serviceRegistry The service registry that is bound to the configurable
+	 *                        component.
+	 * @return All the configuration objects or <code>null</code> if none are found.
 	 */
-	protected Object[] lookupAllConfigurations(String identifier,
-			IContext serviceRegistry)
-	{
-		List items = (List)configurationIndex.get(identifier);
+	protected Object[] lookupAllConfigurations(String identifier, IContext serviceRegistry) {
+		List<?> items = (List<?>) configurationIndex.get(identifier);
 		if (items == null || items.isEmpty())
 			return null;
 		Object[] results = new Object[items.size()];
 		int i = 0;
-		for (Iterator j = items.iterator(); j.hasNext(); ++i)
-		{
-			Object item = (Object)j.next();
+		for (Iterator<?> j = items.iterator(); j.hasNext(); ++i) {
+			Object item = (Object) j.next();
 			if (item instanceof Configuration)
-				results[i] = ((Configuration)item).createInstance(serviceRegistry);
-			else
-			{
+				results[i] = ((Configuration) item).createInstance(serviceRegistry);
+			else {
 				results[i] = item;
 			}
 		}
@@ -160,22 +141,17 @@ public abstract class Configurable extends Component
 	 * @param scope The scope of the instance to create.
 	 * @return A new builder of this component for the specified scope.
 	 */
-	protected Builder createBuilder(final Scope scope)
-	{
-		return new Builder()
-		{
-			protected Constructor[] getConstructors()
-			{
+	protected Builder createBuilder(final Scope scope) {
+		return new Builder() {
+			protected Constructor[] getConstructors() {
 				return constructors;
 			}
 
-			protected Method[] getMutators()
-			{
+			protected Method[] getMutators() {
 				return mutators;
 			}
 
-			protected IContext createServiceRegistry()
-			{
+			protected IContext createServiceRegistry() {
 				return Configurable.this.createServiceRegistry(scope);
 			}
 		};

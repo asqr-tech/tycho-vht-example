@@ -91,8 +91,8 @@ public class ResourceGroup implements IResourceManager
 	 */
 	public String[] listResources(String fullDirectoryPath)
 	{
-		LinkedList list = new LinkedList();
-		for (Enumeration e = bundle.getEntryPaths(path + fullDirectoryPath); e != null
+		LinkedList<Object> list = new LinkedList<Object>();
+		for (Enumeration<?> e = bundle.getEntryPaths(path + fullDirectoryPath); e != null
 				&& e.hasMoreElements();)
 			list.add(e.nextElement());
 		return (String[])list.toArray(new String[list.size()]);

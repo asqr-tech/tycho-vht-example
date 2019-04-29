@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="com.openmethods.openvxml.platforms.dialogic.services.platform"
+            lazy="true"
+            name="Dialogic Platform"
+            scope="execution"
+            type="com.openmethods.openvxml.platforms.dialogic.services.DialogicPlatform">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=Dialogic">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+
+</plugin>

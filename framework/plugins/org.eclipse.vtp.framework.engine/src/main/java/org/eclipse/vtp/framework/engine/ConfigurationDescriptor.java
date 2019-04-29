@@ -29,7 +29,7 @@ public final class ConfigurationDescriptor
 	/** The XML tag name of the configuration format. */
 	private final String xmlTag;
 	/** The type of this configuration format. */
-	private final Class type;
+	private final Class<?> type;
 
 	/**
 	 * Creates a new ConfigurationDescriptor.
@@ -56,7 +56,7 @@ public final class ConfigurationDescriptor
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
 	public ConfigurationDescriptor(String id, String name, String xmlNamespace,
-			String xmlTag, Class type) throws IllegalArgumentException,
+			String xmlTag, Class<?> type) throws IllegalArgumentException,
 			NullPointerException
 	{
 		if (id == null)
@@ -131,7 +131,7 @@ public final class ConfigurationDescriptor
 	 * 
 	 * @return The type of this configuration format.
 	 */
-	public Class getType()
+	public Class<?> getType()
 	{
 		return type;
 	}

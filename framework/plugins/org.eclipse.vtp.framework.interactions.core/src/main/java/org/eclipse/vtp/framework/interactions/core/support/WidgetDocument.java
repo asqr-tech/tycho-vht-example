@@ -91,9 +91,9 @@ public abstract class WidgetDocument extends Widget implements IDocument
 	private final class WidgetReader implements XMLReader
 	{
 		/** The configured features. */
-		private final Map features = new HashMap();
+		private final Map<String, Boolean> features = new HashMap<String, Boolean>();
 		/** The configured properties. */
-		private final Map properties = new HashMap();
+		private final Map<String, Object> properties = new HashMap<String, Object>();
 		/** The configured content handler. */
 		private ContentHandler contentHandler = null;
 		/** The configured DTD handler. */

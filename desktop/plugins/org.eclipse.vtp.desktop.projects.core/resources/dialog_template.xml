@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dialog-definition>
+<model>
+<elements>
+<primitive-element id="cbb0fc79382a4f039e6f8eb5fef8b1cd" name="Begin Dialog" type="org.eclipse.vtp.desktop.editors.core.modelEntry">
+<custom-config xmlns="http://www.eclipse.org/vtp/namespaces/config">
+</custom-config>
+</primitive-element>
+</elements>
+<connectors/>
+</model>
+<design>
+<canvas id="1" name="Main Canvas">
+<ui-element id="cbb0fc79382a4f039e6f8eb5fef8b1cd" x="79" y="55"/>
+</canvas>
+</design>
+</dialog-definition>

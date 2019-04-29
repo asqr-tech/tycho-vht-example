@@ -37,29 +37,28 @@ import org.eclipse.vtp.framework.spi.IProcessEngineObserver;
  * 
  * @author Lonnie Pryor
  */
-public class ProcessEngine implements IProcessEngine
-{
+public class ProcessEngine implements IProcessEngine {
 	/** An empty array of observers. */
 	private static final IProcessEngineObserver[] NO_OBSERVERS = new IProcessEngineObserver[0];
 
 	/** The extension registry to use. */
 	private final IExtensionRegistry extensionRegistry;
 	/** The action component registry. */
-	private final Map actionRegistry = new HashMap();
+	private final Map<String, Object> actionRegistry = new HashMap<String, Object>();
 	/** The configuration component registry. */
-	private final Map configurationRegistry = new HashMap();
+	private final Map<String, Object> configurationRegistry = new HashMap<String, Object>();
 	/** The observer component registry. */
-	private final Map observerRegistry = new HashMap();
+	private final Map<String, Object> observerRegistry = new HashMap<String, Object>();
 	/** The service component registry. */
-	private final Map serviceRegistry = new HashMap();
+	private final Map<String, Object> serviceRegistry = new HashMap<String, Object>();
 	/** The set of registered observers. */
-	private final Set<IProcessEngineObserver> observers = Collections.synchronizedSet(new HashSet<IProcessEngineObserver>());
+	private final Set<IProcessEngineObserver> observers = Collections
+			.synchronizedSet(new HashSet<IProcessEngineObserver>());
 
 	/**
 	 * Creates a new ProcessEngine.
 	 */
-	public ProcessEngine(IExtensionRegistry extensionRegistry)
-	{
+	public ProcessEngine(IExtensionRegistry extensionRegistry) {
 		this.extensionRegistry = extensionRegistry;
 	}
 
@@ -67,157 +66,119 @@ public class ProcessEngine implements IProcessEngine
 	 * Registers an action descriptor with this process engine.
 	 * 
 	 * @param descriptor The descriptor to register.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void registerAction(ActionDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void registerAction(ActionDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		register(actionRegistry, IProcessEngineObserver.COMPONENT_TYPE_ACTION,
-				descriptor.getId(), descriptor);
+		register(actionRegistry, IProcessEngineObserver.COMPONENT_TYPE_ACTION, descriptor.getId(), descriptor);
 	}
 
 	/**
 	 * Removes an action descriptor registration from this process engine.
 	 * 
 	 * @param descriptor The descriptor to remove.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void unregisterAction(ActionDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void unregisterAction(ActionDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		unregister(actionRegistry, IProcessEngineObserver.COMPONENT_TYPE_ACTION,
-				descriptor.getId(), descriptor);
+		unregister(actionRegistry, IProcessEngineObserver.COMPONENT_TYPE_ACTION, descriptor.getId(), descriptor);
 	}
 
 	/**
 	 * Registers a configuration descriptor with this process engine.
 	 * 
 	 * @param descriptor The descriptor to register.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void registerConfiguration(ConfigurationDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void registerConfiguration(ConfigurationDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		register(configurationRegistry,
-				IProcessEngineObserver.COMPONENT_TYPE_CONFIGURATION,
-				descriptor.getId(), descriptor);
+		register(configurationRegistry, IProcessEngineObserver.COMPONENT_TYPE_CONFIGURATION, descriptor.getId(),
+				descriptor);
 	}
 
 	/**
 	 * Removes a configuration descriptor registration from this process engine.
 	 * 
 	 * @param descriptor The descriptor to remove.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void unregisterConfiguration(ConfigurationDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void unregisterConfiguration(ConfigurationDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		unregister(configurationRegistry,
-				IProcessEngineObserver.COMPONENT_TYPE_CONFIGURATION,
-				descriptor.getId(), descriptor);
+		unregister(configurationRegistry, IProcessEngineObserver.COMPONENT_TYPE_CONFIGURATION, descriptor.getId(),
+				descriptor);
 	}
 
 	/**
 	 * Registers an observer descriptor with this process engine.
 	 * 
 	 * @param descriptor The descriptor to register.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void registerObserver(ObserverDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void registerObserver(ObserverDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		register(observerRegistry, IProcessEngineObserver.COMPONENT_TYPE_OBSERVER,
-				descriptor.getId(), descriptor);
+		register(observerRegistry, IProcessEngineObserver.COMPONENT_TYPE_OBSERVER, descriptor.getId(), descriptor);
 	}
 
 	/**
 	 * Removes an observer descriptor registration from this process engine.
 	 * 
 	 * @param descriptor The descriptor to remove.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void unregisterObserver(ObserverDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void unregisterObserver(ObserverDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		unregister(observerRegistry,
-				IProcessEngineObserver.COMPONENT_TYPE_OBSERVER, descriptor.getId(),
-				descriptor);
+		unregister(observerRegistry, IProcessEngineObserver.COMPONENT_TYPE_OBSERVER, descriptor.getId(), descriptor);
 	}
 
 	/**
 	 * Registers a service descriptor with this process engine.
 	 * 
 	 * @param descriptor The descriptor to register.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void registerService(ServiceDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void registerService(ServiceDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		register(serviceRegistry, IProcessEngineObserver.COMPONENT_TYPE_SERVICE,
-				descriptor.getId(), descriptor);
+		register(serviceRegistry, IProcessEngineObserver.COMPONENT_TYPE_SERVICE, descriptor.getId(), descriptor);
 	}
 
 	/**
 	 * Removes a service descriptor registration from this process engine.
 	 * 
 	 * @param descriptor The descriptor to remove.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public void unregisterService(ServiceDescriptor descriptor)
-			throws NullPointerException
-	{
+	public void unregisterService(ServiceDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
-		unregister(serviceRegistry, IProcessEngineObserver.COMPONENT_TYPE_SERVICE,
-				descriptor.getId(), descriptor);
+		unregister(serviceRegistry, IProcessEngineObserver.COMPONENT_TYPE_SERVICE, descriptor.getId(), descriptor);
 	}
 
 	/**
 	 * Registers a descriptor under the specified ID in the supplied registry.
 	 * 
-	 * @param registry The registry to modify.
+	 * @param registry   The registry to modify.
 	 * @param identifier The identifier of the descriptor.
 	 * @param descriptor The descriptor object to register.
 	 */
-	private void register(Map registry, int componentType, String identifier,
-			Object descriptor)
-	{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void register(Map<String, Object> registry, int componentType, String identifier, Object descriptor) {
 		int eventType = 0;
-		synchronized (this)
-		{
+		synchronized (this) {
 			Object value = registry.get(identifier);
-			if (value == null)
-			{
+			if (value == null) {
 				registry.put(identifier, descriptor);
 				eventType = IProcessEngineObserver.EVENT_TYPE_SELECTED;
-			}
-			else if (value instanceof LinkedList)
-				((LinkedList)value).addLast(descriptor);
-			else
-			{
-				LinkedList list = new LinkedList();
+			} else if (value instanceof LinkedList)
+				((LinkedList) value).addLast(descriptor);
+			else {
+				LinkedList<Object> list = new LinkedList<Object>();
 				list.addLast(value);
 				list.addLast(descriptor);
 				registry.put(identifier, list);
@@ -231,28 +192,22 @@ public class ProcessEngine implements IProcessEngine
 	 * Removes a descriptor registration with the specified ID in the supplied
 	 * registry.
 	 * 
-	 * @param registry The registry to modify.
+	 * @param registry   The registry to modify.
 	 * @param identifier The identifier of the descriptor.
 	 * @param descriptor The descriptor object to remove from the registry.
 	 */
-	private void unregister(Map registry, int componentType, String identifier,
-			Object descriptor)
-	{
+	private void unregister(Map<String, Object> registry, int componentType, String identifier, Object descriptor) {
 		int eventType = 0;
-		synchronized (this)
-		{
+		synchronized (this) {
 			Object value = registry.get(identifier);
-			if (value instanceof LinkedList)
-			{
-				LinkedList list = (LinkedList)value;
+			if (value instanceof LinkedList) {
+				LinkedList<?> list = (LinkedList<?>) value;
 				if (descriptor.equals(list.getFirst()))
 					eventType = IProcessEngineObserver.EVENT_TYPE_CHANGED;
 				if (list.remove(descriptor))
 					if (list.size() == 1)
 						registry.put(identifier, list.removeFirst());
-			}
-			else if (descriptor.equals(value))
-			{
+			} else if (descriptor.equals(value)) {
 				registry.remove(identifier);
 				eventType = IProcessEngineObserver.EVENT_TYPE_RELEASED;
 			}
@@ -264,34 +219,29 @@ public class ProcessEngine implements IProcessEngine
 	/**
 	 * Fires an event to all registered observers.
 	 * 
-	 * @param eventType The type of event to fire.
-	 * @param componentType The type of component that changed.
+	 * @param eventType           The type of event to fire.
+	 * @param componentType       The type of component that changed.
 	 * @param componentIdentifier The identifier of the component that changed.
 	 */
-	private void fireEvent(int eventType, int componentType,
-			String componentIdentifier)
-	{
+	private void fireEvent(int eventType, int componentType, String componentIdentifier) {
 		IProcessEngineObserver[] array = observers.toArray(NO_OBSERVERS);
 		for (int i = 0; i < array.length; ++i)
 			if (observers.contains(array[i]))
-				array[i].processEngineUpdated(eventType, componentType,
-						componentIdentifier);
+				array[i].processEngineUpdated(eventType, componentType, componentIdentifier);
 	}
 
 	/**
 	 * Exports the selected descriptors for each identifier to the supplied array.
 	 * 
 	 * @param registry The registry to export from.
-	 * @param results The results array to populate.
+	 * @param results  The results array to populate.
 	 */
-	private void exportDescriptors(Map registry, Object[] results)
-	{
+	private void exportDescriptors(Map<String, Object> registry, Object[] results) {
 		int i = 0;
-		for (Iterator j = registry.values().iterator(); j.hasNext(); ++i)
-		{
-			Object value = (Object)j.next();
+		for (Iterator<Object> j = registry.values().iterator(); j.hasNext(); ++i) {
+			Object value = (Object) j.next();
 			if (value instanceof LinkedList)
-				results[i] = ((LinkedList)value).getFirst();
+				results[i] = ((LinkedList<?>) value).getFirst();
 			else
 				results[i] = value;
 		}
@@ -301,43 +251,35 @@ public class ProcessEngine implements IProcessEngine
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessEngine#createProcess(
-	 *      org.eclipse.vtp.framework.spi.IProcessDefinition,
-	 *      org.eclipse.vtp.framework.spi.IProcessDescriptor)
+	 * org.eclipse.vtp.framework.spi.IProcessDefinition,
+	 * org.eclipse.vtp.framework.spi.IProcessDescriptor)
 	 */
-	public IProcess createProcess(IProcessDefinition definition,
-			IProcessDescriptor descriptor) throws NullPointerException
-	{
+	public IProcess createProcess(IProcessDefinition definition, IProcessDescriptor descriptor)
+			throws NullPointerException {
 		System.out.println("Creating process for " + descriptor.getProcessID());
 		ActionDescriptor[] actions = null;
 		ConfigurationDescriptor[] configurations = null;
 		ObserverDescriptor[] observers = null;
 		ServiceDescriptor[] services = null;
-		synchronized (this)
-		{
-			exportDescriptors(actionRegistry,
-					actions = new ActionDescriptor[actionRegistry.size()]);
+		synchronized (this) {
+			exportDescriptors(actionRegistry, actions = new ActionDescriptor[actionRegistry.size()]);
 			exportDescriptors(configurationRegistry,
-					configurations = new ConfigurationDescriptor[configurationRegistry
-							.size()]);
-			exportDescriptors(observerRegistry,
-					observers = new ObserverDescriptor[observerRegistry.size()]);
-			exportDescriptors(serviceRegistry,
-					services = new ServiceDescriptor[serviceRegistry.size()]);
+					configurations = new ConfigurationDescriptor[configurationRegistry.size()]);
+			exportDescriptors(observerRegistry, observers = new ObserverDescriptor[observerRegistry.size()]);
+			exportDescriptors(serviceRegistry, services = new ServiceDescriptor[serviceRegistry.size()]);
 		}
-		return new Process(new Blueprint(definition, configurations,
-				actions, observers, services, extensionRegistry), descriptor);
+		return new Process(new Blueprint(definition, configurations, actions, observers, services, extensionRegistry),
+				descriptor);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.process.IProcessEngine#
-	 *      addProcessEngineObserver(
-	 *      org.eclipse.vtp.framework.spi.process.IProcessEngineObserver)
+	 * addProcessEngineObserver(
+	 * org.eclipse.vtp.framework.spi.process.IProcessEngineObserver)
 	 */
-	public void addProcessEngineObserver(IProcessEngineObserver observer)
-			throws NullPointerException
-	{
+	public void addProcessEngineObserver(IProcessEngineObserver observer) throws NullPointerException {
 		if (observer == null)
 			throw new NullPointerException("observer"); //$NON-NLS-1$
 		observers.add(observer);
@@ -347,12 +289,10 @@ public class ProcessEngine implements IProcessEngine
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.process.IProcessEngine#
-	 *      removeProcessEngineObserver(
-	 *      org.eclipse.vtp.framework.spi.process.IProcessEngineObserver)
+	 * removeProcessEngineObserver(
+	 * org.eclipse.vtp.framework.spi.process.IProcessEngineObserver)
 	 */
-	public void removeProcessEngineObserver(IProcessEngineObserver observer)
-			throws NullPointerException
-	{
+	public void removeProcessEngineObserver(IProcessEngineObserver observer) throws NullPointerException {
 		if (observer == null)
 			throw new NullPointerException("observer"); //$NON-NLS-1$
 		observers.remove(observer);

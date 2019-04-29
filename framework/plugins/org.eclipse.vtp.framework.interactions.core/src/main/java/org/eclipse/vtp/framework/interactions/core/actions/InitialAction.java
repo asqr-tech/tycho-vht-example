@@ -56,8 +56,8 @@ import org.eclipse.vtp.framework.util.Guid;
  */
 public class InitialAction extends AssignmentAction
 {
-	private static final Set INITAL_TYPES = Collections
-			.unmodifiableSet(new HashSet(Arrays.asList(new String[] {
+	private static final Set<String> INITAL_TYPES = Collections
+			.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] {
 					IBooleanObject.TYPE_NAME, IDateObject.TYPE_NAME,
 					IDecimalObject.TYPE_NAME, INumberObject.TYPE_NAME, IStringObject.TYPE_NAME })));
 
@@ -70,6 +70,7 @@ public class InitialAction extends AssignmentAction
 	private final InitialConfiguration initialConfig;
 	private final IBrandRegistry brandRegistry;
 	private final ILanguageSelection languageSelection;
+	@SuppressWarnings("unused")
 	private final ILanguageRegistry languageRegistry;
 
 	/**
@@ -124,7 +125,7 @@ public class InitialAction extends AssignmentAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props2 = new Hashtable();
+					Dictionary<String, Object> props2 = new Hashtable<String, Object>();
 					props2.put("event", "assignment");
 					props2.put("event.key", "Platform.ANI");
 					props2.put("event.value", String.valueOf(anivalue));
@@ -140,7 +141,7 @@ public class InitialAction extends AssignmentAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props2 = new Hashtable();
+					Dictionary<String, Object> props2 = new Hashtable<String, Object>();
 					props2.put("event", "assignment");
 					props2.put("event.key", "Platform.DNIS");
 					props2.put("event.value", String.valueOf(dnisvalue));
@@ -164,7 +165,7 @@ public class InitialAction extends AssignmentAction
 			}
 			languageSelection.setDefaultLanguage(initialConfig.getDefaultLanguageName());
 			variableRegistry.setVariable("Platform", platform);
-			Map values = new HashMap();
+			Map<String, String> values = new HashMap<String, String>();
 			for (int i = 0; i < configurations.length; ++i)
 			{
 				String value = context.getParameter(configurations[i].getName());
@@ -255,7 +256,7 @@ public class InitialAction extends AssignmentAction
 		            context.report(IReporter.SEVERITY_INFO, "Requesting initial variables.",
 	            		props);
 				}
-	            Map vars = new LinkedHashMap();
+	            Map<String, String> vars = new LinkedHashMap<String, String>();
 	            if ("true".equals(context.getAttribute("subdialog")))
 	            {
 	            	for (int i = 0; i < configurations.length; ++i)

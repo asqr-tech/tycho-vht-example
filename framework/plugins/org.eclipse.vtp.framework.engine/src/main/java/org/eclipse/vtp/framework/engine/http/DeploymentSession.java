@@ -49,30 +49,25 @@ import org.eclipse.vtp.framework.spi.ISessionDescriptor;
  * 
  * @author Lonnie Pryor
  */
-public class DeploymentSession implements ISessionDescriptor
-{
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public class DeploymentSession implements ISessionDescriptor {
 	/** The name of the session attribute the execution ID is stored in. */
 	private static final String EXECUTION_ID = "execution.id";
 	private static final String ROOT_CONTEXT = "root.session.";
 
-
-	private static void assignVariables(IVariableRegistry variableRegistry, Map variables, boolean copy)
-	{
+	private static void assignVariables(IVariableRegistry variableRegistry, Map<?, ?> variables, boolean copy) {
 //		System.out.println("Assigning Variables");
-		for (Iterator i = variables.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
+		for (Iterator<?> i = variables.entrySet().iterator(); i.hasNext();) {
+			Map.Entry entry = (Map.Entry) i.next();
 //			System.out.println("Variable: " + entry.getKey());
-			IDataObject variable = importVariable(variableRegistry, (Map)entry
-					.getValue(), copy);
+			IDataObject variable = importVariable(variableRegistry, (Map<String, Object>) entry.getValue(), copy);
 			if (variable != null)
-				variableRegistry.setVariable((String)entry.getKey(), variable);
+				variableRegistry.setVariable((String) entry.getKey(), variable);
 		}
 	}
 
-	private static IDataObject importVariable(IVariableRegistry variableRegistry,
-			Map<String, Object> data, boolean copy)
-	{
+	private static IDataObject importVariable(IVariableRegistry variableRegistry, Map<String, Object> data,
+			boolean copy) {
 //		System.out.println("Importing Variable");
 		if (data == null)
 			return null;
@@ -80,56 +75,48 @@ public class DeploymentSession implements ISessionDescriptor
 //		{
 //			System.out.println("Key: " + entry.getKey() + " Value: [" + entry.getValue().getClass().getName() + "] " + entry.getValue().toString());
 //		}
-		String typeName = (String)data.get(null);
+		String typeName = (String) data.get(null);
 		if (typeName == null)
 			return null;
-		String objectId = (String)data.get("OBJECT_ID");
+		String objectId = (String) data.get("OBJECT_ID");
 		IDataObject variable = variableRegistry.createVariable(typeName, objectId);
 		if (variable == null)
 			return null;
-		if(copy)
-		{
-			if (variable instanceof IArrayObject)
-			{
-				IArrayObject array = (IArrayObject)variable;
-				Object[] elements = (Object[])data.get("elements");
+		if (copy) {
+			if (variable instanceof IArrayObject) {
+				IArrayObject array = (IArrayObject) variable;
+				Object[] elements = (Object[]) data.get("elements");
 				for (int i = 0; i < elements.length; ++i)
-					array.addElement(importVariable(variableRegistry, (Map)elements[i], true));
-			}
-			else if (variable instanceof IMapObject)
-			{
-				IMapObject map = (IMapObject)variable;
-				Iterator i = data.keySet().iterator();
-				while(i.hasNext())
-				{
-					String key = (String)i.next();
-					if(key != null && !key.equals("OBJECT_ID"))
-					{
-						map.setField(key, importVariable(variableRegistry, (Map)data.get(key), true));
+					array.addElement(importVariable(variableRegistry, (Map<String, Object>) elements[i], true));
+			} else if (variable instanceof IMapObject) {
+				IMapObject map = (IMapObject) variable;
+				Iterator<String> i = data.keySet().iterator();
+				while (i.hasNext()) {
+					String key = (String) i.next();
+					if (key != null && !key.equals("OBJECT_ID")) {
+						map.setField(key, importVariable(variableRegistry, (Map<String, Object>) data.get(key), true));
 					}
 				}
-			}
-			else if (variable instanceof IBooleanObject)
-				((IBooleanObject)variable).setValue(data.get("value"));
+			} else if (variable instanceof IBooleanObject)
+				((IBooleanObject) variable).setValue(data.get("value"));
 			else if (variable instanceof IDateObject)
-				((IDateObject)variable).setValue(data.get("value"));
+				((IDateObject) variable).setValue(data.get("value"));
 			else if (variable instanceof IDecimalObject)
-				((IDecimalObject)variable).setValue(data.get("value"));
+				((IDecimalObject) variable).setValue(data.get("value"));
 			else if (variable instanceof INumberObject)
-				((INumberObject)variable).setValue(data.get("value"));
+				((INumberObject) variable).setValue(data.get("value"));
 			else if (variable instanceof IStringObject)
-				((IStringObject)variable).setValue(data.get("value"));
-			else
-			{
+				((IStringObject) variable).setValue(data.get("value"));
+			else {
 				String[] fields = variable.getType().getFieldNames();
 				for (int i = 0; i < fields.length; ++i)
-					variable.setField(fields[i], importVariable(variableRegistry, (Map)data
-							.get(fields[i]), copy));
+					variable.setField(fields[i],
+							importVariable(variableRegistry, (Map<String, Object>) data.get(fields[i]), copy));
 			}
 		}
 		return variable;
 	}
-	
+
 	/** The session ID. */
 	private final String id;
 	/** The process session. */
@@ -149,27 +136,27 @@ public class DeploymentSession implements ISessionDescriptor
 	/**
 	 * Creates a new HttpDeploymentSession.
 	 * 
-	 * @param id The session ID.
+	 * @param id      The session ID.
 	 * @param process The process to create a session of.
 	 */
-	DeploymentSession(String id, IProcess process)
-	{
+	DeploymentSession(String id, IProcess process) {
 		this.id = id;
 		this.session = process.createSession(this);
 	}
-	
+
 	public String getCurrentPosition() {
-		Executable executable = ((Session)session).process.blueprint.getExecutable((String)getAttribute("engine.sequence.position"));
+		Executable executable = ((Session) session).process.blueprint
+				.getExecutable((String) getAttribute("engine.sequence.position"));
 		if (executable == null)
 			return null;
 		return executable.getActionInstance().getName();
 	}
-	
+
 	public IVariableRegistry getVariableRegistry() {
-		return (IVariableRegistry)session.lookupService(IVariableRegistry.class.getName());
+		return (IVariableRegistry) session.lookupService(IVariableRegistry.class.getName());
 	}
-	
-	public void lock () {
+
+	public void lock() {
 		while (true) {
 			try {
 				synchronized (editLock) {
@@ -181,12 +168,12 @@ public class DeploymentSession implements ISessionDescriptor
 					return;
 				}
 			} catch (InterruptedException e) {
-				
+
 			}
 		}
 	}
-	
-	public void unlock () {
+
+	public void unlock() {
 		synchronized (editLock) {
 			editLock[0] = false;
 			editLock.notifyAll();
@@ -198,145 +185,118 @@ public class DeploymentSession implements ISessionDescriptor
 	 * 
 	 * @return The session.
 	 */
-	public ISession getSession()
-	{
+	public ISession getSession() {
 		return session;
 	}
 
 	/**
 	 * Preforms the first step in this session.
 	 * 
-	 * @param httpSession The HTTP session.
-	 * @param httpRequest The HTTP request.
+	 * @param httpSession  The HTTP session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 * @return The next document to render.
 	 */
-	public ResultDocument start(HttpSession httpSession,
-			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
-			String prefix, int depth, Map variableValues, Map parameterValues, String entryName, String brand, boolean subdialog)
-	{
+	public ResultDocument start(HttpSession httpSession, HttpServletRequest httpRequest,
+			HttpServletResponse httpReesponse, String prefix, int depth, Map<?, ?> variableValues,
+			Map<?, ?> parameterValues, String entryName, String brand, boolean subdialog) {
 		this.httpSession = httpSession;
-		this.timeout = (long)httpSession.getMaxInactiveInterval() * 1000L;
+		this.timeout = (long) httpSession.getMaxInactiveInterval() * 1000L;
 		this.lastAccessed = httpSession.getLastAccessedTime();
 		this.depth = depth;
 		this.qualifier = new String[depth + 1];
-		for(int i = 0; i <= depth; i++)
-		{
+		for (int i = 0; i <= depth; i++) {
 			qualifier[i] = prefix + i + ".";
 		}
-		assignVariables((IVariableRegistry)session
-			.lookupService(IVariableRegistry.class.getName()), variableValues, false);
-		IBrandRegistry brands = (IBrandRegistry)session
-			.lookupService(IBrandRegistry.class.getName());
+		assignVariables((IVariableRegistry) session.lookupService(IVariableRegistry.class.getName()), variableValues,
+				false);
+		IBrandRegistry brands = (IBrandRegistry) session.lookupService(IBrandRegistry.class.getName());
 		IBrand selectedBrand = brands.getBrand(brand);
 		if (selectedBrand != null)
-			((IBrandSelection)session
-				.lookupService(IBrandSelection.class.getName()))
-				.setSelectedBrand(selectedBrand);
+			((IBrandSelection) session.lookupService(IBrandSelection.class.getName())).setSelectedBrand(selectedBrand);
 		else
 			selectedBrand = brands.getDefaultBrand();
-		IVariableRegistry variables = (IVariableRegistry)session
-			.lookupService(IVariableRegistry.class.getName());
+		IVariableRegistry variables = (IVariableRegistry) session.lookupService(IVariableRegistry.class.getName());
 		IDataObject platform = variables.createVariable("Platform");
-		((IStringObject)platform.getField("Brand")).setValue(selectedBrand
-			.getName());
-		if (httpRequest.getParameter("PLATFORM_ANI") != null)
-		{
-			((IStringObject)platform.getField("PLATFORM_ANI")).setValue(httpRequest
-				.getParameter("PLATFORM_ANI"));
-			((IStringObject)platform.getField("ANI")).setValue(httpRequest
-				.getParameter("PLATFORM_ANI"));
+		((IStringObject) platform.getField("Brand")).setValue(selectedBrand.getName());
+		if (httpRequest.getParameter("PLATFORM_ANI") != null) {
+			((IStringObject) platform.getField("PLATFORM_ANI")).setValue(httpRequest.getParameter("PLATFORM_ANI"));
+			((IStringObject) platform.getField("ANI")).setValue(httpRequest.getParameter("PLATFORM_ANI"));
 		}
-		if (httpRequest.getParameter("PLATFORM_DNIS") != null)
-		{
-			((IStringObject)platform.getField("PLATFORM_DNIS")).setValue(httpRequest
-				.getParameter("PLATFORM_DNIS"));
-			((IStringObject)platform.getField("DNIS")).setValue(httpRequest
-				.getParameter("PLATFORM_DNIS"));
+		if (httpRequest.getParameter("PLATFORM_DNIS") != null) {
+			((IStringObject) platform.getField("PLATFORM_DNIS")).setValue(httpRequest.getParameter("PLATFORM_DNIS"));
+			((IStringObject) platform.getField("DNIS")).setValue(httpRequest.getParameter("PLATFORM_DNIS"));
 		}
 		variables.setVariable("Platform", platform);
-		IReporter reporter = (IReporter)session.lookupService(IReporter.class.getName());
-		if(reporter.isReportingEnabled())
-		{
-			Dictionary report = new Hashtable();
+		IReporter reporter = (IReporter) session.lookupService(IReporter.class.getName());
+		if (reporter.isReportingEnabled()) {
+			Dictionary<String, String> report = new Hashtable<String, String>();
 			report.put("event", "session.created");
-			reporter.report(IReporter.SEVERITY_INFO,
-							"Session \"" + id + "\" created.",
-							report);
+			reporter.report(IReporter.SEVERITY_INFO, "Session \"" + id + "\" created.", report);
 		}
-		startTime = (Date)getAttribute("session.starttime");
-		if(startTime == null)
-		{
+		startTime = (Date) getAttribute("session.starttime");
+		if (startTime == null) {
 			startTime = new Date();
 			setAttribute("session.starttime", startTime);
 		}
 		setAttribute("engine.sequence.entry", entryName);
 		setAttribute("subdialog", subdialog ? "true" : "false");
-		return new DeploymentExecution(getNextExecutionID(), this, httpRequest,
-			httpReesponse, parameterValues).doNext();
+		return new DeploymentExecution(getNextExecutionID(), this, httpRequest, httpReesponse, parameterValues)
+				.doNext();
 	}
 
 	/**
 	 * Preforms the next step in this session.
 	 * 
-	 * @param httpSession The HTTP session.
-	 * @param httpRequest The HTTP request.
+	 * @param httpSession  The HTTP session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 * @return The next document to render.
 	 */
-	public ResultDocument next(HttpSession httpSession,
-			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
-			String prefix, int depth, Map variableValues, Map parameterValues)
-	{
+	public ResultDocument next(HttpSession httpSession, HttpServletRequest httpRequest,
+			HttpServletResponse httpReesponse, String prefix, int depth, Map<?, ?> variableValues,
+			Map<?, ?> parameterValues) {
 		this.httpSession = httpSession;
 		this.timeout = httpSession.getMaxInactiveInterval() * 1000L;
 		this.lastAccessed = httpSession.getLastAccessedTime();
 		this.depth = depth;
 		this.qualifier = new String[depth + 1];
-		for(int i = 0; i <= depth; i++)
-		{
+		for (int i = 0; i <= depth; i++) {
 			qualifier[i] = prefix + i + ".";
 		}
-		assignVariables((IVariableRegistry)session
-				.lookupService(IVariableRegistry.class.getName()), variableValues, true);
-		startTime = (Date)getAttribute("session.starttime");
-		if(startTime == null)
-		{
+		assignVariables((IVariableRegistry) session.lookupService(IVariableRegistry.class.getName()), variableValues,
+				true);
+		startTime = (Date) getAttribute("session.starttime");
+		if (startTime == null) {
 			startTime = new Date();
 			setAttribute("session.starttime", startTime);
 		}
-		return new DeploymentExecution(getNextExecutionID(), this, httpRequest,
-				httpReesponse, parameterValues).doNext();
+		return new DeploymentExecution(getNextExecutionID(), this, httpRequest, httpReesponse, parameterValues)
+				.doNext();
 	}
 
 	/**
 	 * Aborts this session.
 	 * 
-	 * @param httpSession The HTTP session.
-	 * @param httpRequest The HTTP request.
+	 * @param httpSession  The HTTP session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 * @return The last document to render.
 	 */
-	public IDocument abort(HttpSession httpSession,
-			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
-			String prefix, int depth, Map variableValues, Map parameterValues)
-	{
+	public IDocument abort(HttpSession httpSession, HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
+			String prefix, int depth, Map<?, ?> variableValues, Map<?, ?> parameterValues) {
 		this.httpSession = httpSession;
 		this.depth = depth;
 		this.qualifier = new String[depth + 1];
-		for(int i = 0; i <= depth; i++)
-		{
+		for (int i = 0; i <= depth; i++) {
 			qualifier[i] = prefix + i + ".";
 		}
-		try
-		{
-			assignVariables((IVariableRegistry)session
-					.lookupService(IVariableRegistry.class.getName()), variableValues, true);
-			return new DeploymentExecution(getNextExecutionID(), this, httpRequest,
-					httpReesponse, parameterValues).doAbort();
-		}
-		finally
-		{
+		try {
+			assignVariables((IVariableRegistry) session.lookupService(IVariableRegistry.class.getName()),
+					variableValues, true);
+			return new DeploymentExecution(getNextExecutionID(), this, httpRequest, httpReesponse, parameterValues)
+					.doAbort();
+		} finally {
 			fireDisposedEvent(httpSession);
 			httpSession.setAttribute("vtp.supressSessionDisposedEvent", Boolean.TRUE);
 			if (!"true".equals(getAttribute("fragment")))
@@ -344,13 +304,11 @@ public class DeploymentSession implements ISessionDescriptor
 		}
 	}
 
-	public void end(HttpSession httpSession, String prefix, int depth)
-	{
+	public void end(HttpSession httpSession, String prefix, int depth) {
 		this.httpSession = httpSession;
 		this.depth = depth;
 		this.qualifier = new String[depth + 1];
-		for(int i = 0; i <= depth; i++)
-		{
+		for (int i = 0; i <= depth; i++) {
 			qualifier[i] = prefix + i + ".";
 		}
 		fireDisposedEvent(httpSession);
@@ -362,13 +320,11 @@ public class DeploymentSession implements ISessionDescriptor
 	public void fireDisposedEvent(HttpSession httpSession) {
 		if (httpSession.getAttribute("vtp.supressSessionDisposedEvent") == Boolean.TRUE)
 			return;
-		IReporter reporter = (IReporter)session.lookupService(IReporter.class.getName());
-		if(reporter.isReportingEnabled())
-		{
-			Dictionary report = new Hashtable();
+		IReporter reporter = (IReporter) session.lookupService(IReporter.class.getName());
+		if (reporter.isReportingEnabled()) {
+			Dictionary<String, String> report = new Hashtable<String, String>();
 			report.put("event", "session.disposed");
-			reporter.report(
-					IReporter.SEVERITY_INFO, "Session \"" + id + "\" disposed.", report);
+			reporter.report(IReporter.SEVERITY_INFO, "Session \"" + id + "\" disposed.", report);
 		}
 	}
 
@@ -377,12 +333,11 @@ public class DeploymentSession implements ISessionDescriptor
 	 * 
 	 * @return The next execution ID.
 	 */
-	private String getNextExecutionID()
-	{
+	private String getNextExecutionID() {
 		Object executionID = httpSession.getAttribute(qualifier + EXECUTION_ID);
 		if (!(executionID instanceof Integer))
 			executionID = new Integer(0);
-		executionID = new Integer(((Integer)executionID).intValue() + 1);
+		executionID = new Integer(((Integer) executionID).intValue() + 1);
 		httpSession.setAttribute(qualifier + EXECUTION_ID, executionID);
 		return executionID.toString();
 	}
@@ -392,13 +347,11 @@ public class DeploymentSession implements ISessionDescriptor
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#getSessionID()
 	 */
-	public String getSessionID()
-	{
+	public String getSessionID() {
 		return id;
 	}
-	
-	public Date getSessionStartTime()
-	{
+
+	public Date getSessionStartTime() {
 		return startTime;
 	}
 
@@ -406,10 +359,9 @@ public class DeploymentSession implements ISessionDescriptor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#
-	 *      getServiceIdentifiers()
+	 * getServiceIdentifiers()
 	 */
-	public String[] getServiceIdentifiers()
-	{
+	public String[] getServiceIdentifiers() {
 		return new String[] {};
 	}
 
@@ -417,10 +369,9 @@ public class DeploymentSession implements ISessionDescriptor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#getService(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getService(String identifier) throws NullPointerException
-	{
+	public Object getService(String identifier) throws NullPointerException {
 		return null;
 	}
 
@@ -429,13 +380,10 @@ public class DeploymentSession implements ISessionDescriptor
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#getAttributeNames()
 	 */
-	public String[] getAttributeNames()
-	{
+	public String[] getAttributeNames() {
 		List<String> list = new LinkedList<String>();
-		if (httpSession != null)
-		{
-			for (Enumeration<String> e = httpSession.getAttributeNames(); e.hasMoreElements();)
-			{
+		if (httpSession != null) {
+			for (Enumeration<String> e = httpSession.getAttributeNames(); e.hasMoreElements();) {
 				String name = e.nextElement();
 				if (name.startsWith(qualifier[depth]))
 					list.add(name.substring(qualifier[depth].length()));
@@ -448,23 +396,19 @@ public class DeploymentSession implements ISessionDescriptor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#getAttribute(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getAttribute(String attributeName) throws NullPointerException
-	{
-		if(httpSession == null || attributeName == null)
+	public Object getAttribute(String attributeName) throws NullPointerException {
+		if (httpSession == null || attributeName == null)
 			return null;
 		Object obj = null;
-		if(attributeName.startsWith("variable.records"))
-		{
-			for(int i = depth; i > -1; i--)
-			{
+		if (attributeName.startsWith("variable.records")) {
+			for (int i = depth; i > -1; i--) {
 				obj = httpSession.getAttribute(qualifier[i] + attributeName);
-				if(obj != null)
+				if (obj != null)
 					break;
 			}
-		}
-		else
+		} else
 			obj = httpSession.getAttribute(qualifier[depth] + attributeName);
 		return obj;
 	}
@@ -473,11 +417,9 @@ public class DeploymentSession implements ISessionDescriptor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#setAttribute(
-	 *      java.lang.String, java.lang.Object)
+	 * java.lang.String, java.lang.Object)
 	 */
-	public void setAttribute(String attributeName, Object attributeValue)
-			throws NullPointerException
-	{
+	public void setAttribute(String attributeName, Object attributeValue) throws NullPointerException {
 		if (httpSession != null)
 			httpSession.setAttribute(qualifier[depth] + attributeName, attributeValue);
 	}
@@ -486,45 +428,37 @@ public class DeploymentSession implements ISessionDescriptor
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ISessionDescriptor#clearAttribute(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void clearAttribute(String attributeName) throws NullPointerException
-	{
+	public void clearAttribute(String attributeName) throws NullPointerException {
 		if (httpSession != null)
 			httpSession.removeAttribute(qualifier[depth] + attributeName);
 	}
-	
-	public Object getInheritedAttribute(String attributeName) throws NullPointerException
-	{
-		if(httpSession == null || attributeName == null)
+
+	public Object getInheritedAttribute(String attributeName) throws NullPointerException {
+		if (httpSession == null || attributeName == null)
 			return null;
 		Object obj = null;
-		for(int i = depth - 1; i > -1; i--)
-		{
+		for (int i = depth - 1; i > -1; i--) {
 			obj = httpSession.getAttribute(qualifier[i] + attributeName);
-			if(obj != null)
+			if (obj != null)
 				break;
 		}
 		return obj;
 	}
 
-	public boolean isValid()
-	{
-		if(System.currentTimeMillis() - lastAccessed >= timeout)
-		{
+	public boolean isValid() {
+		if (System.currentTimeMillis() - lastAccessed >= timeout) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public String[] getRootAttributeNames()
-	{
+	public String[] getRootAttributeNames() {
 		List<String> list = new LinkedList<String>();
-		if (httpSession != null)
-		{
-			for (Enumeration<String> e = httpSession.getAttributeNames(); e.hasMoreElements();)
-			{
+		if (httpSession != null) {
+			for (Enumeration<String> e = httpSession.getAttributeNames(); e.hasMoreElements();) {
 				String name = e.nextElement();
 				if (name.startsWith(ROOT_CONTEXT))
 					list.add(name.substring(ROOT_CONTEXT.length()));
@@ -534,25 +468,18 @@ public class DeploymentSession implements ISessionDescriptor
 	}
 
 	@Override
-	public Object getRootAttribute(String attributeName)
-		throws NullPointerException
-	{
-		return httpSession == null ? null : httpSession.getAttribute(ROOT_CONTEXT
-			+ attributeName);
+	public Object getRootAttribute(String attributeName) throws NullPointerException {
+		return httpSession == null ? null : httpSession.getAttribute(ROOT_CONTEXT + attributeName);
 	}
 
 	@Override
-	public void setRootAttribute(String attributeName, Object attributeValue)
-		throws NullPointerException
-	{
+	public void setRootAttribute(String attributeName, Object attributeValue) throws NullPointerException {
 		if (httpSession != null)
 			httpSession.setAttribute(ROOT_CONTEXT + attributeName, attributeValue);
 	}
 
 	@Override
-	public void clearRootAttribute(String attributeName)
-		throws NullPointerException
-	{
+	public void clearRootAttribute(String attributeName) throws NullPointerException {
 		if (httpSession != null)
 			httpSession.removeAttribute(ROOT_CONTEXT + attributeName);
 	}

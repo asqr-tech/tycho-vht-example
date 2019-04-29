@@ -13,19 +13,18 @@ package org.eclipse.vtp.framework.interactions.core.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * InitialCommand.
  * 
  * @author Lonnie Pryor
  */
-public class InitialCommand extends ConversationCommand
-{
+public class InitialCommand extends ConversationCommand {
 	/** The name of the parameter to pass the result of the request as. */
 	private String resultName = null;
 	/** The value of the result parameter to pass if the input is valid. */
@@ -33,15 +32,14 @@ public class InitialCommand extends ConversationCommand
 	/** The value of the result parameter to pass if the caller hungup. */
 	private String hangupResultValue = null;
 	/** Comment for variables. */
-	private final Map variables = new LinkedHashMap();
+	private final Map<String, String> variables = new LinkedHashMap<String, String>();
 	/** The parameters to set when the process resumes. */
-	private final Map parameters = new HashMap();
+	private final Map<String, Object> parameters = new HashMap<String, Object>();
 
 	/**
 	 * Creates a new InitialCommand.
 	 */
-	public InitialCommand()
-	{
+	public InitialCommand() {
 	}
 
 	/**
@@ -49,19 +47,17 @@ public class InitialCommand extends ConversationCommand
 	 * 
 	 * @return The name of the parameter to pass the result of the request as.
 	 */
-	public String getResultName()
-	{
+	public String getResultName() {
 		return resultName;
 	}
 
 	/**
 	 * Sets the name of the parameter to pass the result of the request as.
 	 * 
-	 * @param resultName The name of the parameter to pass the result of the
-	 *          request as.
+	 * @param resultName The name of the parameter to pass the result of the request
+	 *                   as.
 	 */
-	public void setResultName(String resultName)
-	{
+	public void setResultName(String resultName) {
 		this.resultName = resultName;
 	}
 
@@ -70,19 +66,17 @@ public class InitialCommand extends ConversationCommand
 	 * 
 	 * @return The value of the result parameter to pass if the input is valid.
 	 */
-	public String getResultValue()
-	{
+	public String getResultValue() {
 		return resultValue;
 	}
 
 	/**
 	 * Sets the value of the result parameter to pass if the input is valid.
 	 * 
-	 * @param resultValue The value of the result parameter to pass if the input
-	 *          is valid.
+	 * @param resultValue The value of the result parameter to pass if the input is
+	 *                    valid.
 	 */
-	public void setResultValue(String resultValue)
-	{
+	public void setResultValue(String resultValue) {
 		this.resultValue = resultValue;
 	}
 
@@ -91,8 +85,7 @@ public class InitialCommand extends ConversationCommand
 	 * 
 	 * @return The value of the result parameter to pass if the caller hungup.
 	 */
-	public String getHangupResultValue()
-	{
+	public String getHangupResultValue() {
 		return hangupResultValue;
 	}
 
@@ -100,10 +93,9 @@ public class InitialCommand extends ConversationCommand
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
 	 * @param noInputResultValue The value of the result parameter to pass if the
-	 *          caller hungup.
+	 *                           caller hungup.
 	 */
-	public void setHangupResultValue(String hangupResultValue)
-	{
+	public void setHangupResultValue(String hangupResultValue) {
 		this.hangupResultValue = hangupResultValue;
 	}
 
@@ -112,9 +104,8 @@ public class InitialCommand extends ConversationCommand
 	 * 
 	 * @return
 	 */
-	public String[] getVariableNames()
-	{
-		return (String[])variables.keySet().toArray(new String[variables.size()]);
+	public String[] getVariableNames() {
+		return (String[]) variables.keySet().toArray(new String[variables.size()]);
 	}
 
 	/**
@@ -123,11 +114,10 @@ public class InitialCommand extends ConversationCommand
 	 * @param name The name of the variable to be set.
 	 * @return The values that specified variable will be set to.
 	 */
-	public String getVariableValue(String name)
-	{
+	public String getVariableValue(String name) {
 		if (name == null)
 			return null;
-		return (String)variables.get(name);
+		return (String) variables.get(name);
 	}
 
 	/**
@@ -136,8 +126,7 @@ public class InitialCommand extends ConversationCommand
 	 * @param name
 	 * @return
 	 */
-	public boolean setVariable(String name, String value)
-	{
+	public boolean setVariable(String name, String value) {
 		variables.put(name, value);
 		return true;
 	}
@@ -148,8 +137,7 @@ public class InitialCommand extends ConversationCommand
 	 * @param name
 	 * @return
 	 */
-	public boolean removeVariable(String name)
-	{
+	public boolean removeVariable(String name) {
 		return variables.remove(name) != null;
 	}
 
@@ -160,9 +148,8 @@ public class InitialCommand extends ConversationCommand
 	 * @return The names of the parameters that will be returned from the
 	 *         interaction.
 	 */
-	public String[] getParameterNames()
-	{
-		return (String[])parameters.keySet().toArray(new String[parameters.size()]);
+	public String[] getParameterNames() {
+		return (String[]) parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/**
@@ -171,33 +158,31 @@ public class InitialCommand extends ConversationCommand
 	 * @param name The name of the parameter to be set.
 	 * @return The values that specified parameter will be set to.
 	 */
-	public String[] getParameterValues(String name)
-	{
+	public String[] getParameterValues(String name) {
 		if (name == null)
 			return null;
-		List list = (List)parameters.get(name);
+		List<?> list = (List<?>) parameters.get(name);
 		if (list == null)
 			return null;
-		return (String[])list.toArray(new String[list.size()]);
+		return (String[]) list.toArray(new String[list.size()]);
 	}
 
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name The name of the parameter to set.
+	 * @param name   The name of the parameter to set.
 	 * @param values The values to set the parameter to.
 	 */
-	public void setParameterValues(String name, String[] values)
-	{
+	@SuppressWarnings("unchecked")
+	public void setParameterValues(String name, String[] values) {
 		if (name == null)
 			return;
 		if (values == null)
 			parameters.remove(name);
-		else
-		{
-			List list = (List)parameters.get(name);
+		else {
+			List<String> list = (List<String>) parameters.get(name);
 			if (list == null)
-				parameters.put(name, list = new LinkedList());
+				parameters.put(name, list = new LinkedList<String>());
 			else
 				list.clear();
 			for (int i = 0; i < values.length; ++i)
@@ -210,12 +195,11 @@ public class InitialCommand extends ConversationCommand
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 *      ConversationCommand#accept(
-	 *      org.eclipse.vtp.framework.interactions.core.commands.
-	 *      IConversationCommandVisitor)
+	 * ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands.
+	 * IConversationCommandVisitor)
 	 */
-	Object accept(IConversationCommandVisitor visitor)
-	{
+	Object accept(IConversationCommandVisitor visitor) {
 		return visitor.visitInitial(this);
 	}
 
@@ -224,45 +208,37 @@ public class InitialCommand extends ConversationCommand
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
-	public Object exportContents()
-	{
-		List parameters = new ArrayList(this.parameters.size() * 2);
-		for (Iterator i = this.parameters.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
-			parameters.add((String)entry.getKey());
-			parameters.add((String)entry.getValue());
+	public Object exportContents() {
+		List<String> parameters = new ArrayList<String>(this.parameters.size() * 2);
+		for (Entry<String, Object> entry : this.parameters.entrySet()) {
+			parameters.add((String) entry.getKey());
+			parameters.add((String) entry.getValue());
 		}
-		List variables = new ArrayList(this.variables.size() * 2);
-		for (Iterator i = this.variables.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
-			variables.add((String)entry.getKey());
-			variables.add((String)entry.getValue());
+		List<String> variables = new ArrayList<String>(this.variables.size() * 2);
+		for (Entry<String, String> entry : this.variables.entrySet()) {
+			variables.add((String) entry.getKey());
+			variables.add((String) entry.getValue());
 		}
 		return new Object[] { resultName, resultValue, hangupResultValue,
-				variables.toArray(new String[variables.size()]),
-				parameters.toArray(new String[parameters.size()]) };
+				variables.toArray(new String[variables.size()]), parameters.toArray(new String[parameters.size()]) };
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 *      java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
-	public void importContents(Object contents)
-	{
-		Object[] array = (Object[])contents;
-		resultName = (String)array[0];
-		resultValue = (String)array[1];
-		hangupResultValue = (String)array[2];
+	public void importContents(Object contents) {
+		Object[] array = (Object[]) contents;
+		resultName = (String) array[0];
+		resultValue = (String) array[1];
+		hangupResultValue = (String) array[2];
 		variables.clear();
-		String[] variables = (String[])array[3];
+		String[] variables = (String[]) array[3];
 		for (int i = 0; i < variables.length; i += 2)
 			this.variables.put(variables[i], variables[i + 1]);
 		parameters.clear();
-		String[] parameters = (String[])array[4];
+		String[] parameters = (String[]) array[4];
 		for (int i = 0; i < parameters.length; i += 2)
 			this.parameters.put(parameters[i], parameters[i + 1]);
 	}

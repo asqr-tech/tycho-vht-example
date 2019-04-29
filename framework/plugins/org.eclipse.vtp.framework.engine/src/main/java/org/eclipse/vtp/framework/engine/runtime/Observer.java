@@ -23,8 +23,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class Observer extends Executable
-{
+public class Observer extends Executable {
 	/** The descriptor of the observer. */
 	private final ObserverDescriptor descriptor;
 	/** The action this observer is bound to. */
@@ -35,23 +34,21 @@ public class Observer extends Executable
 	/**
 	 * Creates a new Observer.
 	 * 
-	 * @param blueprint The blueprint of the process.
-	 * @param elements The configuration data or <code>null</code> for no
-	 *          configuration data.
+	 * @param blueprint  The blueprint of the process.
+	 * @param elements   The configuration data or <code>null</code> for no
+	 *                   configuration data.
 	 * @param instanceID The ID of this instance of the observer.
 	 * @param descriptor The descriptor of the observer.
-	 * @param observed The action this observer is bound to.
+	 * @param observed   The action this observer is bound to.
 	 * @throws NullPointerException If the supplied blueprint is <code>null</code>.
 	 * @throws NullPointerException If the supplied instance ID is
-	 *           <code>null</code>.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 *                              <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 * @throws NullPointerException If the supplied action is <code>null</code>.
 	 */
-	public Observer(Blueprint blueprint, Element[] elements, String instanceID,
-			ObserverDescriptor descriptor, Action observed)
-			throws NullPointerException
-	{
+	@SuppressWarnings("unused")
+	public Observer(Blueprint blueprint, Element[] elements, String instanceID, ObserverDescriptor descriptor,
+			Action observed) throws NullPointerException {
 		super(blueprint, descriptor.getType(), elements, instanceID);
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
@@ -66,19 +63,16 @@ public class Observer extends Executable
 	 * 
 	 * @param next The next executable in the process or <code>null</code>.
 	 */
-	protected void configure(Executable next)
-	{
+	protected void configure(Executable next) {
 		this.next = next;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.engine.runtime.Executable#
-	 *      getActionInstance()
+	 * @see org.eclipse.vtp.framework.engine.runtime.Executable# getActionInstance()
 	 */
-	public Action getActionInstance()
-	{
+	public Action getActionInstance() {
 		return observed;
 	}
 
@@ -87,8 +81,7 @@ public class Observer extends Executable
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Executable#getActionState()
 	 */
-	public int getActionState()
-	{
+	public int getActionState() {
 		if (next == null)
 			return IActionContext.STATE_AFTER;
 		else if (next instanceof Observer)
@@ -104,8 +97,7 @@ public class Observer extends Executable
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Executable#isBlocking()
 	 */
-	public boolean isBlocking()
-	{
+	public boolean isBlocking() {
 		return descriptor.isBlocking();
 	}
 
@@ -113,19 +105,14 @@ public class Observer extends Executable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Executable#execute(
-	 *      org.eclipse.vtp.framework.engine.runtime.Sequence)
+	 * org.eclipse.vtp.framework.engine.runtime.Sequence)
 	 */
-	public Executable execute(Sequence sequence)
-	{
-		try
-		{
-			((Runnable)createInstance(sequence)).run();
-		}
-		catch (RuntimeException cause)
-		{
-			if (sequence.context.isErrorEnabled())
-			{
-				Hashtable properties = new Hashtable();
+	public Executable execute(Sequence sequence) {
+		try {
+			((Runnable) createInstance(sequence)).run();
+		} catch (RuntimeException cause) {
+			if (sequence.context.isErrorEnabled()) {
+				Hashtable<String, RuntimeException> properties = new Hashtable<String, RuntimeException>();
 				properties.put("cause", cause); //$NON-NLS-1$
 				sequence.context.error(cause.getMessage(), properties);
 			}
@@ -137,10 +124,9 @@ public class Observer extends Executable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Configurable#
-	 *      getComponentType()
+	 * getComponentType()
 	 */
-	protected Class getComponentType()
-	{
+	protected Class<?> getComponentType() {
 		return descriptor.getType();
 	}
 }

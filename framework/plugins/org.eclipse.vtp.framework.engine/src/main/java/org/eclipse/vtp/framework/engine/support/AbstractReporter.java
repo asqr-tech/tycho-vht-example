@@ -20,37 +20,34 @@ import org.eclipse.vtp.framework.core.IReporter;
  * 
  * @author Lonnie Pryor
  */
-public abstract class AbstractReporter implements IReporter
-{
+@SuppressWarnings({ "rawtypes" })
+public abstract class AbstractReporter implements IReporter {
 	/**
 	 * Creates a new AbstractReporter.
 	 */
-	protected AbstractReporter()
-	{
+	protected AbstractReporter() {
 	}
 
 	/**
 	 * Implementation of report creation and publication after checking the
 	 * severity.
 	 * 
-	 * @param severity The severity of the report.
-	 * @param categories The categories the report pertains to or
-	 *          <code>null</code> if no catagories are related.
-	 * @param message The message associated with the report or <code>null</code>
-	 *          to not include a message.
+	 * @param severity   The severity of the report.
+	 * @param categories The categories the report pertains to or <code>null</code>
+	 *                   if no catagories are related.
+	 * @param message    The message associated with the report or <code>null</code>
+	 *                   to not include a message.
 	 * @param properties The properties of the report or <code>null</code> if no
-	 *          properties are specified.
+	 *                   properties are specified.
 	 */
-	protected abstract void doReport(int severity, String[] categories,
-			String message, Dictionary properties);
+	protected abstract void doReport(int severity, String[] categories, String message, Dictionary<?, ?> properties);
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IReporter#report(int, java.lang.String)
 	 */
-	public final void report(int severity, String message)
-	{
+	public final void report(int severity, String message) {
 		if (isSeverityEnabled(severity))
 			doReport(severity, null, message, null);
 	}
@@ -59,10 +56,9 @@ public abstract class AbstractReporter implements IReporter
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IReporter#report(int, java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public final void report(int severity, String message, Dictionary properties)
-	{
+	public final void report(int severity, String message, Dictionary properties) {
 		if (isSeverityEnabled(severity))
 			doReport(severity, null, message, properties);
 	}
@@ -70,11 +66,10 @@ public abstract class AbstractReporter implements IReporter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.IReporter#report(int,
-	 *      java.lang.String[], java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.IReporter#report(int, java.lang.String[],
+	 * java.lang.String)
 	 */
-	public final void report(int severity, String[] categories, String message)
-	{
+	public final void report(int severity, String[] categories, String message) {
 		if (isSeverityEnabled(severity))
 			doReport(severity, categories, message, null);
 	}
@@ -82,12 +77,10 @@ public abstract class AbstractReporter implements IReporter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.IReporter#report(int,
-	 *      java.lang.String[], java.lang.String, java.util.Dictionary)
+	 * @see org.eclipse.vtp.framework.spi.IReporter#report(int, java.lang.String[],
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public final void report(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	public final void report(int severity, String[] categories, String message, Dictionary properties) {
 		if (isSeverityEnabled(severity))
 			doReport(severity, categories, message, properties);
 	}

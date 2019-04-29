@@ -21,3 +21,4 @@ Export-Package: org.eclipse.vtp.framework.interactions.core,
  org.eclipse.vtp.framework.interactions.core.services,
  org.eclipse.vtp.framework.interactions.core.support
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.interactions.core

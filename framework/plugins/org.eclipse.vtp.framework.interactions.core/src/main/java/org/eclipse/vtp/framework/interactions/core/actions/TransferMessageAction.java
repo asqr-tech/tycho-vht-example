@@ -64,7 +64,7 @@ public class TransferMessageAction implements IAction
 					getClass().getName().lastIndexOf('.') + 1));
 			if(context.isReportingEnabled())
 			{
-				Dictionary props = new Hashtable();
+				Dictionary<String, String> props = new Hashtable<String, String>();
 				props.put("event", "transfer");
 				context.report(IReporter.SEVERITY_INFO, "Transfering session.", props);
 			}

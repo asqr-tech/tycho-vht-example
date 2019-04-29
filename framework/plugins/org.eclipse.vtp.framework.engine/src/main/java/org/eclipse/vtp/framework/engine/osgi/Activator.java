@@ -52,11 +52,10 @@ import org.w3c.dom.Document;
  * @version 1.0
  * @since 3.0
  */
-public class Activator extends AbstractReporter implements BundleActivator,
-		LogListener, ServiceTrackerCustomizer
-{
-	private static final String[] REPORT_LEVELS = { "ERROR", "WARN", "INFO",
-			"DEBUG" };
+@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
+public class Activator extends AbstractReporter
+		implements BundleActivator, LogListener, ServiceTrackerCustomizer<Object, Object> {
+	private static final String[] REPORT_LEVELS = { "ERROR", "WARN", "INFO", "DEBUG" };
 
 	/** The service tracker that tracks the log service. */
 	private BundleContext context = null;
@@ -67,16 +66,15 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	/** The service tracker that tracks the extension registry service. */
 	private ProcessEngineManager processEngineManager = null;
 	/** The service tracker that tracks the log reader service. */
-	private ServiceTracker logReader = null;
+	private ServiceTracker<?, ?> logReader = null;
 	/** The service tracker that tracks the reporter services. */
-	private ServiceTracker reporters = null;
+	private ServiceTracker<?, ?> reporters = null;
 	private int activeLogLevel = 3;
 
 	/**
 	 * Creates a new Activator.
 	 */
-	public Activator()
-	{
+	public Activator() {
 	}
 
 	/**
@@ -88,12 +86,11 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	 * @param properties
 	 * @return
 	 */
-	private String buildReport(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+
+	private String buildReport(int severity, String[] categories, String message, Dictionary properties) {
 		// Create the line prefix.
-		StringBuffer buffer = new StringBuffer(REPORT_LEVELS[Math.max(0, Math.min(
-				REPORT_LEVELS.length - 1, severity - 1))]);
+		StringBuffer buffer = new StringBuffer(
+				REPORT_LEVELS[Math.max(0, Math.min(REPORT_LEVELS.length - 1, severity - 1))]);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		buffer.append('|').append(calendar.get(Calendar.YEAR));
@@ -137,8 +134,7 @@ public class Activator extends AbstractReporter implements BundleActivator,
 //				}
 //			}
 //		}
-		if (properties != null)
-		{
+		if (properties != null) {
 			Object t = properties.get("cause"); //$NON-NLS-1$
 			if (t instanceof Throwable)
 				properties.remove("cause"); //$NON-NLS-1$
@@ -161,15 +157,13 @@ public class Activator extends AbstractReporter implements BundleActivator,
 //					printWriter.print(value);
 //				}
 //			}
-			if (t != null)
-			{
+			if (t != null) {
 				StringWriter causeStringWriter = new StringWriter();
 				PrintWriter causePrintWriter = new PrintWriter(causeStringWriter);
-				((Throwable)t).printStackTrace(causePrintWriter);
+				((Throwable) t).printStackTrace(causePrintWriter);
 				causePrintWriter.flush();
-				for (StringTokenizer st = new StringTokenizer(causeStringWriter
-						.toString(), "\r\n"); st.hasMoreTokens();) //$NON-NLS-1$
-				{
+				for (StringTokenizer st = new StringTokenizer(causeStringWriter.toString(), "\r\n"); st //$NON-NLS-1$
+						.hasMoreTokens();) {
 					printWriter.println();
 					printWriter.print(prefix);
 					printWriter.print('\t');
@@ -180,13 +174,11 @@ public class Activator extends AbstractReporter implements BundleActivator,
 		return stringWriter.toString();
 	}
 
-	private String format(int number, int minLength)
-	{
+	private String format(int number, int minLength) {
 		return format(String.valueOf(number), minLength);
 	}
 
-	private String format(String number, int minLength)
-	{
+	private String format(String number, int minLength) {
 		StringBuffer buffer = new StringBuffer(minLength);
 		for (int i = number.length(); i < minLength; ++i)
 			buffer.append(0);
@@ -198,28 +190,24 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IReporter#isSeverityEnabled(int)
 	 */
-	public boolean isSeverityEnabled(int severity)
-	{
+	public boolean isSeverityEnabled(int severity) {
 		return severity <= activeLogLevel;
 	}
-	
-	public boolean isReportingEnabled()
-	{
+
+	public boolean isReportingEnabled() {
 		return reporters.size() > 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.engine.support.AbstractReporter#doReport(
-	 *      int, java.lang.String[], java.lang.String, java.util.Dictionary)
+	 * @see org.eclipse.vtp.framework.engine.support.AbstractReporter#doReport( int,
+	 * java.lang.String[], java.lang.String, java.util.Dictionary)
 	 */
-	protected void doReport(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	protected void doReport(int severity, String[] categories, String message, Dictionary properties) {
 		Object[] reporters = this.reporters.getServices();
 		if (properties == null)
-			properties = new Hashtable();
+			properties = new Hashtable<String, Object>();
 		if (properties.get("scope") == null) //$NON-NLS-1$
 			properties.put("scope", "host"); //$NON-NLS-1$ //$NON-NLS-2$
 		Object type = properties.get("type"); //$NON-NLS-1$
@@ -230,10 +218,8 @@ public class Activator extends AbstractReporter implements BundleActivator,
 						DateFormat.getDateTimeInstance().format(new Date()));
 			if (reporters != null)
 				for (int i = 0; i < reporters.length; ++i)
-					((IReporter)reporters[i]).report(severity, categories, message,
-							properties);
-		}
-		else if (!"log".equalsIgnoreCase(type.toString())) //$NON-NLS-1$
+					((IReporter) reporters[i]).report(severity, categories, message, properties);
+		} else if (!"log".equalsIgnoreCase(type.toString())) //$NON-NLS-1$
 			return;
 		System.out.println(buildReport(severity, categories, message, properties));
 	}
@@ -242,36 +228,28 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.osgi.framework.BundleActivator#start(
-	 *      org.osgi.framework.BundleContext)
+	 * org.osgi.framework.BundleContext)
 	 */
-	public void start(BundleContext context) throws Exception
-	{
-		Thread t = new Thread(new Runnable(){
-			public void run()
-			{
-				try
-				{
-					while(true)
-					{
+	public void start(BundleContext context) throws Exception {
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					while (true) {
 						String level = System.getProperty("org.eclipse.vtp.loglevel", "INFO");
 						boolean found = false;
-						for(int i = 0; i <REPORT_LEVELS.length; i++)
-						{
+						for (int i = 0; i < REPORT_LEVELS.length; i++) {
 							String l = REPORT_LEVELS[i];
-							if(l.equalsIgnoreCase(level))
-							{
+							if (l.equalsIgnoreCase(level)) {
 								activeLogLevel = i + 1;
 								found = true;
 								break;
 							}
 						}
-						if(!found)
+						if (!found)
 							activeLogLevel = 3;
 						Thread.sleep(10000);
 					}
-				}
-				catch(Exception ex)
-				{
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
@@ -279,51 +257,37 @@ public class Activator extends AbstractReporter implements BundleActivator,
 		t.setDaemon(true);
 		t.start();
 		this.context = context;
-		logReader = new ServiceTracker(context, LogReaderService.class.getName(),
-				this);
+		logReader = new ServiceTracker<Object, Object>(context, LogReaderService.class.getName(), this);
 		logReader.open();
-		reporters = new ServiceTracker(context, IReporter.class.getName(), null);
+		reporters = new ServiceTracker<Object, Object>(context, IReporter.class.getName(), null);
 		reporters.open();
 		log = new LogTracker(context);
 		log.open();
 		URL staticConfig = context.getBundle().getResource("META-INF/services/" //$NON-NLS-1$
 				+ StaticConfigurationAdmin.class.getName());
-		if (staticConfig != null)
-		{
+		if (staticConfig != null) {
 			log.log(LogService.LOG_DEBUG, "Loading static configuration...");
 			Document document = null;
 			InputStream input = null;
-			try
-			{
+			try {
 				DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 				dbf.setNamespaceAware(false);
 				dbf.setValidating(false);
-				document = dbf.newDocumentBuilder().parse(
-						input = staticConfig.openStream());
-				log.log(LogService.LOG_INFO, "Loaded static configuration from \""
-						+ staticConfig.toExternalForm() + "\".");
-			}
-			catch (Exception e)
-			{
-				log.log(LogService.LOG_WARNING, "Failed to load static configuration: "
-						+ e.getMessage(), e);
-			}
-			finally
-			{
-				try
-				{
+				document = dbf.newDocumentBuilder().parse(input = staticConfig.openStream());
+				log.log(LogService.LOG_INFO,
+						"Loaded static configuration from \"" + staticConfig.toExternalForm() + "\".");
+			} catch (Exception e) {
+				log.log(LogService.LOG_WARNING, "Failed to load static configuration: " + e.getMessage(), e);
+			} finally {
+				try {
 					if (input != null)
 						input.close();
-				}
-				catch (IOException e)
-				{
+				} catch (IOException e) {
 				}
 			}
-			if (document != null)
-			{
+			if (document != null) {
 				log.log(LogService.LOG_DEBUG, "Creating configuration admin...");
-				configurationAdmin = new StaticConfigurationAdmin(context, log,
-						document.getDocumentElement());
+				configurationAdmin = new StaticConfigurationAdmin(context, log, document.getDocumentElement());
 				configurationAdmin.start();
 				log.log(LogService.LOG_DEBUG, "Configuration admin created.");
 			}
@@ -332,60 +296,47 @@ public class Activator extends AbstractReporter implements BundleActivator,
 		processEngineManager = new ProcessEngineManager(context, log, this);
 		processEngineManager.open();
 		log.log(LogService.LOG_DEBUG, "Process engine manager created.");
-		Dictionary report = new Hashtable();
+		Dictionary<String, String> report = new Hashtable<String, String>();
 		report.put("event", "host.started");
 		report(IReporter.SEVERITY_INFO, "Host Started", report);
-		context.registerService("org.eclipse.osgi.framework.console.CommandProvider", new LogLevelCommandListener(), null);
+		context.registerService("org.eclipse.osgi.framework.console.CommandProvider", new LogLevelCommandListener(),
+				null);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.osgi.framework.BundleActivator#stop(
-	 *      org.osgi.framework.BundleContext)
+	 * org.osgi.framework.BundleContext)
 	 */
-	public void stop(BundleContext context) throws Exception
-	{
-		Dictionary report = new Hashtable();
+	public void stop(BundleContext context) throws Exception {
+		Dictionary<String, String> report = new Hashtable<String, String>();
 		report.put("event", "host.stopped");
 		report(IReporter.SEVERITY_INFO, "Host Stopped", report);
-		try
-		{
-			if (processEngineManager != null)
-			{
+		try {
+			if (processEngineManager != null) {
 				log.log(LogService.LOG_DEBUG, "Releasing process engine manager...");
 				processEngineManager.close();
 			}
-		}
-		finally
-		{
-			if (processEngineManager != null)
-			{
+		} finally {
+			if (processEngineManager != null) {
 				processEngineManager = null;
 				log.log(LogService.LOG_DEBUG, "Process engine manager released.");
 			}
-			try
-			{
-				if (configurationAdmin != null)
-				{
+			try {
+				if (configurationAdmin != null) {
 					log.log(LogService.LOG_DEBUG, "Releasing configuration admin...");
 					configurationAdmin.stop();
 				}
-			}
-			finally
-			{
-				if (configurationAdmin != null)
-				{
+			} finally {
+				if (configurationAdmin != null) {
 					configurationAdmin = null;
 					log.log(LogService.LOG_DEBUG, "Configuration admin released.");
 				}
-				try
-				{
+				try {
 					if (log != null)
 						log.close();
-				}
-				finally
-				{
+				} finally {
 					if (log != null)
 						log = null;
 					reporters.close();
@@ -403,24 +354,21 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	 * 
 	 * @see org.osgi.service.log.LogListener#logged(org.osgi.service.log.LogEntry)
 	 */
-	public synchronized void logged(LogEntry entry)
-	{
+	public synchronized void logged(LogEntry entry) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.osgi.util.tracker.ServiceTrackerCustomizer#addingService(
-	 *      org.osgi.framework.ServiceReference)
+	 * org.osgi.framework.ServiceReference)
 	 */
-	public Object addingService(ServiceReference reference)
-	{
-		LogReaderService logReader = (LogReaderService)context
-				.getService(reference);
-		Enumeration log = logReader.getLog();
+	public Object addingService(ServiceReference reference) {
+		LogReaderService logReader = (LogReaderService) context.getService(reference);
+		Enumeration<?> log = logReader.getLog();
 		if (log != null)
 			while (log.hasMoreElements())
-				logged((LogEntry)log.nextElement());
+				logged((LogEntry) log.nextElement());
 		logReader.addLogListener(this);
 		return logReader;
 	}
@@ -429,49 +377,42 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.osgi.util.tracker.ServiceTrackerCustomizer#modifiedService(
-	 *      org.osgi.framework.ServiceReference, java.lang.Object)
+	 * org.osgi.framework.ServiceReference, java.lang.Object)
 	 */
-	public void modifiedService(ServiceReference reference, Object service)
-	{
+	public void modifiedService(ServiceReference reference, Object service) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.osgi.util.tracker.ServiceTrackerCustomizer#removedService(
-	 *      org.osgi.framework.ServiceReference, java.lang.Object)
+	 * org.osgi.framework.ServiceReference, java.lang.Object)
 	 */
-	public void removedService(ServiceReference reference, Object service)
-	{
-		((LogReaderService)context.getService(reference)).removeLogListener(this);
+	public void removedService(ServiceReference reference, Object service) {
+		((LogReaderService) context.getService(reference)).removeLogListener(this);
 		context.ungetService(reference);
 	}
 
-	public class LogLevelCommandListener implements CommandProvider
-	{
-		public void _vtplogging(CommandInterpreter ci)
-		{
+	public class LogLevelCommandListener implements CommandProvider {
+		public void _vtplogging(CommandInterpreter ci) {
 			String command = ci.nextArgument();
-			if(command == null)
-			{
+			if (command == null) {
 				ci.println("Usage: vtplogging getLevel");
 				ci.println("Usage: vtplogging setLevel level(ERROR | WARN | INFO | DEBUG)");
 				return;
 			}
-			if("getLevel".equalsIgnoreCase(command))
-			{
+			if ("getLevel".equalsIgnoreCase(command)) {
 				ci.println("Current Log Level: " + REPORT_LEVELS[activeLogLevel - 1]);
 				return;
 			}
 			String level = ci.nextArgument();
-			if(level == null || (!level.equalsIgnoreCase("ERROR") && !level.equalsIgnoreCase("WARN") && !level.equalsIgnoreCase("INFO") && !level.equalsIgnoreCase("DEBUG")))
-			{
+			if (level == null || (!level.equalsIgnoreCase("ERROR") && !level.equalsIgnoreCase("WARN")
+					&& !level.equalsIgnoreCase("INFO") && !level.equalsIgnoreCase("DEBUG"))) {
 				ci.println("Usage: vtplogging getLevel");
 				ci.println("Usage: vtplogging setLevel level(ERROR | WARN | INFO | DEBUG)");
 				return;
 			}
-			if("setLevel".equalsIgnoreCase(command))
-			{
+			if ("setLevel".equalsIgnoreCase(command)) {
 				System.setProperty("org.eclipse.vtp.loglevel", level);
 				return;
 			}
@@ -480,11 +421,11 @@ public class Activator extends AbstractReporter implements BundleActivator,
 			return;
 		}
 
-		public String getHelp()
-        {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
-		
+		public String getHelp() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 	}
+
 }

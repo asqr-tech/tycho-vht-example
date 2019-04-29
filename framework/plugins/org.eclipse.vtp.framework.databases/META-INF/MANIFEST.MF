@@ -11,3 +11,4 @@ Export-Package: org.eclipse.vtp.framework.databases,
  org.eclipse.vtp.framework.databases.configurations,
  org.eclipse.vtp.framework.databases.services
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.databases

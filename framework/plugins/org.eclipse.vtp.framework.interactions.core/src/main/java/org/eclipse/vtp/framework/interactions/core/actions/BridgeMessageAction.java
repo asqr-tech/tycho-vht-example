@@ -35,8 +35,8 @@ import org.eclipse.vtp.framework.interactions.core.conversation.IConversation;
  * 
  * @author Lonnie Pryor
  */
-public class BridgeMessageAction implements IAction
-{
+@SuppressWarnings("unused")
+public class BridgeMessageAction implements IAction {
 	/** The context to use. */
 	private final IActionContext context;
 	/** The conversation to use. */
@@ -52,15 +52,14 @@ public class BridgeMessageAction implements IAction
 	/**
 	 * Creates a new BranchMessageAction.
 	 * 
-	 * @param context The context to use.
-	 * @param conversation The conversation to use.
+	 * @param context       The context to use.
+	 * @param conversation  The conversation to use.
 	 * @param configuration The configuration to use.
 	 */
-	public BridgeMessageAction(IActionContext context,
-			IConversation conversation, BridgeMessageConfiguration configuration, IBrandSelection brandSelection,
- ILanguageSelection languageSelection, IInteractionTypeSelection interactionSelection, IVariableRegistry variableRegistry,
- IScriptingService scriptingService)
-	{
+	public BridgeMessageAction(IActionContext context, IConversation conversation,
+			BridgeMessageConfiguration configuration, IBrandSelection brandSelection,
+			ILanguageSelection languageSelection, IInteractionTypeSelection interactionSelection,
+			IVariableRegistry variableRegistry, IScriptingService scriptingService) {
 		this.context = context;
 		this.conversation = conversation;
 		this.configuration = configuration;
@@ -76,52 +75,47 @@ public class BridgeMessageAction implements IAction
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
-	public IActionResult execute()
-	{
+	public IActionResult execute() {
 		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
-		try
-		{
+		try {
 			MediaConfiguration mediaConfiguration = configuration.getMediaConfiguration();
-			if(context.isDebugEnabled()) context.debug(getClass().getName().substring(
-					getClass().getName().lastIndexOf('.') + 1));
+			if (context.isDebugEnabled())
+				context.debug(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
 			String result = context.getParameter(resultParameterName);
 			context.clearParameter(resultParameterName);
-			
-			PropertyConfiguration transferTypePropertyConfig = mediaConfiguration.getPropertyConfiguration("transferType");
+
+			PropertyConfiguration transferTypePropertyConfig = mediaConfiguration
+					.getPropertyConfiguration("transferType");
 			PropertyConfiguration typePropertyConfig = mediaConfiguration.getPropertyConfiguration("type");
-			PropertyConfiguration destinationPropertyConfig = mediaConfiguration.getPropertyConfiguration("destination");
-			
+			PropertyConfiguration destinationPropertyConfig = mediaConfiguration
+					.getPropertyConfiguration("destination");
+
 			String value = conversation.resolveProperty(destinationPropertyConfig, true, true);
-			if(value == null)
+			if (value == null)
 				value = conversation.resolveProperty(destinationPropertyConfig, true, false);
 			if (value == null)
 				return null;
 
 			String type = conversation.resolveProperty(typePropertyConfig, true, true);
-			if(type == null)
+			if (type == null)
 				type = conversation.resolveProperty(typePropertyConfig, true, false);
 			if ("variable".equalsIgnoreCase(type))
 				value = String.valueOf(variableRegistry.getVariable(value));
 			else if ("expression".equalsIgnoreCase(type))
-				value = String.valueOf(scriptingService.createScriptingEngine(
-				"JavaScript").execute(value));
-			
+				value = String.valueOf(scriptingService.createScriptingEngine("JavaScript").execute(value));
+
 			String transferType = conversation.resolveProperty(transferTypePropertyConfig, true, true);
-			if(transferType == null)
+			if (transferType == null)
 				transferType = conversation.resolveProperty(transferTypePropertyConfig, true, false);
-			
-			if (result != null)
-			{
-				if(context.isReportingEnabled())
-				{
-					Dictionary props = new Hashtable();
+
+			if (result != null) {
+				if (context.isReportingEnabled()) {
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "transfer.after");
 					props.put("transfer.destination", value);
 					props.put("transfer.type", transferType);
 					props.put("transfer.result", result);
-					context.report(IReporter.SEVERITY_INFO,
-							"Ended transfer to destination \"" + value
-							+ "\"", props);
+					context.report(IReporter.SEVERITY_INFO, "Ended transfer to destination \"" + value + "\"", props);
 				}
 				if (IBridgeMessage.TRANSFERRED.equals(result))
 					return context.createResult("Call Transfered");
@@ -148,21 +142,16 @@ public class BridgeMessageAction implements IAction
 				else
 					return context.createResult(result);
 			}
-			if(context.isReportingEnabled())
-			{
-				Dictionary props = new Hashtable();
+			if (context.isReportingEnabled()) {
+				Dictionary<String, String> props = new Hashtable<String, String>();
 				props.put("event", "transfer.before");
 				props.put("transfer.destination", value);
 				props.put("transfer.type", transferType);
-				context.report(IReporter.SEVERITY_INFO, "Transfering to destination \""
-						+ value + "\"", props);
+				context.report(IReporter.SEVERITY_INFO, "Transfering to destination \"" + value + "\"", props);
 			}
-			conversation.createBridgeMessage(configuration, resultParameterName)
-					.enqueue();
+			conversation.createBridgeMessage(configuration, resultParameterName).enqueue();
 			return context.createResult(IActionResult.RESULT_NAME_REPEAT);
-		}
-		catch (RuntimeException e)
-		{
+		} catch (RuntimeException e) {
 			return context.createResult("error.bridge.message", e); //$NON-NLS-1$
 		}
 	}

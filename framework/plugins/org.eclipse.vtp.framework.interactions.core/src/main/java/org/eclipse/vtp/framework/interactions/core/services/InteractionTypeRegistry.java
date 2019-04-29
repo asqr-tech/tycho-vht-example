@@ -30,7 +30,7 @@ import org.eclipse.vtp.framework.interactions.core.IInteractionTypeRegistry;
 public class InteractionTypeRegistry implements IInteractionTypeRegistry
 {
 	/** The interaction types by ID. */
-	private final Map interactionTypes;
+	private final Map<String, InteractionType> interactionTypes;
 
 	/**
 	 * Creates a new InteractionTypeRegistry.
@@ -42,7 +42,7 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry
 		IExtensionPoint point = registry.getExtensionPoint(//
 				"org.eclipse.vtp.framework.interactions.core.interactionTypes"); //$NON-NLS-1$
 		IExtension[] extensions = point.getExtensions();
-		Map interactionTypes = new HashMap(extensions.length);
+		Map<String, InteractionType> interactionTypes = new HashMap<String, InteractionType>(extensions.length);
 		for (int i = 0; i < extensions.length; ++i)
 		{
 			IConfigurationElement[] elements = extensions[i]
@@ -86,7 +86,7 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class InteractionType implements IInteractionType
+	public final class InteractionType implements IInteractionType
 	{
 		/** The ID of this interaction type. */
 		private final String id;

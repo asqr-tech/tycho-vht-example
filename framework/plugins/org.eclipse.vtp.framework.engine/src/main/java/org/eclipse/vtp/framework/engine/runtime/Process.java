@@ -91,7 +91,7 @@ public class Process extends Scope implements IProcess
 	 * @see org.eclipse.vtp.framework.engine.runtime.Scope#getServices(
 	 *      java.lang.String)
 	 */
-	protected Collection getServices(String identifier)
+	protected Collection<?> getServices(String identifier)
 	{
 		return blueprint.getProcessServices(identifier);
 	}
@@ -174,7 +174,7 @@ public class Process extends Scope implements IProcess
 		 *
 		 * @return The provided service identifiers.
 		 */
-		Set getProvidedServiceIdentifiers()
+		Set<?> getProvidedServiceIdentifiers()
 		{
 			return providedServiceIdentifiers;
 		}

@@ -11,3 +11,4 @@ Import-Package: org.mozilla.javascript
 Export-Package: org.eclipse.vtp.framework.javascript,
  org.eclipse.vtp.framework.javascript.services
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.scripting.rhino

@@ -336,6 +336,7 @@ public class StaticConfigurationAdmin
 	 * 
 	 * @param e The error to log.
 	 */
+	@SuppressWarnings("deprecation")
 	private void error(Exception e)
 	{
 		log.log(LogService.LOG_ERROR, e.getMessage(), e);

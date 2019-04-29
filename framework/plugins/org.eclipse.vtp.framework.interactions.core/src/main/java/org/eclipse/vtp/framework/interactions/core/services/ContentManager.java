@@ -33,45 +33,35 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class ContentManager implements IContentTypeRegistry, IContentFactory
-{
+public class ContentManager implements IContentTypeRegistry, IContentFactory {
 	/** The content types. */
-	private final Map contentTypes;
+	private final Map<String, ContentType> contentTypes;
 	/** The content type index. */
-	private final Map contentTypeIndex;
+	private final Map<?, ContentType> contentTypeIndex;
 
 	/**
 	 * Creates a new ContentManager.
 	 * 
 	 * @param registry The extension registry to load from.
 	 */
-	public ContentManager(IExtensionRegistry registry)
-	{
+	public ContentManager(IExtensionRegistry registry) {
 		IExtensionPoint point = registry.getExtensionPoint(//
 				"org.eclipse.vtp.framework.interactions.core.contenttypes"); //$NON-NLS-1$
 		IExtension[] extensions = point.getExtensions();
-		Map contentTypes = new HashMap(extensions.length);
-		Map contentTypeIndex = new HashMap(extensions.length);
-		for (int i = 0; i < extensions.length; ++i)
-		{
-			Bundle bundle = Platform.getBundle(extensions[i].getContributor()
-					.getName());
-			IConfigurationElement[] elements = extensions[i]
-					.getConfigurationElements();
-			for (int j = 0; j < elements.length; ++j)
-			{
-				try
-				{
-					ContentType contentType = new ContentType(elements[j]
-							.getAttribute("id"), //$NON-NLS-1$
+		Map<String, ContentType> contentTypes = new HashMap<String, ContentType>(extensions.length);
+		Map<Object, ContentType> contentTypeIndex = new HashMap<Object, ContentType>(extensions.length);
+		for (int i = 0; i < extensions.length; ++i) {
+			Bundle bundle = Platform.getBundle(extensions[i].getContributor().getName());
+			IConfigurationElement[] elements = extensions[i].getConfigurationElements();
+			for (int j = 0; j < elements.length; ++j) {
+				try {
+					ContentType contentType = new ContentType(elements[j].getAttribute("id"), //$NON-NLS-1$
 							elements[j].getAttribute("class"), //$NON-NLS-1$
 							bundle.loadClass(elements[j].getAttribute("class"))); //$NON-NLS-1$
 					contentTypes.put(contentType.getId(), contentType);
 					contentTypeIndex.put(elements[j].getAttribute("element-name") + //$NON-NLS-1$
 							elements[j].getAttribute("element-uri"), contentType); //$NON-NLS-1$
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
 				}
@@ -85,38 +75,33 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IContentTypeRegistry#getContentTypeIDs()
+	 * IContentTypeRegistry#getContentTypeIDs()
 	 */
-	public String[] getContentTypeIDs()
-	{
-		return (String[])contentTypes.keySet().toArray(
-				new String[contentTypes.size()]);
+	public String[] getContentTypeIDs() {
+		return (String[]) contentTypes.keySet().toArray(new String[contentTypes.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IContentTypeRegistry#getContentType(java.lang.String)
+	 * IContentTypeRegistry#getContentType(java.lang.String)
 	 */
-	public IContentType getContentType(String contentTypeID)
-	{
-		return (IContentType)contentTypes.get(contentTypeID);
+	public IContentType getContentType(String contentTypeID) {
+		return (IContentType) contentTypes.get(contentTypeID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.IContentFactory#
-	 *      loadContent(org.w3c.dom.Element)
+	 * loadContent(org.w3c.dom.Element)
 	 */
-	public Content loadContent(Element configuration)
-	{
+	public Content loadContent(Element configuration) {
 		if (configuration == null)
 			return null;
-		ContentType contentType = (ContentType)contentTypeIndex.get(configuration
-				.getLocalName()
-				+ configuration.getNamespaceURI());
+		ContentType contentType = (ContentType) contentTypeIndex
+				.get(configuration.getLocalName() + configuration.getNamespaceURI());
 		if (contentType == null)
 			return null;
 		return contentType.newInstance(configuration);
@@ -127,41 +112,31 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ContentType implements IContentType
-	{
+	public final class ContentType implements IContentType {
 		/** The ID of this content type. */
 		private final String id;
 		/** The name of this content type. */
 		private final String name;
 		/** The factory constructor to use. */
-		private final Constructor constructor;
+		private final Constructor<?> constructor;
 
 		/**
 		 * Creates a new ContentType.
 		 * 
-		 * @param id The ID of this content type.
-		 * @param name The name of this content type.
+		 * @param id           The ID of this content type.
+		 * @param name         The name of this content type.
 		 * @param contentClass The implementation type.
 		 */
-		ContentType(String id, String name, Class contentClass)
-		{
+		ContentType(String id, String name, Class<?> contentClass) {
 			this.id = id;
-			Constructor constructor = null;
+			Constructor<?> constructor = null;
 			this.name = name;
-			try
-			{
-				constructor = contentClass.getConstructor(new Class[] {
-						IContentFactory.class, Element.class });
-			}
-			catch (NoSuchMethodException e)
-			{
-				try
-				{
-					constructor = contentClass
-							.getConstructor(new Class[] { Element.class });
-				}
-				catch (NoSuchMethodException ex)
-				{
+			try {
+				constructor = contentClass.getConstructor(new Class[] { IContentFactory.class, Element.class });
+			} catch (NoSuchMethodException e) {
+				try {
+					constructor = contentClass.getConstructor(new Class[] { Element.class });
+				} catch (NoSuchMethodException ex) {
 					throw new IllegalStateException(ex);
 				}
 			}
@@ -174,19 +149,13 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory
 		 * @param configuration The configuration to read.
 		 * @return A new instance of this content type.
 		 */
-		Content newInstance(Element configuration)
-		{
-			try
-			{
+		Content newInstance(Element configuration) {
+			try {
 				if (constructor.getParameterTypes().length == 1)
-					return (Content)constructor
-							.newInstance(new Object[] { configuration });
+					return (Content) constructor.newInstance(new Object[] { configuration });
 				else
-					return (Content)constructor.newInstance(new Object[] {
-							ContentManager.this, configuration });
-			}
-			catch (Exception e)
-			{
+					return (Content) constructor.newInstance(new Object[] { ContentManager.this, configuration });
+			} catch (Exception e) {
 				throw new IllegalStateException(e);
 			}
 		}
@@ -194,11 +163,9 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType#
-		 *      getId()
+		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType# getId()
 		 */
-		public String getId()
-		{
+		public String getId() {
 			return id;
 		}
 
@@ -206,10 +173,9 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType#
-		 *      getName()
+		 * getName()
 		 */
-		public String getName()
-		{
+		public String getName() {
 			return name;
 		}
 	}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension
+		point="org.eclipse.vtp.desktop.media.core.mediaConfigurationScreens">
+		<media-config-screen
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.PlayPromptMediaScreen"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.playPrompt" />
+		<media-config-screen
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.QuestionMediaScreen"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.question" />
+		<media-config-screen
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.OptionSetMediaScreen"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.optionSet" />
+		<media-config-screen
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.RecordMediaScreen"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.record" />
+	</extension>
+	<extension point="org.eclipse.vtp.desktop.media.core.mediaDefaultPanel">
+		<media-default-panel
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.QuestionMediaDefaultsPanel"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.question">
+		</media-default-panel>
+		<media-default-panel
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.OptionSetMediaDefaultsPanel"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.optionSet">
+		</media-default-panel>
+		<media-default-panel
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.PlayPromptMediaDefaultsPanel"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.playPrompt">
+		</media-default-panel>
+		<media-default-panel
+			class="org.eclipse.vtp.desktop.media.voice.mediascreens.RecordMediaDefaultsPanel"
+			interaction-type="org.eclipse.vtp.framework.interactions.voice.interaction"
+			primitive-id="org.eclipse.vtp.modules.interactive.record">
+		</media-default-panel>
+	</extension>
+	<extension point="org.eclipse.vtp.desktop.media.core.contentCreatorPanels">
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.AudioContentCreatorPanel"
+			content-type="org.eclipse.vtp.framework.interactions.voice.media.content.audio" />
+	</extension>
+	<extension point="org.eclipse.vtp.desktop.media.core.inputCreatorPanels">
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.GrxmlGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.grxml"
+			input-type-name="GRXML File" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInBooleanGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.boolean"
+			input-type-name="BuiltIn:Boolean Grammar" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInDateGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.date"
+			input-type-name="BuiltIn:Date" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInDigitsGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.digits"
+			input-type-name="BuiltIn:Digits" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInCurrencyGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.currency"
+			input-type-name="BuiltIn:Currency" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInNumberGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.number"
+			input-type-name="BuiltIn:Number" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInPhoneGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.phone"
+			input-type-name="BuiltIn:Phone" />
+		<content-creator
+			class="org.eclipse.vtp.desktop.media.voice.creatorpanels.BuiltInTimeGrammarCreatorPanel"
+			input-type="org.eclipse.vtp.framework.interactions.voice.media.input.builtin.time"
+			input-type-name="BuiltIn:Time" />
+  <content-creator
+        class="org.eclipse.vtp.desktop.media.voice.creatorpanels.DynamicGrammarCreatorPanel"
+        input-type="org.eclipse.vtp.framework.interactions.voice.media.input.dynamic"
+        input-type-name="Dynamic Inline Grammar">
+  </content-creator>
+	</extension>
+
+</plugin>

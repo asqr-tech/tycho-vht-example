@@ -11,3 +11,4 @@ Export-Package: org.eclipse.vtp.framework.webservices.actions,
  org.eclipse.vtp.framework.webservices.configurations,
  org.eclipse.vtp.framework.webservices.configurations.document
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.webservices

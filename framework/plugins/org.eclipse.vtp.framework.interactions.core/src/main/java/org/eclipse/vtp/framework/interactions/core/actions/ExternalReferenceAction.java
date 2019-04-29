@@ -82,7 +82,7 @@ public class ExternalReferenceAction implements IAction
 				}
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "external.reference.after");
 					context.report(IReporter.SEVERITY_INFO,
 							"External reference complete.",
@@ -94,7 +94,7 @@ public class ExternalReferenceAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "error.disconnect.hangup");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got disconnect during interaction.", props);
@@ -109,7 +109,7 @@ public class ExternalReferenceAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "external.reference.before");
 					context.report(IReporter.SEVERITY_INFO,
 						"Invoking external reference \"" + configuration.getName() + "\".",

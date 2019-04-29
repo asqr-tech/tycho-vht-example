@@ -86,7 +86,7 @@ public class DataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "data.request.filled");
 					context.report(IReporter.SEVERITY_INFO, "Got requested data \""
 						+ context.getParameter(configuration.getDataName()) + "\"", props);
@@ -135,7 +135,7 @@ public class DataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "data.request.noinput");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got no input for requested data.", props);
@@ -146,7 +146,7 @@ public class DataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "data.request.filled");
 					context.report(IReporter.SEVERITY_INFO, "Got requested data \""
 						+ context.getParameter(configuration.getDataName()) + "\"", props);
@@ -158,7 +158,7 @@ public class DataRequestAction implements IAction
 				lastResult.clear();
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "error.disconnect.hangup");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got disconnect during interaction.", props);
@@ -169,7 +169,7 @@ public class DataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "data.request.nomatch");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got no match for requested data.", props);
@@ -215,7 +215,7 @@ public class DataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "data.request.before");
 					context.report(IReporter.SEVERITY_INFO, "Requesting data \""
 						+ configuration.getDataName() + "\".", props);

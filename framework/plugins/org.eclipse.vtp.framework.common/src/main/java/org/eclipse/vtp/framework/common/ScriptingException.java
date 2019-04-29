@@ -1,5 +1,6 @@
 package org.eclipse.vtp.framework.common;
 
+@SuppressWarnings("serial")
 public class ScriptingException extends RuntimeException
 {
 	private String title;

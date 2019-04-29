@@ -37,49 +37,45 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class Service extends Configurable
-{
+public class Service extends Configurable {
 	/** The descriptor this service is based on. */
 	private final ServiceDescriptor descriptor;
 	/** The identifiers of this service. */
-	private final Set identifiers;
+	private final Set<String> identifiers;
 
 	/**
 	 * Creates a new Service.
 	 * 
-	 * @param blueprint The blueprint of the process.
-	 * @param elements The configuration data or <code>null</code> for no
-	 *          configuration data.
+	 * @param blueprint  The blueprint of the process.
+	 * @param elements   The configuration data or <code>null</code> for no
+	 *                   configuration data.
 	 * @param descriptor
 	 * @throws NullPointerException If the supplied blueprint is <code>null</code>.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	public Service(Blueprint blueprint, Element[] configurations,
-			ServiceDescriptor descriptor) throws NullPointerException
-	{
+	@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
+	public Service(Blueprint blueprint, Element[] configurations, ServiceDescriptor descriptor)
+			throws NullPointerException {
 		super(blueprint, descriptor.getType(), configurations);
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
 		this.descriptor = descriptor;
-		Set identifiers = new HashSet();
+		Set<String> identifiers = new HashSet<String>();
 		identifiers.add(descriptor.getId());
-		Set typeHierarchy = new HashSet();
+		Set typeHierarchy = new HashSet<Object>();
 		RuntimeUtils.listTypeHierarchy(descriptor.getType(), typeHierarchy);
 		typeHierarchy.remove(Object.class);
-		for (Iterator i = typeHierarchy.iterator(); i.hasNext();)
-			identifiers.add(((Class)i.next()).getName());
+		for (Iterator<?> i = typeHierarchy.iterator(); i.hasNext();)
+			identifiers.add(((Class<?>) i.next()).getName());
 		int identifierCount = descriptor.getIdentifierCount();
-		for (int i = 0; i < identifierCount; ++i)
-		{
+		for (int i = 0; i < identifierCount; ++i) {
 			IdentifierDescriptor identifier = descriptor.getIdentifier(i);
 			identifiers.add(identifier.getName());
 			int qualifierCount = identifier.getQualifierCount();
 			for (int j = 0; j < qualifierCount; ++j)
-				identifiers.add(RuntimeUtils.getQualifiedIdentifier(identifier
-						.getName(), identifier.getQualifier(j)));
+				identifiers.add(RuntimeUtils.getQualifiedIdentifier(identifier.getName(), identifier.getQualifier(j)));
 		}
-		this.identifiers = Collections.unmodifiableSet(new HashSet(identifiers));
+		this.identifiers = Collections.unmodifiableSet(new HashSet<String>(identifiers));
 	}
 
 	/**
@@ -87,8 +83,7 @@ public class Service extends Configurable
 	 * 
 	 * @return The ID of the descriptor this service is based on.
 	 */
-	public String getDescriptorID()
-	{
+	public String getDescriptorID() {
 		return descriptor.getId();
 	}
 
@@ -97,41 +92,33 @@ public class Service extends Configurable
 	 * 
 	 * @return The identifiers of this service.
 	 */
-	public Set getIdentifiers()
-	{
+	public Set<String> getIdentifiers() {
 		return identifiers;
 	}
 
 	/**
 	 * Looks up a service with the specified identifier in the supplied scope or
-	 * <code>null</code> if said identifier is also present on this service or
-	 * no such service exists.
+	 * <code>null</code> if said identifier is also present on this service or no
+	 * such service exists.
 	 * 
 	 * @param identifier The identifier of the service to look up.
-	 * @param scope The scope to search for a sibling service in.
+	 * @param scope      The scope to search for a sibling service in.
 	 * @return A service with the specified identifier in the supplied scope or
-	 *         <code>null</code> if said identifier is also present on this
-	 *         service or no such service exists.
+	 *         <code>null</code> if said identifier is also present on this service
+	 *         or no such service exists.
 	 */
-	protected Object lookupSiblingService(String identifier, Scope scope)
-	{
-		if (scope instanceof Process)
-		{
-			Process process = (Process)scope;
+	protected Object lookupSiblingService(String identifier, Scope scope) {
+		if (scope instanceof Process) {
+			Process process = (Process) scope;
 			if (process.context.getProvidedServiceIdentifiers().contains(identifier))
 				return process.context.getDescriptor().getService(identifier);
-		}
-		else if (scope instanceof Session)
-		{
-			Session session = (Session)scope;
+		} else if (scope instanceof Session) {
+			Session session = (Session) scope;
 			if (session.context.getProvidedServiceIdentifiers().contains(identifier))
 				return session.context.getDescriptor().getService(identifier);
-		}
-		else if (scope instanceof Execution)
-		{
-			Execution execution = (Execution)scope;
-			if (execution.context.getProvidedServiceIdentifiers()
-					.contains(identifier))
+		} else if (scope instanceof Execution) {
+			Execution execution = (Execution) scope;
+			if (execution.context.getProvidedServiceIdentifiers().contains(identifier))
 				return execution.context.getDescriptor().getService(identifier);
 		}
 		if (identifiers.contains(identifier))
@@ -140,40 +127,32 @@ public class Service extends Configurable
 	}
 
 	/**
-	 * Looks up all services with the specified identifier in the supplied scope
-	 * or <code>null</code> if said identifier is also present on this service
-	 * or no such service exists.
+	 * Looks up all services with the specified identifier in the supplied scope or
+	 * <code>null</code> if said identifier is also present on this service or no
+	 * such service exists.
 	 * 
 	 * @param identifier The identifier of the services to look up.
-	 * @param scope The scope to search for sibling services in.
+	 * @param scope      The scope to search for sibling services in.
 	 * @return All services with the specified identifier in the supplied scope or
-	 *         <code>null</code> if said identifier is also present on this
-	 *         service or no such service exists.
+	 *         <code>null</code> if said identifier is also present on this service
+	 *         or no such service exists.
 	 */
-	protected Object[] lookupAllSiblingServices(String identifier, Scope scope)
-	{
-		List results = new LinkedList();
-		if (scope instanceof Process)
-		{
-			Process process = (Process)scope;
+	protected Object[] lookupAllSiblingServices(String identifier, Scope scope) {
+		List<Object> results = new LinkedList<Object>();
+		if (scope instanceof Process) {
+			Process process = (Process) scope;
 			if (process.context.getProvidedServiceIdentifiers().contains(identifier))
 				results.add(process.context.getDescriptor().getService(identifier));
-		}
-		else if (scope instanceof Session)
-		{
-			Session session = (Session)scope;
+		} else if (scope instanceof Session) {
+			Session session = (Session) scope;
 			if (session.context.getProvidedServiceIdentifiers().contains(identifier))
 				results.add(session.context.getDescriptor().getService(identifier));
-		}
-		else if (scope instanceof Execution)
-		{
-			Execution execution = (Execution)scope;
-			if (execution.context.getProvidedServiceIdentifiers()
-					.contains(identifier))
+		} else if (scope instanceof Execution) {
+			Execution execution = (Execution) scope;
+			if (execution.context.getProvidedServiceIdentifiers().contains(identifier))
 				results.add(execution.context.getDescriptor().getService(identifier));
 		}
-		if (!identifiers.contains(identifier))
-		{
+		if (!identifiers.contains(identifier)) {
 			Object[] services = scope.lookupAllInScope(identifier);
 			if (services != null)
 				for (int i = 0; i < services.length; ++i)
@@ -186,10 +165,9 @@ public class Service extends Configurable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Configurable#
-	 *      getComponentType()
+	 * getComponentType()
 	 */
-	protected Class getComponentType()
-	{
+	protected Class<?> getComponentType() {
 		return descriptor.getType();
 	}
 
@@ -197,18 +175,17 @@ public class Service extends Configurable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Configurable#
-	 *      createServiceRegistry(org.eclipse.vtp.framework.engine.runtime.Scope)
+	 * createServiceRegistry(org.eclipse.vtp.framework.engine.runtime.Scope)
 	 */
-	protected IContext createServiceRegistry(Scope scope)
-	{
+	protected IContext createServiceRegistry(Scope scope) {
 		if (scope instanceof Process)
-			return new ProcessContext((Process)scope);
+			return new ProcessContext((Process) scope);
 		if (scope instanceof Session)
-			return new SessionContext((Session)scope);
+			return new SessionContext((Session) scope);
 		if (scope instanceof Execution)
-			return new ExecutionContext((Execution)scope);
+			return new ExecutionContext((Execution) scope);
 		if (scope instanceof Sequence)
-			return new ActionContext((Sequence)scope);
+			return new ActionContext((Sequence) scope);
 		return null;
 	}
 
@@ -216,11 +193,9 @@ public class Service extends Configurable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.engine.runtime.Configurable#getInstance(
-	 *      org.eclipse.vtp.framework.engine.runtime.Scope)
+	 * org.eclipse.vtp.framework.engine.runtime.Scope)
 	 */
-	public Object getInstance(Scope scope) throws IllegalStateException,
-			NullPointerException
-	{
+	public Object getInstance(Scope scope) throws IllegalStateException, NullPointerException {
 		return scope.getServiceInstance(this);
 	}
 
@@ -229,8 +204,7 @@ public class Service extends Configurable
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ProcessContext extends ProcessContextWrapper
-	{
+	private final class ProcessContext extends ProcessContextWrapper {
 		/** The process this context represents. */
 		final Process process;
 
@@ -240,8 +214,7 @@ public class Service extends Configurable
 		 * @param process The process this context represents.
 		 * @throws NullPointerException If the supplied process is <code>null</code>.
 		 */
-		ProcessContext(Process process) throws NullPointerException
-		{
+		ProcessContext(Process process) throws NullPointerException {
 			this.process = process;
 		}
 
@@ -249,10 +222,9 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupService(java.lang.String)
+		 * lookupService(java.lang.String)
 		 */
-		public Object lookup(String identifier) throws NullPointerException
-		{
+		public Object lookup(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
@@ -267,15 +239,14 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupAllServices(java.lang.String)
+		 * lookupAllServices(java.lang.String)
 		 */
-		public Object[] lookupAll(String identifier) throws NullPointerException
-		{
+		public Object[] lookupAll(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
 				return new Object[] { this };
-			List results = new LinkedList();
+			List<Object> results = new LinkedList<Object>();
 			Object[] configs = lookupAllConfigurations(identifier, this);
 			if (configs != null)
 				for (int i = 0; i < configs.length; ++i)
@@ -291,10 +262,9 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ProcessContextWrapper#
-		 *      getProcessContext()
+		 * getProcessContext()
 		 */
-		protected IProcessContext getProcessContext()
-		{
+		protected IProcessContext getProcessContext() {
 			return process.context;
 		}
 	}
@@ -304,8 +274,7 @@ public class Service extends Configurable
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class SessionContext extends SessionContextWrapper
-	{
+	private final class SessionContext extends SessionContextWrapper {
 		/** The session this context represents. */
 		final Session session;
 
@@ -315,8 +284,7 @@ public class Service extends Configurable
 		 * @param session The session this context represents.
 		 * @throws NullPointerException If the supplied session is <code>null</code>.
 		 */
-		SessionContext(Session session) throws NullPointerException
-		{
+		SessionContext(Session session) throws NullPointerException {
 			this.session = session;
 		}
 
@@ -324,17 +292,15 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupService(java.lang.String)
+		 * lookupService(java.lang.String)
 		 */
-		public Object lookup(String identifier) throws NullPointerException
-		{
+		public Object lookup(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
 				return this;
 			Object config = lookupConfiguration(identifier, this);
-			if (config == null)
-			{
+			if (config == null) {
 				Object service = lookupSiblingService(identifier, session);
 				if (service == null)
 					return session.process.context.lookup(identifier);
@@ -347,15 +313,14 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupAllServices(java.lang.String)
+		 * lookupAllServices(java.lang.String)
 		 */
-		public Object[] lookupAll(String identifier) throws NullPointerException
-		{
+		public Object[] lookupAll(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
 				return new Object[] { this };
-			List results = new LinkedList();
+			List<Object> results = new LinkedList<Object>();
 			Object[] configs = lookupAllConfigurations(identifier, this);
 			if (configs != null)
 				for (int i = 0; i < configs.length; ++i)
@@ -375,10 +340,9 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.SessionContextWrapper#
-		 *      getSessionContext()
+		 * getSessionContext()
 		 */
-		protected ISessionContext getSessionContext()
-		{
+		protected ISessionContext getSessionContext() {
 			return session.context;
 		}
 	}
@@ -388,8 +352,7 @@ public class Service extends Configurable
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ExecutionContext extends ExecutionContextWrapper
-	{
+	private final class ExecutionContext extends ExecutionContextWrapper {
 		/** The execution this context represents. */
 		final Execution execution;
 
@@ -397,11 +360,9 @@ public class Service extends Configurable
 		 * Creates a new ExecutionContext.
 		 * 
 		 * @param execution The execution this context represents.
-		 * @throws NullPointerException If the supplied execution is
-		 *           <code>null</code>.
+		 * @throws NullPointerException If the supplied execution is <code>null</code>.
 		 */
-		ExecutionContext(Execution execution) throws NullPointerException
-		{
+		ExecutionContext(Execution execution) throws NullPointerException {
 			this.execution = execution;
 		}
 
@@ -409,10 +370,9 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupService(java.lang.String)
+		 * lookupService(java.lang.String)
 		 */
-		public Object lookup(String identifier) throws NullPointerException
-		{
+		public Object lookup(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
@@ -420,8 +380,7 @@ public class Service extends Configurable
 			if (ICommandProcessor.class.getName().equals(identifier))
 				return execution.context;
 			Object config = lookupConfiguration(identifier, this);
-			if (config == null)
-			{
+			if (config == null) {
 				Object service = lookupSiblingService(identifier, execution);
 				if (service == null)
 					return execution.session.context.lookup(identifier);
@@ -434,15 +393,14 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupAllServices(java.lang.String)
+		 * lookupAllServices(java.lang.String)
 		 */
-		public Object[] lookupAll(String identifier) throws NullPointerException
-		{
+		public Object[] lookupAll(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
 				return new Object[] { this };
-			List results = new LinkedList();
+			List<Object> results = new LinkedList<Object>();
 			Object[] configs = lookupAllConfigurations(identifier, this);
 			if (configs != null)
 				for (int i = 0; i < configs.length; ++i)
@@ -462,10 +420,9 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ExecutionContextWrapper#
-		 *      getExecutionContext()
+		 * getExecutionContext()
 		 */
-		protected IExecutionContext getExecutionContext()
-		{
+		protected IExecutionContext getExecutionContext() {
 			return execution.context;
 		}
 	}
@@ -475,8 +432,7 @@ public class Service extends Configurable
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ActionContext extends ActionContextWrapper
-	{
+	private final class ActionContext extends ActionContextWrapper {
 		/** The sequence this context represents. */
 		final Sequence sequence;
 
@@ -484,11 +440,9 @@ public class Service extends Configurable
 		 * Creates a new ActionContext.
 		 * 
 		 * @param sequence The sequence this context represents.
-		 * @throws NullPointerException If the supplied sequence is
-		 *           <code>null</code>.
+		 * @throws NullPointerException If the supplied sequence is <code>null</code>.
 		 */
-		ActionContext(Sequence sequence) throws NullPointerException
-		{
+		ActionContext(Sequence sequence) throws NullPointerException {
 			this.sequence = sequence;
 		}
 
@@ -496,17 +450,15 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupService(java.lang.String)
+		 * lookupService(java.lang.String)
 		 */
-		public Object lookup(String identifier) throws NullPointerException
-		{
+		public Object lookup(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
 				return this;
 			Object config = lookupConfiguration(identifier, this);
-			if (config == null)
-			{
+			if (config == null) {
 				Object service = lookupSiblingService(identifier, sequence);
 				if (service == null)
 					return sequence.execution.context.lookup(identifier);
@@ -519,15 +471,14 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      lookupAllServices(java.lang.String)
+		 * lookupAllServices(java.lang.String)
 		 */
-		public Object[] lookupAll(String identifier) throws NullPointerException
-		{
+		public Object[] lookupAll(String identifier) throws NullPointerException {
 			if (identifier == null)
 				throw new NullPointerException("identifier"); //$NON-NLS-1$
 			if (isReservedIdentifier(identifier))
 				return new Object[] { this };
-			List results = new LinkedList();
+			List<Object> results = new LinkedList<Object>();
 			Object[] configs = lookupAllConfigurations(identifier, this);
 			if (configs != null)
 				for (int i = 0; i < configs.length; ++i)
@@ -547,10 +498,9 @@ public class Service extends Configurable
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.spi.support.ActionContextWrapper#
-		 *      getActionContext()
+		 * getActionContext()
 		 */
-		protected IActionContext getActionContext()
-		{
+		protected IActionContext getActionContext() {
 			return sequence.context;
 		}
 	}

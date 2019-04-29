@@ -23,7 +23,7 @@ public final class ObserverDescriptor
 	/** The name of this service. */
 	private final String name;
 	/** The type of this service. */
-	private final Class type;
+	private final Class<?> type;
 	/** True if this observer is blocking. */
 	private final boolean blocking;
 
@@ -46,7 +46,7 @@ public final class ObserverDescriptor
 	 * @throws NullPointerException If the supplied event is <code>null</code>.
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	public ObserverDescriptor(String id, String name, Class type, boolean blocking)
+	public ObserverDescriptor(String id, String name, Class<?> type, boolean blocking)
 			throws IllegalArgumentException, NullPointerException
 	{
 		if (id == null)
@@ -92,7 +92,7 @@ public final class ObserverDescriptor
 	 * 
 	 * @return The type of this service.
 	 */
-	public Class getType()
+	public Class<?> getType()
 	{
 		return type;
 	}

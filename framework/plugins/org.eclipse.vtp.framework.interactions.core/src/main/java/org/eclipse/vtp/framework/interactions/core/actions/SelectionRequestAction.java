@@ -89,7 +89,7 @@ public class SelectionRequestAction implements IAction
 				String value = context.getParameter(configuration.getDataName());
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "selection.request.filled");
 					props.put("event.key", "selection");
 					props.put("event.value", value);
@@ -133,7 +133,7 @@ public class SelectionRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "selection.request.noinput");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got no input for requested selection.", props);
@@ -144,7 +144,7 @@ public class SelectionRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "selection.request.nomatch");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got no match for requested selection.", props);
@@ -179,7 +179,7 @@ public class SelectionRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "error.disconnect.hangup");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got disconnect during interaction.", props);
@@ -194,7 +194,7 @@ public class SelectionRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "selection.request.before");
 					context.report(IReporter.SEVERITY_INFO, "Requesting selection \""
 						+ configuration.getDataName() + "\".", props);

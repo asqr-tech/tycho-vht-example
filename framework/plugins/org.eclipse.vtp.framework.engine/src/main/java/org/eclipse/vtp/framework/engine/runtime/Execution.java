@@ -41,7 +41,7 @@ public class Execution extends Scope implements IExecution
 	/** The generic context implementation. */
 	protected final Context context;
 	/** The command queue. */
-	private LinkedList commandQueue = new LinkedList();
+	private LinkedList<ICommand> commandQueue = new LinkedList<ICommand>();
 	/** The current sequence. */
 	private Sequence current = null;
 
@@ -90,7 +90,7 @@ public class Execution extends Scope implements IExecution
 	 * @see org.eclipse.vtp.framework.engine.runtime.Scope#getServices(
 	 *      java.lang.String)
 	 */
-	protected Collection getServices(String identifier)
+	protected Collection<?> getServices(String identifier)
 	{
 		return session.process.blueprint.getExecutionServices(identifier);
 	}
@@ -238,11 +238,11 @@ public class Execution extends Scope implements IExecution
 	{
 		if (commandQueue == null)
 			return;
-		LinkedList commandQueue = this.commandQueue;
+		LinkedList<ICommand> commandQueue = this.commandQueue;
 		this.commandQueue = null;
 		Object[] array = new Object[commandQueue.size() * 2];
 		int i = 0;
-		for (Iterator j = commandQueue.iterator(); j.hasNext(); i += 2)
+		for (Iterator<ICommand> j = commandQueue.iterator(); j.hasNext(); i += 2)
 		{
 			ICommand command = (ICommand)j.next();
 			array[i] = command.getClass().getName();
@@ -285,7 +285,7 @@ public class Execution extends Scope implements IExecution
 		 *
 		 * @return The provided service identifiers.
 		 */
-		Set getProvidedServiceIdentifiers()
+		Set<?> getProvidedServiceIdentifiers()
 		{
 			return providedServiceIdentifiers;
 		}

@@ -50,7 +50,7 @@ public final class IdentifierDescriptor
 		if (qualifiers == null)
 			throw new NullPointerException("qualifiers"); //$NON-NLS-1$
 		this.name = name;
-		Set set = new HashSet();
+		Set<String> set = new HashSet<String>();
 		for (int i = 0; i < qualifiers.length; ++i)
 		{
 			if (qualifiers[i] == null)

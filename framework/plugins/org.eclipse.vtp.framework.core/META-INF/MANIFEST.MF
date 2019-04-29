@@ -7,3 +7,4 @@ Bundle-Vendor: Eclipse.org
 Import-Package: org.w3c.dom
 Export-Package: org.eclipse.vtp.framework.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.core

@@ -28,48 +28,45 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class Configuration extends Component
-{
+@SuppressWarnings({ "unchecked", "unused", "rawtypes" })
+public class Configuration extends Component {
 	/** The data this configuration is bound to. */
 	private Element data;
 	private IConfiguration instance;
 	/** The identifiers of this configuration. */
-	private final Set identifiers;
+	private final Set<String> identifiers;
 
 	/**
 	 * Creates a new Configuration.
 	 * 
-	 * @param blueprint The blueprint of the process.
+	 * @param blueprint  The blueprint of the process.
 	 * @param descriptor The descriptor of this configuration.
-	 * @param data The data this configuration is bound to.
+	 * @param data       The data this configuration is bound to.
 	 * @throws NullPointerException If the supplied blueprint is <code>null</code>.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 * @throws NullPointerException If the supplied data is <code>null</code>.
 	 */
-	public Configuration(Blueprint blueprint, ConfigurationDescriptor descriptor,
-			Element data) throws NullPointerException
-	{
+
+	public Configuration(Blueprint blueprint, ConfigurationDescriptor descriptor, Element data)
+			throws NullPointerException {
 		super(blueprint, descriptor.getType());
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
 		if (data == null)
 			throw new NullPointerException("data"); //$NON-NLS-1$
 		this.data = data;
-		Set typeHierarchy = new HashSet();
+		Set typeHierarchy = new HashSet<Object>();
 		RuntimeUtils.listTypeHierarchy(descriptor.getType(), typeHierarchy);
 		typeHierarchy.remove(Object.class);
-		Set identifiers = new HashSet(2 + typeHierarchy.size() * 2);
+		Set<String> identifiers = new HashSet<String>(2 + typeHierarchy.size() * 2);
 		identifiers.add(descriptor.getId());
-		String xmlIdentifier = RuntimeUtils.getQualifiedIdentifier(descriptor
-				.getXmlTag(), descriptor.getXmlNamespace());
+		String xmlIdentifier = RuntimeUtils.getQualifiedIdentifier(descriptor.getXmlTag(),
+				descriptor.getXmlNamespace());
 		identifiers.add(xmlIdentifier);
-		for (Iterator i = typeHierarchy.iterator(); i.hasNext();)
-		{
-			String typeName = ((Class)i.next()).getName();
+		for (Iterator<?> i = typeHierarchy.iterator(); i.hasNext();) {
+			String typeName = ((Class<?>) i.next()).getName();
 			identifiers.add(typeName);
-			identifiers.add(RuntimeUtils.getQualifiedIdentifier(typeName,
-					xmlIdentifier));
+			identifiers.add(RuntimeUtils.getQualifiedIdentifier(typeName, xmlIdentifier));
 		}
 		this.identifiers = Collections.unmodifiableSet(identifiers);
 	}
@@ -79,54 +76,45 @@ public class Configuration extends Component
 	 * 
 	 * @return The identifiers of this configuration.
 	 */
-	public Set getIdentifiers()
-	{
+	public Set<String> getIdentifiers() {
 		return identifiers;
 	}
 
-	public void solidify(final IContext serviceRegistry)
-	{
-		if(instance != null)
+	public void solidify(final IContext serviceRegistry) {
+		if (instance != null)
 			return;
 		if (serviceRegistry == null)
 			throw new NullPointerException("serviceRegistry"); //$NON-NLS-1$
-		Builder builder = new Builder()
-		{
-			protected Constructor[] getConstructors()
-			{
+		Builder builder = new Builder() {
+			protected Constructor[] getConstructors() {
 				return constructors;
 			}
 
-			protected Method[] getMutators()
-			{
+			protected Method[] getMutators() {
 				return mutators;
 			}
 
-			protected IContext createServiceRegistry()
-			{
+			protected IContext createServiceRegistry() {
 				return serviceRegistry;
 			}
 		};
-		instance = (IConfiguration)builder.create();
-		if (instance != null)
-		{
+		instance = (IConfiguration) builder.create();
+		if (instance != null) {
 			builder.configure();
 			instance.load(data);
 		}
 		data = null;
 	}
-	
+
 	/**
 	 * Creates a new instance of the configuration component.
 	 * 
 	 * @param serviceRegistry The inherited service registry to use.
 	 * @return A new instance of the configuration component.
 	 * @throws NullPointerException If the supplied service registry is
-	 *           <code>null</code>.
+	 *                              <code>null</code>.
 	 */
-	public Object createInstance(final IContext serviceRegistry)
-			throws NullPointerException
-	{
-			return instance;
+	public Object createInstance(final IContext serviceRegistry) throws NullPointerException {
+		return instance;
 	}
 }

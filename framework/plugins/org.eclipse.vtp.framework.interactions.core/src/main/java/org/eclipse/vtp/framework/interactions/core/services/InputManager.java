@@ -31,44 +31,35 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class InputManager implements IInputGrammarFactory
-{
+public class InputManager implements IInputGrammarFactory {
 	/** The input types. */
 	// private final Map inputTypes;
 	/** The input type index. */
-	private final Map inputTypeIndex;
+	private final Map<?, InputType> inputTypeIndex;
 
 	/**
 	 * Creates a new InputManager.
 	 * 
 	 * @param registry The extension registry to load from.
 	 */
-	public InputManager(IExtensionRegistry registry)
-	{
+	public InputManager(IExtensionRegistry registry) {
 		IExtensionPoint point = registry.getExtensionPoint(//
 				"org.eclipse.vtp.framework.interactions.core.inputtypes"); //$NON-NLS-1$
 		IExtension[] extensions = point.getExtensions();
 		// Map inputTypes = new HashMap(extensions.length);
-		Map inputTypeIndex = new HashMap(extensions.length);
-		for (int i = 0; i < extensions.length; ++i)
-		{
-			Bundle bundle = Platform.getBundle(extensions[i].getContributor()
-					.getName());
-			IConfigurationElement[] elements = extensions[i]
-					.getConfigurationElements();
-			for (int j = 0; j < elements.length; ++j)
-			{
-				try
-				{
+		Map<Object, InputType> inputTypeIndex = new HashMap<Object, InputType>(extensions.length);
+		for (int i = 0; i < extensions.length; ++i) {
+			Bundle bundle = Platform.getBundle(extensions[i].getContributor().getName());
+			IConfigurationElement[] elements = extensions[i].getConfigurationElements();
+			for (int j = 0; j < elements.length; ++j) {
+				try {
 					InputType inputType = new InputType(elements[j].getAttribute("id"), //$NON-NLS-1$
 							elements[j].getAttribute("class"), //$NON-NLS-1$
 							bundle.loadClass(elements[j].getAttribute("class"))); //$NON-NLS-1$
 					// inputTypes.put(inputType.getId(), inputType);
 					inputTypeIndex.put(elements[j].getAttribute("element-name") + //$NON-NLS-1$
 							elements[j].getAttribute("element-uri"), inputType); //$NON-NLS-1$
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
 				}
@@ -82,15 +73,13 @@ public class InputManager implements IInputGrammarFactory
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IInputGrammarFactory#loadInput(org.w3c.dom.Element)
+	 * IInputGrammarFactory#loadInput(org.w3c.dom.Element)
 	 */
-	public InputGrammar loadInput(Element configuration)
-	{
+	public InputGrammar loadInput(Element configuration) {
 		if (configuration == null)
 			return null;
-		InputType inputType = (InputType)inputTypeIndex.get(configuration
-				.getLocalName()
-				+ configuration.getNamespaceURI());
+		InputType inputType = (InputType) inputTypeIndex
+				.get(configuration.getLocalName() + configuration.getNamespaceURI());
 		if (inputType == null)
 			return null;
 		return inputType.newInstance(configuration);
@@ -101,41 +90,31 @@ public class InputManager implements IInputGrammarFactory
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class InputType
-	{
+	public final class InputType {
 		/** The ID of this input type. */
 		private final String id;
 		/** The name of this input type. */
 		private final String name;
 		/** The factory constructor to use. */
-		private final Constructor constructor;
+		private final Constructor<?> constructor;
 
 		/**
 		 * Creates a new InputType.
 		 * 
-		 * @param id The ID of this input type.
-		 * @param name The name of this input type.
+		 * @param id           The ID of this input type.
+		 * @param name         The name of this input type.
 		 * @param contentClass The implementation type.
 		 */
-		InputType(String id, String name, Class contentClass)
-		{
+		InputType(String id, String name, Class<?> contentClass) {
 			this.id = id;
-			Constructor constructor = null;
+			Constructor<?> constructor = null;
 			this.name = name;
-			try
-			{
-				constructor = contentClass.getConstructor(new Class[] {
-						IInputGrammarFactory.class, Element.class });
-			}
-			catch (NoSuchMethodException e)
-			{
-				try
-				{
-					constructor = contentClass
-							.getConstructor(new Class[] { Element.class });
-				}
-				catch (NoSuchMethodException ex)
-				{
+			try {
+				constructor = contentClass.getConstructor(new Class[] { IInputGrammarFactory.class, Element.class });
+			} catch (NoSuchMethodException e) {
+				try {
+					constructor = contentClass.getConstructor(new Class[] { Element.class });
+				} catch (NoSuchMethodException ex) {
 					throw new IllegalStateException(ex);
 				}
 			}
@@ -148,30 +127,22 @@ public class InputManager implements IInputGrammarFactory
 		 * @param configuration The configuration to read.
 		 * @return A new instance of this content type.
 		 */
-		InputGrammar newInstance(Element configuration)
-		{
-			try
-			{
+		InputGrammar newInstance(Element configuration) {
+			try {
 				if (constructor.getParameterTypes().length == 1)
-					return (InputGrammar)constructor
-							.newInstance(new Object[] { configuration });
+					return (InputGrammar) constructor.newInstance(new Object[] { configuration });
 				else
-					return (InputGrammar)constructor.newInstance(new Object[] {
-							InputManager.this, configuration });
-			}
-			catch (Exception e)
-			{
+					return (InputGrammar) constructor.newInstance(new Object[] { InputManager.this, configuration });
+			} catch (Exception e) {
 				throw new IllegalStateException(e);
 			}
 		}
 
-		public String getId()
-		{
+		public String getId() {
 			return id;
 		}
 
-		public String getName()
-		{
+		public String getName() {
 			return name;
 		}
 	}

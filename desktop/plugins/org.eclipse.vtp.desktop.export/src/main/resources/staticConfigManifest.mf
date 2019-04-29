@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Static Configuration Fragment
+Bundle-SymbolicName: static.configuration
+Bundle-Version: 0.0.0
+Fragment-Host: org.eclipse.vtp.framework.engine

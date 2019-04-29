@@ -29,11 +29,11 @@ import java.util.Map;
 public abstract class Scope
 {
 	/** The implicit service index. */
-	private final Map implicitServices = new HashMap();
+	private final Map<String, List<Object>> implicitServices = new HashMap<String, List<Object>>();
 	/** The declared service index. */
-	private final Map declaredServices = new HashMap();
+	private final Map<String, Object> declaredServices = new HashMap<String, Object>();
 	/** The current queue of builders to configure. */
-	private List builderQueue = null;
+	private List<Builder> builderQueue = null;
 
 	/**
 	 * Creates a new Scope.
@@ -49,11 +49,11 @@ public abstract class Scope
 
 	protected Object lookupInScope(String identifier)
 	{
-		Collection implicitServices = (Collection)this.implicitServices
+		Collection<?> implicitServices = (Collection<?>)this.implicitServices
 				.get(identifier);
 		if (implicitServices != null && !implicitServices.isEmpty())
 			return implicitServices.iterator().next();
-		Collection declaredServices = getServices(identifier);
+		Collection<?> declaredServices = getServices(identifier);
 		if (declaredServices != null && !declaredServices.isEmpty())
 			return ((Service)declaredServices.iterator().next()).getInstance(this);
 		return null;
@@ -61,17 +61,17 @@ public abstract class Scope
 
 	protected Object[] lookupAllInScope(String identifier)
 	{
-		Collection implicitServices = (Collection)this.implicitServices
+		Collection<?> implicitServices = (Collection<?>)this.implicitServices
 				.get(identifier);
-		Collection declaredServices = getServices(identifier);
-		List results = new ArrayList((implicitServices == null ? 0
+		Collection<?> declaredServices = getServices(identifier);
+		List<Object> results = new ArrayList<Object>((implicitServices == null ? 0
 				: implicitServices.size())
 				+ (declaredServices == null ? 0 : declaredServices.size()));
 		if (implicitServices != null && !implicitServices.isEmpty())
 			results.addAll(implicitServices);
 		if (declaredServices != null && !declaredServices.isEmpty())
 		{
-			for (Iterator i = declaredServices.iterator(); i.hasNext();)
+			for (Iterator<?> i = declaredServices.iterator(); i.hasNext();)
 			{
 				Object instance = ((Service)i.next()).getInstance(this);
 				if (instance != null)
@@ -94,7 +94,7 @@ public abstract class Scope
 				try
 				{
 					if (flushBuilders)
-						builderQueue = new LinkedList();
+						builderQueue = new LinkedList<Builder>();
 					Builder builder = service.createBuilder(this);
 					if ((instance = builder.create()) != null)
 					{
@@ -103,10 +103,10 @@ public abstract class Scope
 					}
 					if (flushBuilders)
 					{
-						List builders = builderQueue;
+						List<Builder> builders = builderQueue;
 						builderQueue = null;
 						RuntimeException re = null;
-						for (Iterator i = builders.iterator(); i.hasNext();)
+						for (Iterator<Builder> i = builders.iterator(); i.hasNext();)
 						{
 							try
 							{
@@ -134,5 +134,5 @@ public abstract class Scope
 		}
 	}
 
-	protected abstract Collection getServices(String identifier);
+	protected abstract Collection<?> getServices(String identifier);
 }

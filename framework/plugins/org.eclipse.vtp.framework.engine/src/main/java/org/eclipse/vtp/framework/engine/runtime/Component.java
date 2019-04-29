@@ -24,15 +24,13 @@ import java.util.List;
  * 
  * @author Lonnie Pryor
  */
-public abstract class Component
-{
+@SuppressWarnings({ "unused", "rawtypes" })
+public abstract class Component {
 	/** A comparator that sorts constructors by number of arguments. */
-	private static final Comparator CONSTRUCTOR_SORT = new Comparator()
-	{
-		public int compare(Object left, Object right)
-		{
-			return ((Constructor)right).getParameterTypes().length
-					- ((Constructor)left).getParameterTypes().length;
+	private static final Comparator<?> CONSTRUCTOR_SORT = new Comparator<Object>() {
+		public int compare(Object left, Object right) {
+			return ((Constructor<?>) right).getParameterTypes().length
+					- ((Constructor<?>) left).getParameterTypes().length;
 		}
 	};
 
@@ -47,23 +45,21 @@ public abstract class Component
 	 * Creates a new Component.
 	 * 
 	 * @param blueprint The blueprint of the process.
-	 * @param type The type of the component.
+	 * @param type      The type of the component.
 	 * @throws NullPointerException If the supplied blueprint is <code>null</code>.
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	public Component(Blueprint blueprint, Class type) throws NullPointerException
-	{
+	public Component(Blueprint blueprint, Class<?> type) throws NullPointerException {
 		if (blueprint == null)
 			throw new NullPointerException("blueprint"); //$NON-NLS-1$
 		if (type == null)
 			throw new NullPointerException("type"); //$NON-NLS-1$
 		this.blueprint = blueprint;
 		this.constructors = type.getConstructors();
-		Arrays.sort(this.constructors, CONSTRUCTOR_SORT);
+		Arrays.sort(this.constructors);
 		Method[] methods = type.getMethods();
-		List mutators = new ArrayList(methods.length);
-		for (int i = 0; i < methods.length; ++i)
-		{
+		List<Method> mutators = new ArrayList<Method>(methods.length);
+		for (int i = 0; i < methods.length; ++i) {
 			if (!Void.TYPE.equals(methods[i].getReturnType()))
 				continue;
 			if (Modifier.isStatic(methods[i].getModifiers()))
@@ -83,6 +79,6 @@ public abstract class Component
 				continue;
 			mutators.add(methods[i]);
 		}
-		this.mutators = (Method[])mutators.toArray(new Method[mutators.size()]);
+		this.mutators = (Method[]) mutators.toArray(new Method[mutators.size()]);
 	}
 }

@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -32,9 +33,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class SelectionRequestConfiguration implements IConfiguration,
-		InteractionsConstants
-{
+public class SelectionRequestConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** The input factory to use. */
@@ -47,19 +46,17 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/** Index of property configurations by name. */
 	private MediaConfiguration mediaConfiguration = null;
 	/** The choices in this interaction. */
-	private final Set choices = new HashSet();
+	private final Set<SelectionChoiceConfiguration> choices = new HashSet<SelectionChoiceConfiguration>();
 	/** The choice name lists to use by brand name. */
-	private final Map brandedChoices = new HashMap();
+	private final Map<String, String[]> brandedChoices = new HashMap<String, String[]>();
 
 	/**
 	 * Creates a new SelectionRequestConfiguration.
 	 * 
 	 * @param contentFactory The content factory to use.
-	 * @param inputFactory The input factory to use.
+	 * @param inputFactory   The input factory to use.
 	 */
-	public SelectionRequestConfiguration(IContentFactory contentFactory,
-			IInputGrammarFactory inputFactory)
-	{
+	public SelectionRequestConfiguration(IContentFactory contentFactory, IInputGrammarFactory inputFactory) {
 		this.contentFactory = contentFactory;
 		this.inputFactory = inputFactory;
 	}
@@ -69,8 +66,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @return The name of the output item to play.
 	 */
-	public String getOutputName()
-	{
+	public String getOutputName() {
 		return outputName;
 	}
 
@@ -79,8 +75,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @param outputName The name of the output item to play.
 	 */
-	public void setOutputName(String outputName)
-	{
+	public void setOutputName(String outputName) {
 		this.outputName = outputName == null ? "" : outputName; //$NON-NLS-1$
 	}
 
@@ -89,8 +84,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @return The name of the data collected by this request.
 	 */
-	public String getDataName()
-	{
+	public String getDataName() {
 		return dataName;
 	}
 
@@ -99,30 +93,26 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @param dataName The name of the data collected by this request.
 	 */
-	public void setDataName(String dataName)
-	{
+	public void setDataName(String dataName) {
 		this.dataName = dataName == null ? "" : dataName; //$NON-NLS-1$
 	}
-	
-	public boolean isSecured()
-	{
+
+	public boolean isSecured() {
 		return this.secured;
 	}
-	
-	public void setSecured(boolean secured)
-	{
+
+	public void setSecured(boolean secured) {
 		this.secured = secured;
 	}
 
 	/**
-	 * Returns the media configuration for this message or <code>null</code> if
-	 * no such configuration is registered.
+	 * Returns the media configuration for this message or <code>null</code> if no
+	 * such configuration is registered.
 	 * 
-	 * @return The media configuration for this message or <code>null</code> if
-	 *         no such configuration is registered.
+	 * @return The media configuration for this message or <code>null</code> if no
+	 *         such configuration is registered.
 	 */
-	public MediaConfiguration getMediaConfiguration()
-	{
+	public MediaConfiguration getMediaConfiguration() {
 		return mediaConfiguration;
 	}
 
@@ -130,10 +120,9 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * Sets the media configuration for this message.
 	 * 
 	 * @param mediaConfiguration The media configuration for this message or
-	 *          <code>null</code> to remove the configuration.
+	 *                           <code>null</code> to remove the configuration.
 	 */
-	public void setMediaConfiguration(MediaConfiguration mediaConfiguration)
-	{
+	public void setMediaConfiguration(MediaConfiguration mediaConfiguration) {
 		this.mediaConfiguration = mediaConfiguration;
 	}
 
@@ -142,10 +131,8 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @return The choices in this interaction.
 	 */
-	public SelectionChoiceConfiguration[] getChoices()
-	{
-		return (SelectionChoiceConfiguration[])choices
-				.toArray(new SelectionChoiceConfiguration[choices.size()]);
+	public SelectionChoiceConfiguration[] getChoices() {
+		return (SelectionChoiceConfiguration[]) choices.toArray(new SelectionChoiceConfiguration[choices.size()]);
 	}
 
 	/**
@@ -153,8 +140,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @param choice The choice to add.
 	 */
-	public void addChoice(SelectionChoiceConfiguration choice)
-	{
+	public void addChoice(SelectionChoiceConfiguration choice) {
 		if (choice != null)
 			choices.add(choice);
 	}
@@ -164,8 +150,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @param choice The choice to remove.
 	 */
-	public void removeChoice(SelectionChoiceConfiguration choice)
-	{
+	public void removeChoice(SelectionChoiceConfiguration choice) {
 		if (choice != null)
 			choices.remove(choice);
 	}
@@ -176,19 +161,17 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * @param brandName The name of the brand to find the choice names for.
 	 * @return The choice names registered for the specified brand.
 	 */
-	public String[] getBrandedChoices(String brandName)
-	{
-		return (String[])brandedChoices.get(brandName);
+	public String[] getBrandedChoices(String brandName) {
+		return (String[]) brandedChoices.get(brandName);
 	}
 
 	/**
 	 * Sets the choice names registered for the specified brand.
 	 * 
-	 * @param brandName The name of the brand to set the choice names for.
+	 * @param brandName   The name of the brand to set the choice names for.
 	 * @param choiceNames The choice names to register for the specified brand.
 	 */
-	public void setBrandedChoices(String brandName, String[] choiceNames)
-	{
+	public void setBrandedChoices(String brandName, String[] choiceNames) {
 		if (brandName == null)
 			return;
 		if (choiceNames == null)
@@ -202,44 +185,36 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
-	public void load(Element configurationElement)
-	{
+	public void load(Element configurationElement) {
 		outputName = configurationElement.getAttribute(NAME_OUTPUT_NAME);
 		dataName = configurationElement.getAttribute(NAME_DATA_NAME);
 		secured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_MEDIA);
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MEDIA);
 		if (elements.getLength() == 0)
 			mediaConfiguration = null;
-		else
-		{
+		else {
 			mediaConfiguration = new MediaConfiguration(contentFactory, inputFactory);
-			mediaConfiguration.load((Element)elements.item(0));
+			mediaConfiguration.load((Element) elements.item(0));
 		}
 		choices.clear();
-		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_CHOICE);
-		for (int i = 0; i < elements.getLength(); ++i)
-		{
-			SelectionChoiceConfiguration choice = new SelectionChoiceConfiguration(
-					contentFactory, inputFactory);
-			choice.load((Element)elements.item(i));
+		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_CHOICE);
+		for (int i = 0; i < elements.getLength(); ++i) {
+			SelectionChoiceConfiguration choice = new SelectionChoiceConfiguration(contentFactory, inputFactory);
+			choice.load((Element) elements.item(i));
 			choices.add(choice);
 		}
 		brandedChoices.clear();
-		List choiceNames = new ArrayList();
-		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_CHOICES);
-		for (int i = 0; i < elements.getLength(); ++i)
-		{
-			Element element = (Element)elements.item(i);
+		List<String> choiceNames = new ArrayList<String>();
+		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_CHOICES);
+		for (int i = 0; i < elements.getLength(); ++i) {
+			Element element = (Element) elements.item(i);
 			String content = XMLUtilities.getElementTextDataNoEx(element, true);
 			if (content != null)
 				for (StringTokenizer st = new StringTokenizer(content, "\r\n"); //$NON-NLS-1$
-				st.hasMoreTokens();)
+						st.hasMoreTokens();)
 					choiceNames.add(st.nextToken().trim());
-			brandedChoices.put(element.getAttribute(NAME_KEY), (String[])choiceNames
-					.toArray(new String[choiceNames.size()]));
+			brandedChoices.put(element.getAttribute(NAME_KEY),
+					(String[]) choiceNames.toArray(new String[choiceNames.size()]));
 			choiceNames.clear();
 		}
 	}
@@ -249,8 +224,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
-	public void save(Element configurationElement)
-	{
+	public void save(Element configurationElement) {
 		configurationElement.setAttribute(NAME_OUTPUT_NAME, outputName);
 		configurationElement.setAttribute(NAME_DATA_NAME, dataName);
 		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(secured));
@@ -258,46 +232,35 @@ public class SelectionRequestConfiguration implements IConfiguration,
 		String choiceName = NAME_CHOICE;
 		String choicesName = NAME_CHOICES;
 		String prefix = configurationElement.getPrefix();
-		if (prefix != null && prefix.length() > 0)
-		{
+		if (prefix != null && prefix.length() > 0) {
 			mediaName = prefix + ":" + mediaName; //$NON-NLS-1$
 			choiceName = prefix + ":" + choiceName; //$NON-NLS-1$
 			choicesName = prefix + ":" + choicesName; //$NON-NLS-1$
 		}
-		if (mediaConfiguration != null)
-		{
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, mediaName);
+		if (mediaConfiguration != null) {
+			Element element = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI, mediaName);
 			mediaConfiguration.save(element);
 			configurationElement.appendChild(element);
 		}
-		for (Iterator i = choices.iterator(); i.hasNext();)
-		{
-			SelectionChoiceConfiguration choice = (SelectionChoiceConfiguration)i
-					.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, choiceName);
+		for (Iterator<SelectionChoiceConfiguration> i = choices.iterator(); i.hasNext();) {
+			SelectionChoiceConfiguration choice = (SelectionChoiceConfiguration) i.next();
+			Element element = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI, choiceName);
 			choice.save(element);
 			configurationElement.appendChild(element);
 		}
-		for (Iterator i = brandedChoices.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, choicesName);
-			element.setAttribute(NAME_KEY, (String)entry.getKey());
+		for (Entry<String, String[]> entry : brandedChoices.entrySet()) {
+			Element element = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI, choicesName);
+			element.setAttribute(NAME_KEY, (String) entry.getKey());
 			StringBuffer buffer = new StringBuffer();
-			String[] choiceNames = (String[])entry.getValue();
-			for (int j = 0; j < choiceNames.length; ++j)
-			{
+			String[] choiceNames = (String[]) entry.getValue();
+			for (int j = 0; j < choiceNames.length; ++j) {
 				if (choiceNames[j] == null)
 					continue;
 				if (buffer.length() > 0)
 					buffer.append('\r').append('\n');
 				buffer.append(choiceNames[j]);
 			}
-			element.appendChild(configurationElement.getOwnerDocument()
-					.createTextNode(buffer.toString()));
+			element.appendChild(configurationElement.getOwnerDocument().createTextNode(buffer.toString()));
 			configurationElement.appendChild(element);
 		}
 	}

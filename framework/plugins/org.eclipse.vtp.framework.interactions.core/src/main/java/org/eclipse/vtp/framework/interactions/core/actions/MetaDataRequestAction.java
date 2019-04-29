@@ -99,7 +99,7 @@ public class MetaDataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "metadata.request.filled");
 					context.report(IReporter.SEVERITY_INFO, "Received meta-data.", props);
 				}
@@ -111,7 +111,7 @@ public class MetaDataRequestAction implements IAction
 							+ "");
 				}
 				AbstractPlatform platform = (AbstractPlatform)platformSelector.getSelectedPlatform();
-				Map dataMap = platform.processMetaDataResponse(configuration, context);
+				Map<?, ?> dataMap = platform.processMetaDataResponse(configuration, context);
 				if (items != null)
 				{
 					for (int i = 0; i < items.length; ++i)
@@ -147,7 +147,7 @@ public class MetaDataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "error.disconnect.hangup");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got disconnect during interaction.", props);
@@ -162,7 +162,7 @@ public class MetaDataRequestAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "metadata.request.before");
 					context.report(IReporter.SEVERITY_INFO, "Requesting meta-data.", props);
 				}

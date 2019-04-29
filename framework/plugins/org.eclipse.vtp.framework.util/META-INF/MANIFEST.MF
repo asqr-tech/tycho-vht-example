@@ -10,3 +10,4 @@ Import-Package: org.osgi.framework;resolution:=optional,
  org.osgi.util.tracker;resolution:=optional
 Export-Package: org.eclipse.vtp.framework.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.util

@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Genesys Plug-in
+Bundle-SymbolicName: com.openmethods.openvxml.platforms.genesys;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: com.openmethods.openvxml.platforms.genesys.Activator
+Bundle-Vendor: OPENMETHODS
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.vtp.framework.interactions.core,
+ org.eclipse.vtp.framework.interactions.voice,
+ org.eclipse.vtp.framework.util,
+ org.eclipse.vtp.framework.core
+Automatic-Module-Name: com.openmethods.openvxml.platforms.genesys
+Export-Package: com.openmethods.openvxml.platforms.genesys,
+ com.openmethods.openvxml.platforms.genesys.copy,
+ com.openmethods.openvxml.platforms.genesys.services,
+ com.openmethods.openvxml.platforms.genesys.vxml
+nvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

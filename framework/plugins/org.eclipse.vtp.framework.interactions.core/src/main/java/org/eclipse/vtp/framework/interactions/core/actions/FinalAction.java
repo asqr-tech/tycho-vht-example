@@ -57,7 +57,7 @@ public class FinalAction extends ExitAction
 		{
 			if(context.isReportingEnabled())
 			{
-				Dictionary props = new Hashtable();
+				Dictionary<String, String> props = new Hashtable<String, String>();
 				props.put("event", "final");
 				context.report(IReporter.SEVERITY_INFO, "Ending subdialog execution.",
 					props);

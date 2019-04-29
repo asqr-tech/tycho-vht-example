@@ -39,7 +39,7 @@ public abstract class Executable extends Configurable
 	 * @throws NullPointerException If the supplied instance ID is
 	 *           <code>null</code>.
 	 */
-	public Executable(Blueprint blueprint, Class type, Element[] elements,
+	public Executable(Blueprint blueprint, Class<?> type, Element[] elements,
 			String instanceID) throws NullPointerException
 	{
 		super(blueprint, type, elements);

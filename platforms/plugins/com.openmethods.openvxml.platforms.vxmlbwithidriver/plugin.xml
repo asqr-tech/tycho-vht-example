@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="com.openmethods.openvxml.platforms.vxmlbwithidriver.services.platform"
+            lazy="true"
+            name="VXMLB with I-Driver Support"
+            scope="execution"
+            type="com.openmethods.openvxml.platforms.vxmlbwithidriver.VXMLBWithIDriverPlatform">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=VXMLBIDRIVER">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.framework.engine.externalPackageEntries">
+      <entry
+            package="com.openmethods.openvxml.idriver"
+            version="1.0.0">
+      </entry>
+   </extension>
+
+</plugin>

@@ -98,6 +98,7 @@ import org.eclipse.vtp.framework.spi.ICommandProcessor;
  * 
  * @author Lonnie Pryor
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class Conversation implements IConversation {
 	/** The queue to add commands to. */
 	private final ICommandProcessor commandProcessor;
@@ -121,29 +122,18 @@ public class Conversation implements IConversation {
 	/**
 	 * Creates a new Conversation.
 	 * 
-	 * @param commandProcessor
-	 *            The queue to add commands to.
-	 * @param brandSelection
-	 *            The currently selected brand.
-	 * @param interactionTypeSelection
-	 *            The currently selected interaction type.
-	 * @param languageSelection
-	 *            The currently selected language.
-	 * @param mediaProviderRegistry
-	 *            The media provider registry.
-	 * @param variableRegistry
-	 *            The variable registry.
-	 * @param scriptingService
-	 *            The scripting service.
+	 * @param commandProcessor         The queue to add commands to.
+	 * @param brandSelection           The currently selected brand.
+	 * @param interactionTypeSelection The currently selected interaction type.
+	 * @param languageSelection        The currently selected language.
+	 * @param mediaProviderRegistry    The media provider registry.
+	 * @param variableRegistry         The variable registry.
+	 * @param scriptingService         The scripting service.
 	 */
-	public Conversation(ICommandProcessor commandProcessor,
-			IBrandSelection brandSelection,
-			IInteractionTypeSelection interactionTypeSelection,
-			ILanguageSelection languageSelection,
-			IMediaProviderRegistry mediaProviderRegistry,
-			IVariableRegistry variableRegistry,
-			IScriptingService scriptingService, ILastResult lastResult,
-			IExecutionContext context) {
+	public Conversation(ICommandProcessor commandProcessor, IBrandSelection brandSelection,
+			IInteractionTypeSelection interactionTypeSelection, ILanguageSelection languageSelection,
+			IMediaProviderRegistry mediaProviderRegistry, IVariableRegistry variableRegistry,
+			IScriptingService scriptingService, ILastResult lastResult, IExecutionContext context) {
 		this.commandProcessor = commandProcessor;
 		this.brandSelection = brandSelection;
 		this.interactionTypeSelection = interactionTypeSelection;
@@ -160,22 +150,18 @@ public class Conversation implements IConversation {
 	 * Resolves the value of an output configuration using the selected brand,
 	 * interaction type, and language.
 	 * 
-	 * @param configuration
-	 *            The configuration to resolve.
+	 * @param configuration The configuration to resolve.
 	 * @return The resolved value of an output configuration.
 	 */
-	public List<Content> resolveOutput(OutputConfiguration configuration)
-	{
+	public List<Content> resolveOutput(OutputConfiguration configuration) {
 		if (configuration == null)
 			return Collections.emptyList();
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		OutputNode[] nodes = null;
 		IBrand brand = brandSelection.getSelectedBrand();
 		while (brand != null && nodes == null) {
-			nodes = configuration.getItem(brand.getName(), interactionTypeID,
-					languageID);
+			nodes = configuration.getItem(brand.getName(), interactionTypeID, languageID);
 			if (nodes == null)
 				brand = brand.getParentBrand();
 		}
@@ -183,8 +169,7 @@ public class Conversation implements IConversation {
 			return Collections.emptyList();
 		String mediaProviderID = null;
 		while (brand != null && mediaProviderID == null) {
-			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(
-					brand.getId(), interactionTypeID, languageID);
+			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(brand.getId(), interactionTypeID, languageID);
 			if (mediaProviderID == null)
 				brand = brand.getParentBrand();
 		}
@@ -193,29 +178,22 @@ public class Conversation implements IConversation {
 		List<Content> results = new LinkedList<Content>();
 		for (OutputNode node : nodes)
 			resolveContentNode(node, results);
-		List<Content> content = new MediaRenderingManager(
-				mediaProviderRegistry.getMediaProvider(mediaProviderID),
-				dataSet).renderContent(MediaRenderingManager.COMPLETE,
-				results);
+		List<Content> content = new MediaRenderingManager(mediaProviderRegistry.getMediaProvider(mediaProviderID),
+				dataSet).renderContent(MediaRenderingManager.COMPLETE, results);
 		return content;
 	}
 
-	private void resolveContentNode(OutputNode node,
-			List<Content> results) {
+	private void resolveContentNode(OutputNode node, List<Content> results) {
 		if (node instanceof OutputContent)
-			for (Content content : ((OutputContent) node)
-					.getContent())
+			for (Content content : ((OutputContent) node).getContent())
 				results.add(content);
 		else if (node instanceof OutputSwitch) {
-			for (OutputCase c : ((OutputSwitch) node)
-					.getCases()) {
-				Object result = scriptingService.createScriptingEngine(
-						c.getScriptingLanguage()).execute(c.getScript());
+			for (OutputCase c : ((OutputSwitch) node).getCases()) {
+				Object result = scriptingService.createScriptingEngine(c.getScriptingLanguage()).execute(c.getScript());
 				context.info("Evaluating prompt guard condition");
 				context.info(c.getScript());
 				context.info("Result: " + result.toString());
-				if (result != null
-						&& "true".equalsIgnoreCase(result.toString())) {
+				if (result != null && "true".equalsIgnoreCase(result.toString())) {
 					for (OutputNode child : c.getNodes())
 						resolveContentNode(child, results);
 					break;
@@ -224,19 +202,14 @@ public class Conversation implements IConversation {
 		}
 	}
 
-	public Output resolveFilePath(OutputConfiguration configuration,
-			String relativePath)
-	{
+	public Output resolveFilePath(OutputConfiguration configuration, String relativePath) {
 		Output fileOutput = new Output(Output.TYPE_FILE);
-		if (relativePath.startsWith("http://") || relativePath.startsWith("dtmf:"))
-		{
+		if (relativePath.startsWith("http://") || relativePath.startsWith("dtmf:")) {
 			fileOutput.setProperty("value", relativePath);
 			return fileOutput;
 		}
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
-		Content[] result = null;
 		IBrand brand = brandSelection.getSelectedBrand();
 		// while (brand != null && result == null)
 		// {
@@ -249,14 +222,11 @@ public class Conversation implements IConversation {
 		// return relativePath;
 		String mediaProviderID = null;
 		while (brand != null && mediaProviderID == null) {
-			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(
-					brand.getId(), interactionTypeID, languageID);
+			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(brand.getId(), interactionTypeID, languageID);
 			if (mediaProviderID != null) {
-				IMediaProvider provider = mediaProviderRegistry
-						.getMediaProvider(mediaProviderID);
+				IMediaProvider provider = mediaProviderRegistry.getMediaProvider(mediaProviderID);
 				if (provider != null) {
-					IResourceManager resourceManager = provider
-							.getResourceManager();
+					IResourceManager resourceManager = provider.getResourceManager();
 					if (resourceManager != null) {
 						if (resourceManager.isFileResource(relativePath))
 							break;
@@ -266,8 +236,7 @@ public class Conversation implements IConversation {
 			mediaProviderID = null;
 			brand = brand.getParentBrand();
 		}
-		if (mediaProviderID == null)
-		{
+		if (mediaProviderID == null) {
 			fileOutput.setProperty("value", relativePath);
 			return fileOutput;
 		}
@@ -281,21 +250,18 @@ public class Conversation implements IConversation {
 	 * Resolves the value of an input configuration using the selected brand,
 	 * interaction type, and language.
 	 * 
-	 * @param configuration
-	 *            The configuration to resolve.
+	 * @param configuration The configuration to resolve.
 	 * @return The resolved value of an input configuration.
 	 */
 	public InputGrammar resolveInput(InputConfiguration configuration) {
 		if (configuration == null)
 			return null;
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		InputGrammar result = null;
 		IBrand brand = brandSelection.getSelectedBrand();
 		while (brand != null && result == null) {
-			result = configuration.getItem(brand.getName(), interactionTypeID,
-					languageID);
+			result = configuration.getItem(brand.getName(), interactionTypeID, languageID);
 			if (result == null)
 				brand = brand.getParentBrand();
 		}
@@ -303,8 +269,7 @@ public class Conversation implements IConversation {
 			return null;
 		String mediaProviderID = null;
 		while (brand != null && mediaProviderID == null) {
-			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(
-					brand.getId(), interactionTypeID, languageID);
+			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(brand.getId(), interactionTypeID, languageID);
 			if (mediaProviderID == null)
 				brand = brand.getParentBrand();
 		}
@@ -314,45 +279,37 @@ public class Conversation implements IConversation {
 			result = result.captureData(scriptingService, dataSet);
 		// if (result instanceof FileInputGrammar &&
 		// !((FileInputGrammar)result).getPath().startsWith("http://"))
-		//			((FileInputGrammar)result).setStaticPath(mediaProviderID + "/" //$NON-NLS-1$ 
+		// ((FileInputGrammar)result).setStaticPath(mediaProviderID + "/" //$NON-NLS-1$
 		// + ((FileInputGrammar)result).getPath());
 		return result;
 	}
 
-	public Input resolveFilePath(InputConfiguration configuration,
-			String relativePath)
-	{
+	public Input resolveFilePath(InputConfiguration configuration, String relativePath) {
 		Input input = new Input(ConversationCommand.INPUT_TYPE_FILE);
-		if (relativePath.startsWith("http://") || relativePath.startsWith("dtmf:"))
-		{
+		if (relativePath.startsWith("http://") || relativePath.startsWith("dtmf:")) {
 			input.setProperty("value", relativePath);
 			return input;
 		}
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		InputGrammar result = null;
 		IBrand brand = brandSelection.getSelectedBrand();
 		while (brand != null && result == null) {
-			result = configuration.getItem(brand.getName(), interactionTypeID,
-					languageID);
+			result = configuration.getItem(brand.getName(), interactionTypeID, languageID);
 			if (result == null)
 				brand = brand.getParentBrand();
 		}
-		if (result == null)
-		{
+		if (result == null) {
 			input.setProperty("value", relativePath);
 			return input;
 		}
 		String mediaProviderID = null;
 		while (brand != null && mediaProviderID == null) {
-			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(
-					brand.getId(), interactionTypeID, languageID);
+			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(brand.getId(), interactionTypeID, languageID);
 			if (mediaProviderID == null)
 				brand = brand.getParentBrand();
 		}
-		if (mediaProviderID == null)
-		{
+		if (mediaProviderID == null) {
 			input.setProperty("value", relativePath);
 			return input;
 		}
@@ -363,36 +320,30 @@ public class Conversation implements IConversation {
 	}
 
 	/**
-	 * Resolves the value of a property configuration using the selected brand
-	 * and interaction type.
+	 * Resolves the value of a property configuration using the selected brand and
+	 * interaction type.
 	 * 
-	 * @param configuration
-	 *            The configuration to resolve.
-	 * @param useInteractionType
-	 *            If true search by interaction type.
+	 * @param configuration      The configuration to resolve.
+	 * @param useInteractionType If true search by interaction type.
 	 * @return The resolved value of a property configuration.
 	 */
-	public String resolveProperty(PropertyConfiguration configuration,
-			boolean useInteractionType) {
+	public String resolveProperty(PropertyConfiguration configuration, boolean useInteractionType) {
 		return resolveProperty(configuration, useInteractionType, false);
 	}
 
-	public String resolveProperty(PropertyConfiguration configuration,
-			boolean useInteractionType, boolean useLanguage) {
+	public String resolveProperty(PropertyConfiguration configuration, boolean useInteractionType,
+			boolean useLanguage) {
 		if (configuration == null) {
 			return null;
 		}
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		String result = null;
 		PropertyConfiguration.Value value = null;
 		IBrand brand = brandSelection.getSelectedBrand();
 		while (brand != null) {
-			value = configuration
-					.getItem(
-							brand.getName(),
-							useInteractionType ? interactionTypeID : "", useLanguage ? languageID : ""); //$NON-NLS-1$
+			value = configuration.getItem(brand.getName(), useInteractionType ? interactionTypeID : "", //$NON-NLS-1$
+					useLanguage ? languageID : "");
 			if (value != null)
 				break;
 			brand = brand.getParentBrand();
@@ -402,8 +353,7 @@ public class Conversation implements IConversation {
 		if (PropertyConfiguration.VARIABLE.equals(value.getType())) {
 			result = variableRegistry.getVariable(value.getValue()).toString();
 		} else if (PropertyConfiguration.EXPRESSION.equals(value.getType())) {
-			result = String.valueOf(scriptingService.createScriptingEngine(
-					"JavaScript").execute(value.getValue()));
+			result = String.valueOf(scriptingService.createScriptingEngine("JavaScript").execute(value.getValue()));
 		} else {
 			result = value.getValue();
 		}
@@ -414,28 +364,24 @@ public class Conversation implements IConversation {
 	 * Resolves the value of a meta-data configuration using the selected brand,
 	 * interaction type, and language.
 	 * 
-	 * @param configuration
-	 *            The configuration to resolve.
+	 * @param configuration The configuration to resolve.
 	 * @return The resolved values of a meta-data configuration.
 	 */
-	private List resolveMetaData(MetaDataConfiguration configuration) {
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+	private List<MetaDataItemConfiguration> resolveMetaData(MetaDataConfiguration configuration) {
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		MetaDataItemConfiguration[] items = null;
 		IBrand brand = brandSelection.getSelectedBrand();
 		for (; brand != null && items == null; brand = brand.getParentBrand())
-			items = configuration.getItem(brand.getName() + interactionTypeID
-					+ languageID);
+			items = configuration.getItem(brand.getName() + interactionTypeID + languageID);
 		if (items == null) {
 			brand = brandSelection.getSelectedBrand();
-			for (; brand != null && items == null; brand = brand
-					.getParentBrand())
+			for (; brand != null && items == null; brand = brand.getParentBrand())
 				items = configuration.getItem(brand.getName());
 			if (items == null)
 				return Collections.EMPTY_LIST;
 		}
-		List results = new ArrayList(items.length);
+		List<MetaDataItemConfiguration> results = new ArrayList<MetaDataItemConfiguration>(items.length);
 		for (int i = 0; i < items.length; ++i) {
 			MetaDataItemConfiguration item = items[i];
 			switch (items[i].getValueType()) {
@@ -445,19 +391,16 @@ public class Conversation implements IConversation {
 				item = new MetaDataItemConfiguration();
 				item.setName(items[i].getName());
 				item.setStaticValue(String.valueOf(scriptingService
-						.createScriptingEngine(items[i].getScriptingLanguage())
-						.execute(items[i].getValue())));
+						.createScriptingEngine(items[i].getScriptingLanguage()).execute(items[i].getValue())));
 				break;
 			case MetaDataItemConfiguration.TYPE_VARIABLE:
 				item = new MetaDataItemConfiguration();
 				item.setName(items[i].getName());
-				item.setStaticValue(dataSet.getData(items[i].getValue())
-						.toString());
+				item.setStaticValue(dataSet.getData(items[i].getValue()).toString());
 				break;
 			case MetaDataItemConfiguration.TYPE_MAP:
-				IMapObject map = (IMapObject)variableRegistry.getVariable(items[i].getValue());
-				for(Map.Entry<String, IDataObject> entry : map.getValues().entrySet())
-				{
+				IMapObject map = (IMapObject) variableRegistry.getVariable(items[i].getValue());
+				for (Map.Entry<String, IDataObject> entry : map.getValues().entrySet()) {
 					MetaDataItemConfiguration mdic = new MetaDataItemConfiguration();
 					mdic.setName(entry.getKey());
 					mdic.setStaticValue(entry.getValue().toString());
@@ -478,7 +421,7 @@ public class Conversation implements IConversation {
 	 * @see org.eclipse.vtp.framework.interactions.core.conversation.
 	 * IConversation#createInitial(java.lang.String, java.util.Map)
 	 */
-	public IInitial createInitial(String resultParameterName, Map variables) {
+	public IInitial createInitial(String resultParameterName, Map<?, ?> variables) {
 		return new Initial(resultParameterName, variables);
 	}
 
@@ -490,8 +433,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * OutputMessageConfiguration)
 	 */
-	public IOutputMessage createOutputMessage(
-			OutputMessageConfiguration configuration, String resultParameterName) {
+	public IOutputMessage createOutputMessage(OutputMessageConfiguration configuration, String resultParameterName) {
 		return new OutputMessage(configuration, resultParameterName);
 	}
 
@@ -503,22 +445,19 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * MetaDataConfiguration)
 	 */
-	public IMetaDataMessage createMetaDataMessage(
-			MetaDataConfiguration configuration, String resultParameterName) {
+	public IMetaDataMessage createMetaDataMessage(MetaDataConfiguration configuration, String resultParameterName) {
 		return new MetaDataMessage(configuration, resultParameterName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.conversation.IConversation
+	 * @see org.eclipse.vtp.framework.interactions.core.conversation.IConversation
 	 * #createMetaDataRequest(
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * MetaDataConfiguration)
 	 */
-	public IMetaDataRequest createMetaDataRequest(
-			MetaDataConfiguration configuration, String resultParameterName) {
+	public IMetaDataRequest createMetaDataRequest(MetaDataConfiguration configuration, String resultParameterName) {
 		return new MetaDataRequest(configuration, resultParameterName);
 	}
 
@@ -530,8 +469,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * InputRequestConfiguration, java.lang.String)
 	 */
-	public IInputRequest createInputRequest(
-			InputRequestConfiguration configuration, String resultParameterName) {
+	public IInputRequest createInputRequest(InputRequestConfiguration configuration, String resultParameterName) {
 		return new InputRequest(configuration, resultParameterName);
 	}
 
@@ -543,8 +481,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * SelectionRequestConfiguration, java.lang.String)
 	 */
-	public ISelectionRequest createSelectionRequest(
-			SelectionRequestConfiguration configuration,
+	public ISelectionRequest createSelectionRequest(SelectionRequestConfiguration configuration,
 			String resultParameterName) {
 		return new SelectionRequest(configuration, resultParameterName);
 	}
@@ -557,8 +494,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * DataRequestConfiguration, java.lang.String)
 	 */
-	public IDataRequest createDataRequest(
-			DataRequestConfiguration configuration, String resultParameterName) {
+	public IDataRequest createDataRequest(DataRequestConfiguration configuration, String resultParameterName) {
 		return new DataRequest(configuration, resultParameterName);
 	}
 
@@ -570,8 +506,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * ExternalReferenceConfiguration)
 	 */
-	public IExternalReference createExternalReference(
-			ExternalReferenceConfiguration configuration,
+	public IExternalReference createExternalReference(ExternalReferenceConfiguration configuration,
 			String resultParameterName) {
 		return new ExternalReference(configuration, resultParameterName);
 	}
@@ -584,8 +519,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * TransferMessageConfiguration)
 	 */
-	public ITransferMessage createTransferMessage(
-			TransferMessageConfiguration configuration) {
+	public ITransferMessage createTransferMessage(TransferMessageConfiguration configuration) {
 		return new TransferMessage(configuration);
 	}
 
@@ -597,8 +531,7 @@ public class Conversation implements IConversation {
 	 * org.eclipse.vtp.framework.interactions.core.configurations.
 	 * BridgeMessageConfiguration, java.lang.String)
 	 */
-	public IBridgeMessage createBridgeMessage(
-			BridgeMessageConfiguration configuration, String resultParameterName) {
+	public IBridgeMessage createBridgeMessage(BridgeMessageConfiguration configuration, String resultParameterName) {
 		return new BridgeMessage(configuration, resultParameterName);
 	}
 
@@ -608,12 +541,11 @@ public class Conversation implements IConversation {
 	 * @see org.eclipse.vtp.framework.interactions.core.conversation.
 	 * IConversation#createEndMessage()
 	 */
-	public IEndMessage createEndMessage(AssignmentConfiguration[] configurations)
-	{
+	public IEndMessage createEndMessage(AssignmentConfiguration[] configurations) {
 		IEndMessage message = new EndMessage();
 		for (int i = 0; i < configurations.length; ++i)
-			message.setVariableValue(configurations[i].getName(), variableRegistry
-					.getVariable(configurations[i].getName()).toString());
+			message.setVariableValue(configurations[i].getName(),
+					variableRegistry.getVariable(configurations[i].getName()).toString());
 		return message;
 	}
 
@@ -674,17 +606,17 @@ public class Conversation implements IConversation {
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** Comment for variables. */
-		private final Map variables;
+		private final Map<?, ?> variables;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new Initial.
 		 * 
-		 * @param resultParameterName
-		 *            The name of the parameter to set the result value to.
+		 * @param resultParameterName The name of the parameter to set the result value
+		 *                            to.
 		 */
-		Initial(String resultParameterName, Map variables) {
+		Initial(String resultParameterName, Map<?, ?> variables) {
 			this.resultParameterName = resultParameterName;
 			this.variables = variables;
 		}
@@ -692,8 +624,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -701,38 +632,29 @@ public class Conversation implements IConversation {
 			command.setResultName(resultParameterName);
 			command.setResultValue(RESULT_NAME_FILLED);
 			command.setHangupResultValue(RESULT_NAME_HANGUP);
-			for (Iterator i = variables.entrySet().iterator(); i.hasNext();) {
-				Map.Entry entry = (Map.Entry) i.next();
-				command.setVariable((String) entry.getKey(),
-						(String) entry.getValue());
-			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
-				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
-			}
+			for (Map.Entry entry : variables.entrySet())
+				command.setVariable((String) entry.getKey(), (String) entry.getValue());
+			for (Map.Entry entry : parameters.entrySet())
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			return command;
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.conversation.IInitial#
+		 * @see org.eclipse.vtp.framework.interactions.core.conversation.IInitial#
 		 * setParameterValue(java.lang.String, java.lang.String)
 		 */
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.conversation.IInitial#
+		 * @see org.eclipse.vtp.framework.interactions.core.conversation.IInitial#
 		 * setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
@@ -750,23 +672,20 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class OutputMessage extends AbstractInteraction implements
-			IOutputMessage {
+	private final class OutputMessage extends AbstractInteraction implements IOutputMessage {
 		/** The configuration for this interaction. */
 		private final OutputMessageConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new OutputMessage.
 		 * 
-		 * @param configuration
-		 *            The configuration for this interaction.
+		 * @param configuration The configuration for this interaction.
 		 */
-		OutputMessage(OutputMessageConfiguration configuration,
-				String resultParameterName) {
+		OutputMessage(OutputMessageConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -774,8 +693,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -784,40 +702,30 @@ public class Conversation implements IConversation {
 			command.setFilledResultValue(RESULT_NAME_FILLED);
 			command.setHangupResultValue(RESULT_NAME_HANGUP);
 			command.setSecured(configuration.isSecured());
-			MediaConfiguration mediaConfig = configuration
-					.getMediaConfiguration();
+			MediaConfiguration mediaConfig = configuration.getMediaConfiguration();
 			if (mediaConfig != null) {
-				String[] propertyNames = mediaConfig
-						.getPropertyConfigurationNames();
+				String[] propertyNames = mediaConfig.getPropertyConfigurationNames();
 				for (int i = 0; i < propertyNames.length; ++i) {
-					String value = resolveProperty(
-							mediaConfig
-									.getPropertyConfiguration(propertyNames[i]),
-							true);
+					String value = resolveProperty(mediaConfig.getPropertyConfiguration(propertyNames[i]), true);
 					if (value != null)
 						command.setPropertyValue(propertyNames[i], value);
 				}
 				OutputConfiguration outputConfiguration = mediaConfig
 						.getOutputConfiguration(configuration.getOutputName());
-				List content = resolveOutput(outputConfiguration);
-				for (Iterator i = content.iterator(); i.hasNext();) {
+				List<?> content = resolveOutput(outputConfiguration);
+				for (Iterator<?> i = content.iterator(); i.hasNext();) {
 					Content item = (Content) i.next();
-					if (item instanceof TextContent)
-					{
+					if (item instanceof TextContent) {
 						Output textOutput = new Output(Output.TYPE_TEXT);
-						textOutput.setProperty("value", ((TextContent)item).getText());
+						textOutput.setProperty("value", ((TextContent) item).getText());
 						command.addOutput(textOutput);
-					}
-					else if (item instanceof FileContent)
-						command.addOutput(resolveFilePath(
-								outputConfiguration,
-								((FileContent) item).getPath()));
+					} else if (item instanceof FileContent)
+						command.addOutput(resolveFilePath(outputConfiguration, ((FileContent) item).getPath()));
 				}
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -831,16 +739,14 @@ public class Conversation implements IConversation {
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IOutputMessage#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IOutputMessage#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -857,23 +763,20 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class MetaDataMessage extends AbstractInteraction implements
-			IMetaDataMessage {
+	private final class MetaDataMessage extends AbstractInteraction implements IMetaDataMessage {
 		/** The configuration for this interaction. */
 		private final MetaDataConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new MedatDataMessage.
 		 * 
-		 * @param configuration
-		 *            The configuration for this interaction.
+		 * @param configuration The configuration for this interaction.
 		 */
-		MetaDataMessage(MetaDataConfiguration configuration,
-				String resultParameterName) {
+		MetaDataMessage(MetaDataConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -881,24 +784,21 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
 			MetaDataMessageCommand command = new MetaDataMessageCommand();
 			command.setResultName(resultParameterName);
 			command.setFilledResultValue(RESULT_NAME_FILLED);
-			List metaData = resolveMetaData(configuration);
-			for (Iterator i = metaData.iterator(); i.hasNext();) {
-				MetaDataItemConfiguration item = (MetaDataItemConfiguration) i
-						.next();
+			List<MetaDataItemConfiguration> metaData = resolveMetaData(configuration);
+			for (Iterator<MetaDataItemConfiguration> i = metaData.iterator(); i.hasNext();) {
+				MetaDataItemConfiguration item = (MetaDataItemConfiguration) i.next();
 				command.setMetaDataValue(item.getName(), item.getValue());
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -907,22 +807,19 @@ public class Conversation implements IConversation {
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IMetaDataMessage#setParameterValue(java.lang.String,
-		 * java.lang.String)
+		 * IMetaDataMessage#setParameterValue(java.lang.String, java.lang.String)
 		 */
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IMetaDataMessage#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IMetaDataMessage#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -939,23 +836,20 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class MetaDataRequest extends AbstractInteraction implements
-			IMetaDataRequest {
+	private final class MetaDataRequest extends AbstractInteraction implements IMetaDataRequest {
 		/** The configuration for this interaction. */
 		private final MetaDataConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new MedatDataRequest.
 		 * 
-		 * @param configuration
-		 *            The configuration for this interaction.
+		 * @param configuration The configuration for this interaction.
 		 */
-		MetaDataRequest(MetaDataConfiguration configuration,
-				String resultParameterName) {
+		MetaDataRequest(MetaDataConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -963,8 +857,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -973,16 +866,14 @@ public class Conversation implements IConversation {
 			command.setFilledResultValue(RESULT_NAME_FILLED);
 			command.setHangupResultValue(RESULT_NAME_HANGUP);
 			command.setDataName("GetAttachedData");
-			List metaData = resolveMetaData(configuration);
-			for (Iterator i = metaData.iterator(); i.hasNext();) {
-				MetaDataItemConfiguration item = (MetaDataItemConfiguration) i
-						.next();
+			List<MetaDataItemConfiguration> metaData = resolveMetaData(configuration);
+			for (Iterator<MetaDataItemConfiguration> i = metaData.iterator(); i.hasNext();) {
+				MetaDataItemConfiguration item = (MetaDataItemConfiguration) i.next();
 				command.addMetaDataName(item.getName());
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -991,22 +882,19 @@ public class Conversation implements IConversation {
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IMetaDataMessage#setParameterValue(java.lang.String,
-		 * java.lang.String)
+		 * IMetaDataMessage#setParameterValue(java.lang.String, java.lang.String)
 		 */
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IMetaDataMessage#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IMetaDataMessage#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -1023,25 +911,22 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class InputRequest extends AbstractInteraction implements
-			IInputRequest {
+	private final class InputRequest extends AbstractInteraction implements IInputRequest {
 		/** The configuration of the interaction. */
 		private final InputRequestConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new InputRequest.
 		 * 
-		 * @param configuration
-		 *            The configuration of the interaction.
-		 * @param resultParameterName
-		 *            The name of the parameter to set the result value to.
+		 * @param configuration       The configuration of the interaction.
+		 * @param resultParameterName The name of the parameter to set the result value
+		 *                            to.
 		 */
-		InputRequest(InputRequestConfiguration configuration,
-				String resultParameterName) {
+		InputRequest(InputRequestConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -1049,8 +934,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -1062,78 +946,57 @@ public class Conversation implements IConversation {
 			command.setNoMatchResultValue(RESULT_NAME_NO_MATCH);
 			command.setHangupResultValue(RESULT_NAME_HANGUP);
 			command.setDataName(configuration.getDataName());
-			MediaConfiguration mediaConfig = configuration
-					.getMediaConfiguration();
+			MediaConfiguration mediaConfig = configuration.getMediaConfiguration();
 			if (mediaConfig != null) {
-				String[] propertyNames = mediaConfig
-						.getPropertyConfigurationNames();
+				String[] propertyNames = mediaConfig.getPropertyConfigurationNames();
 				for (int i = 0; i < propertyNames.length; ++i) {
-					String value = resolveProperty(
-							mediaConfig
-									.getPropertyConfiguration(propertyNames[i]),
-							true);
+					String value = resolveProperty(mediaConfig.getPropertyConfiguration(propertyNames[i]), true);
 					if (value != null)
 						command.setPropertyValue(propertyNames[i], value);
 				}
 				OutputConfiguration outputConfiguration = mediaConfig
 						.getOutputConfiguration(configuration.getOutputName());
-				List content = resolveOutput(outputConfiguration);
-				for (Iterator i = content.iterator(); i.hasNext();) {
+				List<?> content = resolveOutput(outputConfiguration);
+				for (Iterator<?> i = content.iterator(); i.hasNext();) {
 					Content item = (Content) i.next();
-					if (item instanceof TextContent)
-					{
+					if (item instanceof TextContent) {
 						Output textOutput = new Output(Output.TYPE_TEXT);
 						textOutput.setProperty("value", ((TextContent) item).getText());
 						command.addOutput(textOutput);
-					}
-					else if (item instanceof FileContent)
-						command.addOutput(resolveFilePath(
-								outputConfiguration,
-								((FileContent) item).getPath()));
+					} else if (item instanceof FileContent)
+						command.addOutput(resolveFilePath(outputConfiguration, ((FileContent) item).getPath()));
 				}
-				InputConfiguration inputConfiguration = mediaConfig
-						.getInputConfiguration(configuration.getInputName());
+				InputConfiguration inputConfiguration = mediaConfig.getInputConfiguration(configuration.getInputName());
 				InputGrammar grammar = resolveInput(inputConfiguration);
 				if (grammar instanceof FileInputGrammar)
-					command.setInput(resolveFilePath(inputConfiguration,
-							((FileInputGrammar) grammar).getPath()));
-				else if (grammar instanceof BuiltInInputGrammar)
-				{
+					command.setInput(resolveFilePath(inputConfiguration, ((FileInputGrammar) grammar).getPath()));
+				else if (grammar instanceof BuiltInInputGrammar) {
 					Input customInput = new Input(ConversationCommand.INPUT_TYPE_CUSTOM);
-					customInput.setProperty("value", ((BuiltInInputGrammar) grammar)
-							.getBuiltInInputURI());
+					customInput.setProperty("value", ((BuiltInInputGrammar) grammar).getBuiltInInputURI());
 					command.setInput(customInput);
-				}
-				else if (grammar instanceof InlineInputGrammar)
-				{
+				} else if (grammar instanceof InlineInputGrammar) {
 					Input inlineInput = new Input(ConversationCommand.INPUT_TYPE_INLINE);
-					inlineInput.setProperty("value", ((InlineInputGrammar)grammar).getGrammarText());
+					inlineInput.setProperty("value", ((InlineInputGrammar) grammar).getGrammarText());
 					command.setInput(inlineInput);
 				}
 				InputConfiguration inputConfiguration2 = mediaConfig
 						.getInputConfiguration(configuration.getInputName2());
 				InputGrammar grammar2 = resolveInput(inputConfiguration2);
 				if (grammar2 instanceof FileInputGrammar)
-					command.setInput2(resolveFilePath(inputConfiguration2,
-							((FileInputGrammar) grammar2).getPath()));
-				else if (grammar2 instanceof BuiltInInputGrammar)
-				{
+					command.setInput2(resolveFilePath(inputConfiguration2, ((FileInputGrammar) grammar2).getPath()));
+				else if (grammar2 instanceof BuiltInInputGrammar) {
 					Input customInput = new Input(ConversationCommand.INPUT_TYPE_CUSTOM);
-					customInput.setProperty("value", ((BuiltInInputGrammar) grammar2)
-							.getBuiltInInputURI());
+					customInput.setProperty("value", ((BuiltInInputGrammar) grammar2).getBuiltInInputURI());
 					command.setInput2(customInput);
-				}
-				else if (grammar2 instanceof InlineInputGrammar)
-				{
+				} else if (grammar2 instanceof InlineInputGrammar) {
 					Input inlineInput = new Input(ConversationCommand.INPUT_TYPE_INLINE);
-					inlineInput.setProperty("value", ((InlineInputGrammar)grammar2).getGrammarText());
+					inlineInput.setProperty("value", ((InlineInputGrammar) grammar2).getGrammarText());
 					command.setInput2(inlineInput);
 				}
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -1147,16 +1010,14 @@ public class Conversation implements IConversation {
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IInputRequest#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IInputRequest#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -1173,25 +1034,22 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class SelectionRequest extends AbstractInteraction implements
-			ISelectionRequest {
+	private final class SelectionRequest extends AbstractInteraction implements ISelectionRequest {
 		/** The configuration of the interaction. */
 		private final SelectionRequestConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new InputRequest.
 		 * 
-		 * @param configuration
-		 *            The configuration of the interaction.
-		 * @param resultParameterName
-		 *            The name of the parameter to set the result value to.
+		 * @param configuration       The configuration of the interaction.
+		 * @param resultParameterName The name of the parameter to set the result value
+		 *                            to.
 		 */
-		SelectionRequest(SelectionRequestConfiguration configuration,
-				String resultParameterName) {
+		SelectionRequest(SelectionRequestConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -1199,8 +1057,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -1212,37 +1069,30 @@ public class Conversation implements IConversation {
 			command.setNoMatchResultValue(RESULT_NAME_NO_MATCH);
 			command.setHangupResultValue(RESULT_NAME_HANGUP);
 			command.setSelectionName(configuration.getDataName());
-			MediaConfiguration mediaConfig = configuration
-					.getMediaConfiguration();
+			MediaConfiguration mediaConfig = configuration.getMediaConfiguration();
 			if (mediaConfig != null) {
-				String[] propertyNames = mediaConfig
-						.getPropertyConfigurationNames();
+				String[] propertyNames = mediaConfig.getPropertyConfigurationNames();
 				for (int i = 0; i < propertyNames.length; ++i) {
-					String value = resolveProperty(
-							mediaConfig
-									.getPropertyConfiguration(propertyNames[i]),
-							true);
+					String value = resolveProperty(mediaConfig.getPropertyConfiguration(propertyNames[i]), true);
 					if (value != null)
 						command.setPropertyValue(propertyNames[i], value);
 				}
 				OutputConfiguration outputConfiguration = mediaConfig
 						.getOutputConfiguration(configuration.getOutputName());
-				List content = resolveOutput(outputConfiguration);
-				for (Iterator i = content.iterator(); i.hasNext();) {
+				List<?> content = resolveOutput(outputConfiguration);
+				for (Iterator<?> i = content.iterator(); i.hasNext();) {
 					Content item = (Content) i.next();
-					if (item instanceof TextContent)
-					{
+					if (item instanceof TextContent) {
 						Output textOutput = new Output(Output.TYPE_TEXT);
 						textOutput.setProperty("value", ((TextContent) item).getText());
 						command.addOutput(textOutput);
-					}
-					else if (item instanceof FileContent)
-						command.addOutput(resolveFilePath(outputConfiguration,
-								((FileContent) item).getPath()));
+					} else if (item instanceof FileContent)
+						command.addOutput(resolveFilePath(outputConfiguration, ((FileContent) item).getPath()));
 				}
 			}
 			SelectionChoiceConfiguration[] choices = configuration.getChoices();
-			Map choiceIndex = new HashMap(choices.length);
+			Map<String, SelectionChoiceConfiguration> choiceIndex = new HashMap<String, SelectionChoiceConfiguration>(
+					choices.length);
 			for (int i = 0; i < choices.length; ++i)
 				choiceIndex.put(choices[i].getName(), choices[i]);
 			String[] choiceNames = null;
@@ -1256,77 +1106,60 @@ public class Conversation implements IConversation {
 					if (choice == null)
 						continue;
 					final String script = choice.getScript();
-					final String scriptingLanguage = choice
-							.getScriptingLanguage();
+					final String scriptingLanguage = choice.getScriptingLanguage();
 					if (scriptingLanguage != null && script != null) {
-						IScriptingEngine engine = scriptingService
-								.createScriptingEngine(scriptingLanguage);
+						IScriptingEngine engine = scriptingService.createScriptingEngine(scriptingLanguage);
 						if (engine != null) {
 							Object scriptResult = engine.execute(script);
-							if (Boolean.FALSE.toString().equalsIgnoreCase(
-									String.valueOf(scriptResult)))
+							if (Boolean.FALSE.toString().equalsIgnoreCase(String.valueOf(scriptResult)))
 								continue;
 						}
 					}
 					command.addOption(choice.getName());
 					mediaConfig = choice.getMediaConfiguration();
 					if (mediaConfig != null) {
-						String[] propertyNames = mediaConfig
-								.getPropertyConfigurationNames();
+						String[] propertyNames = mediaConfig.getPropertyConfigurationNames();
 						for (int j = 0; j < propertyNames.length; ++j) {
-							String value = resolveProperty(
-									mediaConfig
-											.getPropertyConfiguration(propertyNames[j]),
+							String value = resolveProperty(mediaConfig.getPropertyConfiguration(propertyNames[j]),
 									true);
 							if (value != null)
-								command.setOptionProperty(index,
-										propertyNames[j], value);
+								command.setOptionProperty(index, propertyNames[j], value);
 						}
 						OutputConfiguration outputConfiguration = mediaConfig
 								.getOutputConfiguration(choice.getOutputName());
-						List content = resolveOutput(outputConfiguration);
-						for (Iterator j = content.iterator(); j.hasNext();) {
+						List<?> content = resolveOutput(outputConfiguration);
+						for (Iterator<?> j = content.iterator(); j.hasNext();) {
 							Content item = (Content) j.next();
-							if (item instanceof TextContent)
-							{
+							if (item instanceof TextContent) {
 								Output textOutput = new Output(Output.TYPE_TEXT);
 								textOutput.setProperty("value", ((TextContent) item).getText());
 								command.addOptionOutput(index, textOutput);
-							}
-							else if (item instanceof FileContent)
+							} else if (item instanceof FileContent)
 								command.addOptionOutput(index,
-										resolveFilePath(outputConfiguration,
-												((FileContent) item).getPath()));
+										resolveFilePath(outputConfiguration, ((FileContent) item).getPath()));
 						}
 						InputConfiguration inputConfiguration = mediaConfig
 								.getInputConfiguration(choice.getInputName());
 						InputGrammar grammar = resolveInput(inputConfiguration);
 						if (grammar instanceof FileInputGrammar)
 							command.setOptionInput(index,
-									resolveFilePath(inputConfiguration,
-											((FileInputGrammar) grammar)
-													.getPath()));
-						else if (grammar instanceof BuiltInInputGrammar)
-						{
+									resolveFilePath(inputConfiguration, ((FileInputGrammar) grammar).getPath()));
+						else if (grammar instanceof BuiltInInputGrammar) {
 							Input customInput = new Input(ConversationCommand.INPUT_TYPE_CUSTOM);
-							customInput.setProperty("value", ((BuiltInInputGrammar) grammar)
-									.getBuiltInInputURI());
+							customInput.setProperty("value", ((BuiltInInputGrammar) grammar).getBuiltInInputURI());
 							command.setOptionInput(index, customInput);
-						}
-						else if (grammar instanceof InlineInputGrammar)
-						{
+						} else if (grammar instanceof InlineInputGrammar) {
 							Input inlineInput = new Input(ConversationCommand.INPUT_TYPE_INLINE);
-							inlineInput.setProperty("value", ((InlineInputGrammar)grammar).getGrammarText());
+							inlineInput.setProperty("value", ((InlineInputGrammar) grammar).getGrammarText());
 							command.setOptionInput(index, inlineInput);
 						}
 					}
 					++index;
 				}
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -1340,16 +1173,14 @@ public class Conversation implements IConversation {
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IInputRequest#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IInputRequest#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -1366,25 +1197,22 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class DataRequest extends AbstractInteraction implements
-			IDataRequest {
+	private final class DataRequest extends AbstractInteraction implements IDataRequest {
 		/** The configuration of the interaction. */
 		private final DataRequestConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new DataRequest.
 		 * 
-		 * @param configuration
-		 *            The configuration of the interaction.
-		 * @param resultParameterName
-		 *            The name of the parameter to set the result value to.
+		 * @param configuration       The configuration of the interaction.
+		 * @param resultParameterName The name of the parameter to set the result value
+		 *                            to.
 		 */
-		DataRequest(DataRequestConfiguration configuration,
-				String resultParameterName) {
+		DataRequest(DataRequestConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -1392,8 +1220,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -1405,60 +1232,43 @@ public class Conversation implements IConversation {
 			command.setHangupResultValue(RESULT_NAME_HANGUP);
 			// command.setNoMatchResultValue(RESULT_NAME_NO_MATCH);
 			command.setDataName(configuration.getDataName());
-			MediaConfiguration mediaConfig = configuration
-					.getMediaConfiguration();
+			MediaConfiguration mediaConfig = configuration.getMediaConfiguration();
 			if (mediaConfig != null) {
-				String[] propertyNames = mediaConfig
-						.getPropertyConfigurationNames();
+				String[] propertyNames = mediaConfig.getPropertyConfigurationNames();
 				for (int i = 0; i < propertyNames.length; ++i) {
-					String value = resolveProperty(
-							mediaConfig
-									.getPropertyConfiguration(propertyNames[i]),
-							true);
+					String value = resolveProperty(mediaConfig.getPropertyConfiguration(propertyNames[i]), true);
 					if (value != null)
 						command.setPropertyValue(propertyNames[i], value);
 				}
 				OutputConfiguration outputConfiguration = mediaConfig
 						.getOutputConfiguration(configuration.getOutputName());
-				List content = resolveOutput(outputConfiguration);
-				for (Iterator i = content.iterator(); i.hasNext();) {
+				List<?> content = resolveOutput(outputConfiguration);
+				for (Iterator<?> i = content.iterator(); i.hasNext();) {
 					Content item = (Content) i.next();
-					if (item instanceof TextContent)
-					{
+					if (item instanceof TextContent) {
 						Output textOutput = new Output(Output.TYPE_TEXT);
 						textOutput.setProperty("value", ((TextContent) item).getText());
 						command.addOutput(textOutput);
-					}
-					else if (item instanceof FileContent)
-						command.addOutput(resolveFilePath(
-								outputConfiguration,
-								((FileContent) item).getPath()));
+					} else if (item instanceof FileContent)
+						command.addOutput(resolveFilePath(outputConfiguration, ((FileContent) item).getPath()));
 				}
-				InputGrammar grammar = resolveInput(mediaConfig
-						.getInputConfiguration(configuration.getInputName()));
+				InputGrammar grammar = resolveInput(mediaConfig.getInputConfiguration(configuration.getInputName()));
 				if (grammar instanceof FileInputGrammar)
-					command.setInput(resolveFilePath(
-							mediaConfig.getInputConfiguration(configuration
-									.getInputName()),
+					command.setInput(resolveFilePath(mediaConfig.getInputConfiguration(configuration.getInputName()),
 							((FileInputGrammar) grammar).getPath()));
-				else if (grammar instanceof BuiltInInputGrammar)
-				{
+				else if (grammar instanceof BuiltInInputGrammar) {
 					Input customInput = new Input(ConversationCommand.INPUT_TYPE_CUSTOM);
-					customInput.setProperty("value", ((BuiltInInputGrammar) grammar)
-							.getBuiltInInputURI());
+					customInput.setProperty("value", ((BuiltInInputGrammar) grammar).getBuiltInInputURI());
 					command.setInput(customInput);
-				}
-				else if (grammar instanceof InlineInputGrammar)
-				{
+				} else if (grammar instanceof InlineInputGrammar) {
 					Input inlineInput = new Input(ConversationCommand.INPUT_TYPE_INLINE);
-					inlineInput.setProperty("value", ((InlineInputGrammar)grammar).getGrammarText());
+					inlineInput.setProperty("value", ((InlineInputGrammar) grammar).getGrammarText());
 					command.setInput(inlineInput);
 				}
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -1472,16 +1282,14 @@ public class Conversation implements IConversation {
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IInputRequest#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IInputRequest#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -1498,22 +1306,19 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ExternalReference extends AbstractInteraction implements
-			IExternalReference {
+	private final class ExternalReference extends AbstractInteraction implements IExternalReference {
 		/** The configuration for this interaction. */
 		private final ExternalReferenceConfiguration configuration;
 		private final String resultParameterName;
 		/** The parameters to set when the process resumes. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new ExternalReference.
 		 * 
-		 * @param configuration
-		 *            The configuration for this interaction.
+		 * @param configuration The configuration for this interaction.
 		 */
-		ExternalReference(ExternalReferenceConfiguration configuration,
-				String resultParameterName) {
+		ExternalReference(ExternalReferenceConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -1521,8 +1326,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -1539,21 +1343,17 @@ public class Conversation implements IConversation {
 																// input is a
 																// variable or a
 																// constant
-					command.setInputArgumentValue(keys[i],
-							configuration.getInputValue(keys[i]));
+					command.setInputArgumentValue(keys[i], configuration.getInputValue(keys[i]));
 				else {
-					IDataObject obj = variableRegistry
-							.getVariable(configuration.getInputValue(keys[i]));
+					IDataObject obj = variableRegistry.getVariable(configuration.getInputValue(keys[i]));
 					if (obj != null)
-						command.setInputArgumentValue(keys[i],
-								"'" + obj.toString() + "'");
+						command.setInputArgumentValue(keys[i], "'" + obj.toString() + "'");
 
 				}
 			}
 			keys = configuration.getOutputNames();
 			for (int i = 0; i < keys.length; ++i)
-				command.setOutputArgumentValue(keys[i],
-						configuration.getOutputValue(keys[i]));
+				command.setOutputArgumentValue(keys[i], configuration.getOutputValue(keys[i]));
 			keys = configuration.getURLParameterNames();
 			for (int i = 0; i < keys.length; ++i) {
 				if (!configuration.isURLParameterVariable(keys[i])) // this
@@ -1564,22 +1364,17 @@ public class Conversation implements IConversation {
 																	// variable
 																	// or a
 																	// constant
-					command.setURLParameterValue(keys[i],
-							configuration.getURLParameterValue(keys[i]));
+					command.setURLParameterValue(keys[i], configuration.getURLParameterValue(keys[i]));
 				else {
-					IDataObject obj = variableRegistry
-							.getVariable(configuration
-									.getURLParameterValue(keys[i]));
+					IDataObject obj = variableRegistry.getVariable(configuration.getURLParameterValue(keys[i]));
 					if (obj != null)
-						command.setURLParameterValue(keys[i],
-								"'" + obj.toString() + "'");
+						command.setURLParameterValue(keys[i], "'" + obj.toString() + "'");
 
 				}
 			}
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();) {
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
 				Map.Entry entry = (Map.Entry) i.next();
-				command.setParameterValues((String) entry.getKey(),
-						(String[]) entry.getValue());
+				command.setParameterValues((String) entry.getKey(), (String[]) entry.getValue());
 			}
 			return command;
 		}
@@ -1588,22 +1383,19 @@ public class Conversation implements IConversation {
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IExternalReference#setParameterValue(java.lang.String,
-		 * java.lang.String)
+		 * IExternalReference#setParameterValue(java.lang.String, java.lang.String)
 		 */
 		public void setParameterValue(String name, String value) {
 			if (name == null)
 				return;
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.conversation.
-		 * IExternalReference#setParameterValues(java.lang.String,
-		 * java.lang.String[])
+		 * IExternalReference#setParameterValues(java.lang.String, java.lang.String[])
 		 */
 		public void setParameterValues(String name, String[] values) {
 			if (name == null)
@@ -1620,16 +1412,14 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class TransferMessage extends AbstractInteraction implements
-			ITransferMessage {
+	private final class TransferMessage extends AbstractInteraction implements ITransferMessage {
 		/** The configuration for this interaction. */
 		private final TransferMessageConfiguration configuration;
 
 		/**
 		 * Creates a new TransferMessage.
 		 * 
-		 * @param configuration
-		 *            The configuration for this interaction.
+		 * @param configuration The configuration for this interaction.
 		 */
 		TransferMessage(TransferMessageConfiguration configuration) {
 			this.configuration = configuration;
@@ -1638,8 +1428,7 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
@@ -1650,8 +1439,7 @@ public class Conversation implements IConversation {
 			if ("variable".equalsIgnoreCase(type))
 				value = String.valueOf(variableRegistry.getVariable(value));
 			else if ("expression".equalsIgnoreCase(type))
-				value = String.valueOf(scriptingService.createScriptingEngine(
-						"JavaScript").execute(value));
+				value = String.valueOf(scriptingService.createScriptingEngine("JavaScript").execute(value));
 			TransferMessageCommand command = new TransferMessageCommand();
 			command.setDestination(value);
 			return command;
@@ -1663,8 +1451,7 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class BridgeMessage extends AbstractInteraction implements
-			IBridgeMessage {
+	private final class BridgeMessage extends AbstractInteraction implements IBridgeMessage {
 		/** The configuration for this interaction. */
 		private final BridgeMessageConfiguration configuration;
 		/** The name of the parameter to set the result value to. */
@@ -1673,11 +1460,9 @@ public class Conversation implements IConversation {
 		/**
 		 * Creates a new BridgeMessage.
 		 * 
-		 * @param configuration
-		 *            The configuration for this interaction.
+		 * @param configuration The configuration for this interaction.
 		 */
-		BridgeMessage(BridgeMessageConfiguration configuration,
-				String resultParameterName) {
+		BridgeMessage(BridgeMessageConfiguration configuration, String resultParameterName) {
 			this.configuration = configuration;
 			this.resultParameterName = resultParameterName;
 		}
@@ -1685,23 +1470,19 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
-			MediaConfiguration mediaConfiguration = configuration
-					.getMediaConfiguration();
+			MediaConfiguration mediaConfiguration = configuration.getMediaConfiguration();
 
 			PropertyConfiguration transferTypePropertyConfig = mediaConfiguration
 					.getPropertyConfiguration("transferType");
-			PropertyConfiguration typePropertyConfig = mediaConfiguration
-					.getPropertyConfiguration("type");
+			PropertyConfiguration typePropertyConfig = mediaConfiguration.getPropertyConfiguration("type");
 			PropertyConfiguration destinationPropertyConfig = mediaConfiguration
 					.getPropertyConfiguration("destination");
 
-			String value = resolveProperty(destinationPropertyConfig, true,
-					true);
+			String value = resolveProperty(destinationPropertyConfig, true, true);
 			if (value == null)
 				value = resolveProperty(destinationPropertyConfig, true, false);
 			if (value == null)
@@ -1713,14 +1494,11 @@ public class Conversation implements IConversation {
 			if ("variable".equalsIgnoreCase(type))
 				value = String.valueOf(variableRegistry.getVariable(value));
 			else if ("expression".equalsIgnoreCase(type))
-				value = String.valueOf(scriptingService.createScriptingEngine(
-						"JavaScript").execute(value));
+				value = String.valueOf(scriptingService.createScriptingEngine("JavaScript").execute(value));
 
-			String bridgedValue = resolveProperty(transferTypePropertyConfig,
-					true, true);
+			String bridgedValue = resolveProperty(transferTypePropertyConfig, true, true);
 			if (bridgedValue == null)
-				bridgedValue = resolveProperty(transferTypePropertyConfig,
-						true, false);
+				bridgedValue = resolveProperty(transferTypePropertyConfig, true, false);
 
 			BridgeMessageCommand command = new BridgeMessageCommand();
 			command.setTransferType(bridgedValue);
@@ -1746,27 +1524,22 @@ public class Conversation implements IConversation {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class EndMessage extends AbstractInteraction implements
-			IEndMessage
-	{
+	private final class EndMessage extends AbstractInteraction implements IEndMessage {
 		private final Map<String, String> variables = new HashMap<String, String>();
 
-		public void setVariableValue(String variableName, String variableValue)
-		{
+		public void setVariableValue(String variableName, String variableValue) {
 			variables.put(variableName, variableValue);
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
 			EndMessageCommand command = new EndMessageCommand();
-			for (Map.Entry<String, String> entry : variables.entrySet())
-			{
+			for (Map.Entry<String, String> entry : variables.entrySet()) {
 				command.addVariable(entry.getKey(), entry.getValue());
 			}
 			return command;
@@ -1796,14 +1569,12 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.services.Conversation.
+		 * @see org.eclipse.vtp.framework.interactions.core.services.Conversation.
 		 * AbstractInteraction#createCommand()
 		 */
 		ConversationCommand createCommand() {
 			FinalCommand command = new FinalCommand();
-			for (Map.Entry<String, String> entry : variables.entrySet())
-			{
+			for (Map.Entry<String, String> entry : variables.entrySet()) {
 				command.addVariable(entry.getKey(), entry.getValue());
 			}
 			return command;
@@ -1822,8 +1593,7 @@ public class Conversation implements IConversation {
 		/**
 		 * Creates a new DataSet.
 		 * 
-		 * @param variables
-		 *            The variables to use.
+		 * @param variables The variables to use.
 		 */
 		DataSet(IVariableRegistry variables) {
 			this.variables = variables;
@@ -1832,16 +1602,14 @@ public class Conversation implements IConversation {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.media.IDataSet#getData(
+		 * @see org.eclipse.vtp.framework.interactions.core.media.IDataSet#getData(
 		 * java.lang.String)
 		 */
 		public Object getData(String name) {
 			if (name.startsWith("LastResult")) {
 				if (name.length() > "LastResult.".length()) {
 					String prop = name.substring(11);
-					ILastResultData data = (ILastResultData) lastResult
-							.getResults().get(0);
+					ILastResultData data = (ILastResultData) lastResult.getResults().get(0);
 					if (data == null)
 						return null;
 					if ("confidence".equals(prop)) {

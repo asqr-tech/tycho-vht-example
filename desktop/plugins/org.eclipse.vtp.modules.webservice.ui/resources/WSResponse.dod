@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<business-object
+    id="809ee7dbd2ae41a8b40e867c1725e2a3"
+    name="WSResponse">
+	<fields>
+		<field
+		    initialValue=""
+		    name="headers"
+		    secured="false">
+			<data-type>
+				<type>
+					WSHeader
+				</type>
+				<style
+				    value="1" />
+				<precision
+				    value="0" />
+			</data-type>
+		</field>
+		<field
+		    initialValue=""
+		    name="rawContent"
+		    secured="false">
+			<data-type>
+				<type>
+					String
+				</type>
+				<style
+				    value="0" />
+				<precision
+				    value="0" />
+			</data-type>
+		</field>
+	</fields>
+</business-object>

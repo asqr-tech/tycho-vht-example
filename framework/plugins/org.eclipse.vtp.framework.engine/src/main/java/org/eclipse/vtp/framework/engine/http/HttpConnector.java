@@ -65,8 +65,7 @@ import org.osgi.service.log.LogService;
  * 
  * @author Lonnie Pryor
  */
-public class HttpConnector
-{
+public class HttpConnector {
 	/** The path prefix for reserved commands. */
 	public static final String PATH_PREFIX = "/-/"; //$NON-NLS-1$
 	/** The path info for aborting a session. */
@@ -88,10 +87,8 @@ public class HttpConnector
 	/** The name of the session attribute the deployment ID is stored in. */
 	private static final String ENTRY_POINT_NAME = "entry.point.name";
 	/** Ordering of paths by longest-first. */
-	private static final Comparator<String> PATH_SORT = new Comparator<String>()
-	{
-		public int compare(String left, String right)
-		{
+	private static final Comparator<String> PATH_SORT = new Comparator<String>() {
+		public int compare(String left, String right) {
 			int difference = right.length() - left.length();
 			if (difference == 0)
 				difference = left.compareTo(right);
@@ -133,12 +130,10 @@ public class HttpConnector
 	/**
 	 * Creates a new HttpConnector.
 	 * 
-	 * @param engine The process engine to use.
+	 * @param engine      The process engine to use.
 	 * @param httpService The HTTP service to use.
 	 */
-	public HttpConnector(LogService log, IProcessEngine engine,
-			HttpService httpService, IReporter reporter)
-	{
+	public HttpConnector(LogService log, IProcessEngine engine, HttpService httpService, IReporter reporter) {
 		// this.log = log;
 		this.engine = engine;
 		this.httpService = httpService;
@@ -149,13 +144,10 @@ public class HttpConnector
 	 * Registers a process definition with this connector.
 	 * 
 	 * @param definitionID The ID of the definition to register.
-	 * @param definition The definition to register.
+	 * @param definition   The definition to register.
 	 */
-	public void registerDefinition(String definitionID,
-			IProcessDefinition definition, Bundle contributor)
-	{
-		synchronized (definitionsByID)
-		{
+	public void registerDefinition(String definitionID, IProcessDefinition definition, Bundle contributor) {
+		synchronized (definitionsByID) {
 			definitionsByID.put(definitionID, definition);
 			definitionContributors.put(definitionID, contributor);
 		}
@@ -166,10 +158,8 @@ public class HttpConnector
 	 * 
 	 * @param definitionID The ID of the definition to release.
 	 */
-	public void releaseDefinition(String definitionID)
-	{
-		synchronized (definitionsByID)
-		{
+	public void releaseDefinition(String definitionID) {
+		synchronized (definitionsByID) {
 			definitionContributors.remove(definitionID);
 			definitionsByID.remove(definitionID);
 		}
@@ -179,12 +169,10 @@ public class HttpConnector
 	 * Registers a resource group with this connector.
 	 * 
 	 * @param resourcesID The ID of the resource group to register.
-	 * @param resources The resource group to register.
+	 * @param resources   The resource group to register.
 	 */
-	public void registerResouces(String resourcesID, ResourceGroup resources)
-	{
-		synchronized (resourcesByID)
-		{
+	public void registerResouces(String resourcesID, ResourceGroup resources) {
+		synchronized (resourcesByID) {
 			resourcesByID.put(resourcesID, resources);
 		}
 	}
@@ -194,10 +182,8 @@ public class HttpConnector
 	 * 
 	 * @param resourcesID The ID of the resource group to release.
 	 */
-	public void releaseResouces(String resourcesID)
-	{
-		synchronized (resourcesByID)
-		{
+	public void releaseResouces(String resourcesID) {
+		synchronized (resourcesByID) {
 			resourcesByID.remove(resourcesID);
 		}
 	}
@@ -207,8 +193,7 @@ public class HttpConnector
 	 * 
 	 * @param properties The basic configuration properties.
 	 */
-	public synchronized void configure(@SuppressWarnings("rawtypes") Dictionary properties)
-	{
+	public synchronized void configure(@SuppressWarnings("rawtypes") Dictionary properties) {
 		close();
 		this.properties = properties;
 		open();
@@ -217,56 +202,44 @@ public class HttpConnector
 	/**
 	 * Deploys a process into the engine.
 	 * 
-	 * @param key The key for the deployment.
+	 * @param key        The key for the deployment.
 	 * @param properties The properties of the deployment.
 	 */
-	public synchronized void deploy(String key, @SuppressWarnings("rawtypes") Dictionary properties)
-	{
+	public synchronized void deploy(String key, @SuppressWarnings("rawtypes") Dictionary properties) {
 		Deployment deployment = deploymentsByKey.remove(key);
 		if (deployment != null)
 			deploymentsByPath.remove(deployment.getPath());
-		String definitionID = (String)properties.get("definition.id"); //$NON-NLS-1$
-		String deploymentID = (String)properties.get("deployment.id");
-		String path = (String)properties.get("path");
+		String definitionID = (String) properties.get("definition.id"); //$NON-NLS-1$
+		String deploymentID = (String) properties.get("deployment.id");
+		String path = (String) properties.get("path");
 		IProcessDefinition definition = null;
 		Bundle contributor = null;
-		synchronized (definitionsByID)
-		{
+		synchronized (definitionsByID) {
 			definition = definitionsByID.get(definitionID);
 			contributor = definitionContributors.get(definitionID);
 		}
-		if(definition == null) //race condition possible
+		if (definition == null) // race condition possible
 		{
-			try
-			{
+			try {
 				Thread.sleep(15000);
+			} catch (Exception ex) {
+
 			}
-			catch(Exception ex)
-			{
-				
-			}
-			synchronized (definitionsByID)
-			{
+			synchronized (definitionsByID) {
 				definition = definitionsByID.get(definitionID);
 				contributor = definitionContributors.get(definitionID);
 			}
 		}
 		if (definition == null || contributor == null)
 			return;
-		try
-		{
-			deployment = new Deployment(engine, definition, properties, contributor,
-					reporter);
-		}
-		catch (Exception e)
-		{
+		try {
+			deployment = new Deployment(engine, definition, properties, contributor, reporter);
+		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
-		synchronized (resourcesByID)
-		{
-			for (Map.Entry<String, ResourceGroup> entry : resourcesByID.entrySet())
-			{
+		synchronized (resourcesByID) {
+			for (Map.Entry<String, ResourceGroup> entry : resourcesByID.entrySet()) {
 				deployment.setResourceManager(entry.getKey(), entry.getValue());
 			}
 		}
@@ -288,26 +261,24 @@ public class HttpConnector
 	 * 
 	 * @param key The key for the deployment.
 	 */
-	public synchronized void undeploy(String key)
-	{
+	public synchronized void undeploy(String key) {
 		Deployment deployment = deploymentsByKey.remove(key);
 		if (deployment == null)
 			return;
 		deploymentsByPath.remove(deployment.getPath());
 		deployment.dispose();
 	}
-	
+
 	/**
 	 * Serves up a site that can be used to examine and modify active sessions.
 	 * 
 	 * @param req The HTTP request.
 	 * @param res The HTTP response.
 	 * @throws ServletException If the processing fails.
-	 * @throws IOException If the connection fails.
+	 * @throws IOException      If the connection fails.
 	 */
 	public synchronized void examine(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException
-	{
+			throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
 		String process = req.getParameter("process");
 		String session = req.getParameter("session");
@@ -341,15 +312,15 @@ public class HttpConnector
 					parent.setField(fieldName, object);
 				}
 				if (object instanceof IBooleanObject)
-					((IBooleanObject)object).setValue(value);
+					((IBooleanObject) object).setValue(value);
 				else if (object instanceof IDateObject)
-					((IDateObject)object).setValue(value);
+					((IDateObject) object).setValue(value);
 				else if (object instanceof IDecimalObject)
-					((IDecimalObject)object).setValue(value);
+					((IDecimalObject) object).setValue(value);
 				else if (object instanceof INumberObject)
-					((INumberObject)object).setValue(value);
+					((INumberObject) object).setValue(value);
 				else if (object instanceof IStringObject)
-					((IStringObject)object).setValue(value);
+					((IStringObject) object).setValue(value);
 			}
 			deploymentSession.unlock();
 			res.sendRedirect(res.encodeRedirectURL("examine?cmd=variables&process=" + process + "&session=" + session));
@@ -360,7 +331,8 @@ public class HttpConnector
 			out.println("<html><head><title>Runtime Examination</title></head><body>");
 			if ("edit".equals(cmd)) {
 				out.println("<p>Application: " + process + "</p>");
-				out.println("<p>Session: " + deploymentSession.getSessionID() + " : " + deploymentSession.getCurrentPosition() + "</p>");
+				out.println("<p>Session: " + deploymentSession.getSessionID() + " : "
+						+ deploymentSession.getCurrentPosition() + "</p>");
 				deploymentSession.lock();
 				out.println("<form action=\"examine\" method=\"post\">");
 				out.println("<input type=\"hidden\" name=\"cmd\" value=\"unlock\" />");
@@ -377,7 +349,8 @@ public class HttpConnector
 				out.println("</form>");
 			} else if ("variables".equals(cmd)) {
 				out.println("<p>Application: " + process + "</p>");
-				out.println("<p>Session: " + deploymentSession.getSessionID() + " : " + deploymentSession.getCurrentPosition() + "</p>");
+				out.println("<p>Session: " + deploymentSession.getSessionID() + " : "
+						+ deploymentSession.getCurrentPosition() + "</p>");
 				out.println("<p>Select a variable to edit:</p><ul>");
 				IVariableRegistry variables = deploymentSession.getVariableRegistry();
 				String prefix = base + "edit&process=" + process + "&session=" + session + "&variable=";
@@ -427,13 +400,10 @@ public class HttpConnector
 	 * @param var
 	 * @throws IOException
 	 */
-	private void examineVariable(ServletOutputStream out, String prefix,
-			String name, IDataObject var) throws IOException {
-		if (var instanceof IBooleanObject ||
-				 var instanceof IDateObject ||
-				 var instanceof IDecimalObject ||
-				 var instanceof INumberObject ||
-				 var instanceof IStringObject) {
+	private void examineVariable(ServletOutputStream out, String prefix, String name, IDataObject var)
+			throws IOException {
+		if (var instanceof IBooleanObject || var instanceof IDateObject || var instanceof IDecimalObject
+				|| var instanceof INumberObject || var instanceof IStringObject) {
 			out.print("<li>");
 			out.print(name);
 			out.print(" = ");
@@ -456,19 +426,13 @@ public class HttpConnector
 	 * @param req The HTTP request.
 	 * @param res The HTTP response.
 	 * @throws ServletException If the processing fails.
-	 * @throws IOException If the connection fails.
+	 * @throws IOException      If the connection fails.
 	 */
-	public void process(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException
-	{
-		try
-		{
-			invokeProcessEngine(req, res, req.getSession(), HttpUtils
-					.normalizePath(req.getPathInfo()), Collections.emptyMap(),
-					new HashMap<String, String[]>(), false);
-		}
-		catch (Exception e)
-		{
+	public void process(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		try {
+			invokeProcessEngine(req, res, req.getSession(), HttpUtils.normalizePath(req.getPathInfo()),
+					Collections.emptyMap(), new HashMap<String, String[]>(), false);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -484,17 +448,12 @@ public class HttpConnector
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	private void invokeProcessEngine(HttpServletRequest req,
-			HttpServletResponse res, HttpSession httpSession, String pathInfo,
-			Map<Object, Object> variableValues,
-			@SuppressWarnings("rawtypes") Map<String, String[]> parameterValues,
-			boolean embeddedInvocation)
-			throws IOException, ServletException
-	{
+	private void invokeProcessEngine(HttpServletRequest req, HttpServletResponse res, HttpSession httpSession,
+			String pathInfo, Map<Object, Object> variableValues, Map<String, String[]> parameterValues,
+			boolean embeddedInvocation) throws IOException, ServletException {
 		boolean newSession = false;
-		Integer depth = (Integer)httpSession.getAttribute("connector.depth");
-		if (depth == null)
-		{
+		Integer depth = (Integer) httpSession.getAttribute("connector.depth");
+		if (depth == null) {
 			depth = new Integer(0);
 		}
 		String prefix = "connector.attributes.";
@@ -505,26 +464,20 @@ public class HttpConnector
 		String brand = null;
 		String entryName = null;
 		boolean subdialog = false;
-		if (!pathInfo.startsWith(PATH_PREFIX))
-		{
+		if (!pathInfo.startsWith(PATH_PREFIX)) {
 			System.out.println("invoking process engine for new session: " + pathInfo);
 			newSession = true;
-			synchronized (this)
-			{
-				for (String path : deploymentsByPath.keySet())
-				{
+			synchronized (this) {
+				for (String path : deploymentsByPath.keySet()) {
 					System.out.println("Comparing to deployment: " + path);
-					if (pathInfo.equals(path) || pathInfo.startsWith(path)
-							&& pathInfo.length() > path.length()
-							&& pathInfo.charAt(path.length()) == '/')
-					{
+					if (pathInfo.equals(path) || pathInfo.startsWith(path) && pathInfo.length() > path.length()
+							&& pathInfo.charAt(path.length()) == '/') {
 						deployment = deploymentsByPath.get(path);
 						System.out.println("Matching deployment found: " + deployment);
 						brand = req.getParameter("BRAND");
-						if(req.getParameter("SUBDIALOG") != null)
+						if (req.getParameter("SUBDIALOG") != null)
 							subdialog = Boolean.parseBoolean(req.getParameter("SUBDIALOG"));
-						if (pathInfo.length() > path.length() + 1)
-						{
+						if (pathInfo.length() > path.length() + 1) {
 							entryName = pathInfo.substring(path.length() + 1);
 							System.out.println("Entry point name: " + entryName);
 						}
@@ -532,8 +485,7 @@ public class HttpConnector
 					}
 				}
 			}
-			if (deployment == null)
-			{
+			if (deployment == null) {
 				res.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
@@ -542,65 +494,47 @@ public class HttpConnector
 				return;
 			}
 			pathInfo = NEXT_PATH;
-			httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID, deployment
-					.getProcessID());
-		}
-		else if(pathInfo.equals(LOG_PATH))
-		{
-			if(req.getParameter("cmd") != null && req.getParameter("cmd").equals("set"))
-			{
+			httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID, deployment.getProcessID());
+		} else if (pathInfo.equals(LOG_PATH)) {
+			if (req.getParameter("cmd") != null && req.getParameter("cmd").equals("set")) {
 				String level = req.getParameter("level");
-				if(level == null || (!level.equalsIgnoreCase("ERROR") && !level.equalsIgnoreCase("WARN") && !level.equalsIgnoreCase("INFO") && !level.equalsIgnoreCase("DEBUG")))
+				if (level == null || (!level.equalsIgnoreCase("ERROR") && !level.equalsIgnoreCase("WARN")
+						&& !level.equalsIgnoreCase("INFO") && !level.equalsIgnoreCase("DEBUG")))
 					level = "INFO";
 				System.setProperty("org.eclipse.vtp.loglevel", level);
 			}
 			writeLogging(req, res);
 			return;
-		}
-		else
-		{
-			String deploymentID = (String)httpSession.getAttribute(fullPrefix
-					+ DEPLOYMENT_ID);
-			synchronized (this)
-			{
+		} else {
+			String deploymentID = (String) httpSession.getAttribute(fullPrefix + DEPLOYMENT_ID);
+			synchronized (this) {
 				deployment = deploymentsByID.get(deploymentID);
 			}
-			if (deployment == null)
-			{
+			if (deployment == null) {
 				res.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;
 			}
 		}
 		if (subdialog)
 			httpSession.setAttribute(fullPrefix + "subdialog", "true");
-		if (pathInfo.equals(INDEX_PATH))
-		{
+		if (pathInfo.equals(INDEX_PATH)) {
 			writeIndex(res, deployment);
 			return;
 		}
 		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-		if (ServletFileUpload.isMultipartContent(new ServletRequestContext(
-				req)))
-		{
+		if (ServletFileUpload.isMultipartContent(new ServletRequestContext(req))) {
 			System.out.println("ServletFileUpload.isMultipartContent(new ServletRequestContext(httpRequest)) is true");
-			try
-			{
-				List items = upload.parseRequest(req);
-				for (int i = 0; i < items.size(); i++)
-				{
-					FileItem fui = (FileItem)items.get(i);
-					if (fui.isFormField() || "text/plain".equals(fui.getContentType()))
-					{
+			try {
+				List<?> items = upload.parseRequest(req);
+				for (int i = 0; i < items.size(); i++) {
+					FileItem fui = (FileItem) items.get(i);
+					if (fui.isFormField() || "text/plain".equals(fui.getContentType())) {
 						System.out.println("Form Field: " + fui.getFieldName() + " | " + fui.getString());
-						parameterValues
-								.put(fui.getFieldName(), new String[] { fui.getString() });
-					}
-					else
-					{
+						parameterValues.put(fui.getFieldName(), new String[] { fui.getString() });
+					} else {
 						File temp = File.createTempFile(Guid.createGUID(), ".tmp");
 						fui.write(temp);
-						parameterValues.put(fui.getFieldName(), new String[] { temp
-								.getAbsolutePath() });
+						parameterValues.put(fui.getFieldName(), new String[] { temp.getAbsolutePath() });
 						fui.delete();
 						System.out.println("File Upload: " + fui.getFieldName());
 						System.out.println("\tTemp file name: " + temp.getAbsolutePath());
@@ -608,59 +542,48 @@ public class HttpConnector
 						System.out.println("\tSize: " + fui.getSize());
 					}
 				}
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		for (Enumeration e = req.getParameterNames(); e.hasMoreElements();)
-		{
-			String key = (String)e.nextElement();
+		for (Enumeration<?> e = req.getParameterNames(); e.hasMoreElements();) {
+			String key = (String) e.nextElement();
 			parameterValues.put(key, req.getParameterValues(key));
 		}
-		for(String key : parameterValues.keySet())
-		{
+		for (String key : parameterValues.keySet()) {
 			String[] values = parameterValues.get(key);
-			if(values == null || values.length == 0)
+			if (values == null || values.length == 0)
 				System.out.println(key + " empty");
-			else
-			{
+			else {
 				System.out.println(key + " " + values[0]);
-				for(int i = 1; i < values.length; i++)
+				for (int i = 1; i < values.length; i++)
 					System.out.println("\t" + values[i]);
 			}
 		}
 		IDocument document = null;
 		if (pathInfo.equals(ABORT_PATH))
-			document = deployment.abort(httpSession, req, res, prefix, depth.intValue(),
-					variableValues, parameterValues);
-		else if (pathInfo.equals(NEXT_PATH))
-		{
+			document = deployment.abort(httpSession, req, res, prefix, depth.intValue(), variableValues,
+					parameterValues);
+		else if (pathInfo.equals(NEXT_PATH)) {
 			if (brand == null && !newSession)
-				document = deployment.next(httpSession, req, res, prefix, depth.intValue(),
-						variableValues, parameterValues);
+				document = deployment.next(httpSession, req, res, prefix, depth.intValue(), variableValues,
+						parameterValues);
 			else
-				document = deployment.start(httpSession, req, res, prefix, depth.intValue(),
-						variableValues, parameterValues, entryName, brand, subdialog);
-		}
-		else
-		{
+				document = deployment.start(httpSession, req, res, prefix, depth.intValue(), variableValues,
+						parameterValues, entryName, brand, subdialog);
+		} else {
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
-		if (document == null)
-		{
+		if (document == null) {
 			res.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			return;
-		}
-		else if (document instanceof ControllerDocument)
-		{
-			ControllerDocument cd = (ControllerDocument)document;
-			if (cd.getTarget() == null)
-			{
+		} else if (document instanceof ControllerDocument) {
+			ControllerDocument cd = (ControllerDocument) document;
+			if (cd.getTarget() == null) {
 				@SuppressWarnings("unchecked")
-				Map<String, Map<String, Object>> outgoing = (Map<String, Map<String, Object>>)httpSession.getAttribute(fullPrefix + "outgoing-data");
+				Map<String, Map<String, Object>> outgoing = (Map<String, Map<String, Object>>) httpSession
+						.getAttribute(fullPrefix + "outgoing-data");
 				int newDepth = depth.intValue() - 1;
 				if (newDepth == 0)
 					httpSession.removeAttribute("connector.depth");
@@ -668,23 +591,19 @@ public class HttpConnector
 					httpSession.setAttribute("connector.depth", new Integer(newDepth));
 				String oldFullPrefix = fullPrefix;
 				fullPrefix = prefix + newDepth + ".";
-				Object[] params = (Object[])httpSession.getAttribute(fullPrefix
-						+ "exitparams");
+				Object[] params = (Object[]) httpSession.getAttribute(fullPrefix + "exitparams");
 				if (params != null)
 					for (int i = 0; i < params.length; i += 2)
-						parameterValues.put((String)params[i], (String[])params[i + 1]);
+						parameterValues.put((String) params[i], (String[]) params[i + 1]);
 				String[] paramNames = cd.getParameterNames();
 				for (int i = 0; i < paramNames.length; ++i)
 					parameterValues.put(paramNames[i], cd.getParameterValues(paramNames[i]));
 				String[] variableNames = cd.getVariableNames();
 				Map<Object, Object> variables = new HashMap<Object, Object>(variableNames.length);
-				if (outgoing != null)
-				{
+				if (outgoing != null) {
 					Map<String, Object> map = outgoing.get(cd.getParameterValues("exit")[0]);
-					if (map != null)
-					{
-						for (int i = 0; i < variableNames.length; ++i)
-						{
+					if (map != null) {
+						for (int i = 0; i < variableNames.length; ++i) {
 							Object mapping = map.get(variableNames[i]);
 							if (mapping != null)
 								variables.put(mapping, cd.getVariableValue(variableNames[i]));
@@ -693,23 +612,17 @@ public class HttpConnector
 				}
 				deployment.end(httpSession, prefix, depth.intValue());
 				for (@SuppressWarnings("rawtypes")
-					Enumeration e = httpSession.getAttributeNames(); e
-						.hasMoreElements();)
-				{
-					String name = (String)e.nextElement();
+				Enumeration e = httpSession.getAttributeNames(); e.hasMoreElements();) {
+					String name = (String) e.nextElement();
 					if (name.startsWith(oldFullPrefix))
 						httpSession.removeAttribute(name);
 				}
-				invokeProcessEngine(req, res, httpSession, NEXT_PATH, variables,
-						parameterValues, newDepth > 0);
+				invokeProcessEngine(req, res, httpSession, NEXT_PATH, variables, parameterValues, newDepth > 0);
 				return;
-			}
-			else
-			{
+			} else {
 				String[] paramNames = cd.getParameterNames();
 				Object[] params = new Object[paramNames.length * 2];
-				for (int i = 0; i < params.length; i += 2)
-				{
+				for (int i = 0; i < params.length; i += 2) {
 					params[i] = paramNames[i / 2];
 					params[i + 1] = cd.getParameterValues(paramNames[i / 2]);
 				}
@@ -717,19 +630,17 @@ public class HttpConnector
 				String[] variableNames = cd.getVariableNames();
 				Map<Object, Object> variables = new HashMap<Object, Object>(variableNames.length);
 				for (int i = 0; i < variableNames.length; ++i)
-					variables
-							.put(variableNames[i], cd.getVariableValue(variableNames[i]));
-				httpSession.setAttribute("connector.depth", new Integer(depth
-						.intValue() + 1));
+					variables.put(variableNames[i], cd.getVariableValue(variableNames[i]));
+				httpSession.setAttribute("connector.depth", new Integer(depth.intValue() + 1));
 				fullPrefix = prefix + (depth.intValue() + 1) + ".";
 				String deploymentId = cd.getTarget().substring(0, cd.getTarget().lastIndexOf('(') - 1);
-				String entryPointName = cd.getTarget().substring(cd.getTarget().lastIndexOf('(') + 1, cd.getTarget().length() - 1);
+				String entryPointName = cd.getTarget().substring(cd.getTarget().lastIndexOf('(') + 1,
+						cd.getTarget().length() - 1);
 				httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID, deploymentId);
 				httpSession.setAttribute(fullPrefix + ENTRY_POINT_NAME, entryPointName);
 				Map<String, Map<String, Object>> outgoing = new HashMap<String, Map<String, Object>>();
 				String[] outPaths = cd.getOutgoingPaths();
-				for (int i = 0; i < outPaths.length; ++i)
-				{
+				for (int i = 0; i < outPaths.length; ++i) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					String[] names = cd.getOutgoingDataNames(outPaths[i]);
 					for (int j = 0; j < names.length; ++j)
@@ -743,28 +654,23 @@ public class HttpConnector
 			}
 		}
 		res.setStatus(HttpServletResponse.SC_OK);
-		if(!document.isCachable())
+		if (!document.isCachable())
 			res.setHeader("Cache-Control", "max-age=0, no-cache");
 		res.setContentType(document.getContentType());
 		OutputStream writer = res.getOutputStream();
-		try
-		{
+		try {
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			XMLWriter xmlWriter = new XMLWriter(writer);
 			xmlWriter.setCompactElements(true);
-			transformer.transform(document.toXMLSource(), xmlWriter
-					.toXMLResult());
-			if(reporter.isSeverityEnabled(IReporter.SEVERITY_INFO) && !document.isSecured())
-			{
+			transformer.transform(document.toXMLSource(), xmlWriter.toXMLResult());
+			if (reporter.isSeverityEnabled(IReporter.SEVERITY_INFO) && !document.isSecured()) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				xmlWriter = new XMLWriter(baos);
 				xmlWriter.setCompactElements(true);
 				transformer.transform(document.toXMLSource(), xmlWriter.toXMLResult());
 				System.out.println(new String(baos.toByteArray(), "UTF-8"));
 			}
-		}
-		catch (TransformerException e)
-		{
+		} catch (TransformerException e) {
 			throw new ServletException(e);
 		}
 		writer.flush();
@@ -777,8 +683,7 @@ public class HttpConnector
 	 * @param resourcePath The resource to determine the MIME type of.
 	 * @return The MIME type for the specified resource.
 	 */
-	public String getMimeType(String resourcePath)
-	{
+	public String getMimeType(String resourcePath) {
 		@SuppressWarnings("rawtypes")
 		Dictionary properties = this.properties;
 		if (properties == null)
@@ -791,15 +696,14 @@ public class HttpConnector
 		if (resourcePath.length() == 0)
 			return null;
 		Object mimeType = properties.get(MIME_TYPE_PREFIX + resourcePath);
-		while (!(mimeType instanceof String))
-		{
+		while (!(mimeType instanceof String)) {
 			int firstDot = resourcePath.indexOf('.');
 			if (firstDot < 0)
 				return null;
 			resourcePath = resourcePath.substring(firstDot + 1);
 			mimeType = properties.get(MIME_TYPE_PREFIX + resourcePath);
 		}
-		return (String)mimeType;
+		return (String) mimeType;
 	}
 
 	/**
@@ -808,16 +712,14 @@ public class HttpConnector
 	 * @param resourcePath The path of the resource to return.
 	 * @return The resource at the specified path.
 	 */
-	public URL getResource(String resourcePath)
-	{
+	public URL getResource(String resourcePath) {
 		String normal = HttpUtils.normalizePath(resourcePath).substring(1);
 		int firstSlash = normal.indexOf('/');
 		if (firstSlash < 0)
 			return null;
 		String resourcesID = normal.substring(0, firstSlash);
 		ResourceGroup resources = null;
-		synchronized (resourcesByID)
-		{
+		synchronized (resourcesByID) {
 			resources = resourcesByID.get(resourcesID);
 		}
 		if (resources == null)
@@ -828,43 +730,32 @@ public class HttpConnector
 	/**
 	 * Opens this connector.
 	 */
-	private void open()
-	{
+	private void open() {
 		if (open)
 			return;
-		try
-		{
+		try {
 			String servletPath = null, resourcesPath = null;
 			Object path = properties == null ? null : properties.get("path");
 			if (path instanceof String)
-				servletPath = HttpUtils.normalizePath((String)path);
+				servletPath = HttpUtils.normalizePath((String) path);
 			else
 				servletPath = "/"; //$NON-NLS-1$
 			if ("/".equals(servletPath)) //$NON-NLS-1$
 				resourcesPath = RESOURCES_PATH;
 			else
 				resourcesPath = servletPath + RESOURCES_PATH;
-			HttpConnectorContext context = new HttpConnectorContext(httpService
-					.createDefaultHttpContext(), this);
+			HttpConnectorContext context = new HttpConnectorContext(httpService.createDefaultHttpContext(), this);
 			httpService.registerResources(resourcesPath, "/", context); //$NON-NLS-1$
 			this.resourcesPath = resourcesPath;
-			httpService.registerServlet(servletPath, new HttpConnectorServlet(this),
-					null, context);
+			httpService.registerServlet(servletPath, new HttpConnectorServlet(this), null, context);
 			this.servletPath = servletPath;
 			open = true;
-		}
-		catch (NamespaceException e)
-		{
+		} catch (NamespaceException e) {
 			throw new IllegalArgumentException(e);
-		}
-		catch (ServletException e)
-		{
+		} catch (ServletException e) {
 			throw new IllegalArgumentException(e);
-		}
-		finally
-		{
-			if (!open && resourcesPath != null)
-			{
+		} finally {
+			if (!open && resourcesPath != null) {
 				String resourcesPath = this.resourcesPath;
 				this.resourcesPath = null;
 				httpService.unregister(resourcesPath);
@@ -875,26 +766,19 @@ public class HttpConnector
 	/**
 	 * Closes this connector.
 	 */
-	private void close()
-	{
+	private void close() {
 		if (!open)
 			return;
 		open = false;
-		try
-		{
+		try {
 			if (servletPath != null)
 				httpService.unregister(servletPath);
-		}
-		finally
-		{
+		} finally {
 			servletPath = null;
-			try
-			{
+			try {
 				if (resourcesPath != null)
 					httpService.unregister(resourcesPath);
-			}
-			finally
-			{
+			} finally {
 				resourcesPath = null;
 			}
 		}
@@ -903,13 +787,11 @@ public class HttpConnector
 	/**
 	 * Writes an index page for the current deployments.
 	 * 
-	 * @param res The HTTP response.
+	 * @param res        The HTTP response.
 	 * @param deployment The current deployment.
 	 * @throws IOException If the connection fails.
 	 */
-	private void writeIndex(HttpServletResponse res, Deployment deployment)
-			throws IOException
-	{
+	private void writeIndex(HttpServletResponse res, Deployment deployment) throws IOException {
 		String deploymentID = deployment.getID();
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType("text/html");
@@ -917,16 +799,13 @@ public class HttpConnector
 		writer.println("<html>");
 		writer.println("<head><title>Deployments</title></head>");
 		writer.println("<body>");
-		if (deploymentID != null)
-		{
+		if (deploymentID != null) {
 			writer.print("<p>CURRENT: ");
 			writer.print(deploymentID);
 			writer.println("</p>");
 		}
-		synchronized (this)
-		{
-			for (Map.Entry<String, Deployment> entry : deploymentsByPath.entrySet())
-			{
+		synchronized (this) {
+			for (Map.Entry<String, Deployment> entry : deploymentsByPath.entrySet()) {
 				writer.print("<p><a href=\"");
 				writer.print(res.encodeURL(entry.getKey()));
 				writer.print("\">");
@@ -943,13 +822,11 @@ public class HttpConnector
 	/**
 	 * Writes an logging page for the current deployments.
 	 * 
-	 * @param res The HTTP response.
+	 * @param res        The HTTP response.
 	 * @param deployment The current deployment.
 	 * @throws IOException If the connection fails.
 	 */
-	private void writeLogging(HttpServletRequest req, HttpServletResponse res)
-			throws IOException
-	{
+	private void writeLogging(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType("text/html");
 		PrintWriter writer = res.getWriter();

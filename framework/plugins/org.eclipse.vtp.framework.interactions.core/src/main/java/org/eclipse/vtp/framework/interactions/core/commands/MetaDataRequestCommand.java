@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -26,8 +26,7 @@ import java.util.Set;
  * 
  * @author Lonnie Pryor
  */
-public final class MetaDataRequestCommand extends ConversationCommand
-{
+public final class MetaDataRequestCommand extends ConversationCommand {
 	/** The name of the parameter to pass the provided data as. */
 	private String dataName = null;
 	/** The name of the parameter to pass the result of the request as. */
@@ -37,15 +36,14 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	/** The value of the result parameter to pass if the caller hungup. */
 	private String hangupResultValue = null;
 	/** The meta-data in the interaction. */
-	private final Set metaData = new HashSet();
+	private final Set<String> metaData = new HashSet<String>();
 	/** The parameters to set when the process resumes. */
-	private final Map parameters = new HashMap();
+	private final Map<String, Object> parameters = new HashMap<String, Object>();
 
 	/**
 	 * Creates a new MetaDataMessageCommand.
 	 */
-	public MetaDataRequestCommand()
-	{
+	public MetaDataRequestCommand() {
 	}
 
 	/**
@@ -53,8 +51,7 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @return The name of the parameter to pass the provided data as.
 	 */
-	public String getDataName()
-	{
+	public String getDataName() {
 		return dataName;
 	}
 
@@ -63,8 +60,7 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @param inputName The name of the parameter to pass the provided data as.
 	 */
-	public void setDataName(String inputName)
-	{
+	public void setDataName(String inputName) {
 		this.dataName = inputName;
 	}
 
@@ -73,19 +69,17 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @return The name of the parameter to pass the result of the request as.
 	 */
-	public String getResultName()
-	{
+	public String getResultName() {
 		return resultName;
 	}
 
 	/**
 	 * Sets the name of the parameter to pass the result of the request as.
 	 * 
-	 * @param resultName The name of the parameter to pass the result of the
-	 *          request as.
+	 * @param resultName The name of the parameter to pass the result of the request
+	 *                   as.
 	 */
-	public void setResultName(String resultName)
-	{
+	public void setResultName(String resultName) {
 		this.resultName = resultName;
 	}
 
@@ -94,8 +88,7 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @return The value of the result parameter to pass if the input is valid.
 	 */
-	public String getFilledResultValue()
-	{
+	public String getFilledResultValue() {
 		return filledResultValue;
 	}
 
@@ -103,10 +96,9 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * Sets the value of the result parameter to pass if the input is valid.
 	 * 
 	 * @param filledResultValue The value of the result parameter to pass if the
-	 *          input is valid.
+	 *                          input is valid.
 	 */
-	public void setFilledResultValue(String filledResultValue)
-	{
+	public void setFilledResultValue(String filledResultValue) {
 		this.filledResultValue = filledResultValue;
 	}
 
@@ -115,8 +107,7 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @return The value of the result parameter to pass if the caller hungup.
 	 */
-	public String getHangupResultValue()
-	{
+	public String getHangupResultValue() {
 		return hangupResultValue;
 	}
 
@@ -124,10 +115,9 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
 	 * @param noInputResultValue The value of the result parameter to pass if the
-	 *          caller hungup.
+	 *                           caller hungup.
 	 */
-	public void setHangupResultValue(String hangupResultValue)
-	{
+	public void setHangupResultValue(String hangupResultValue) {
 		this.hangupResultValue = hangupResultValue;
 	}
 
@@ -136,9 +126,8 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @return The names of the meta-data in the interaction.
 	 */
-	public String[] getMetaDataNames()
-	{
-		return (String[])metaData.toArray(new String[metaData.size()]);
+	public String[] getMetaDataNames() {
+		return (String[]) metaData.toArray(new String[metaData.size()]);
 	}
 
 	/**
@@ -146,8 +135,7 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @param name The name of the meta-data item to add.
 	 */
-	public boolean addMetaDataName(String name)
-	{
+	public boolean addMetaDataName(String name) {
 		if (name == null)
 			return false;
 		return metaData.add(name);
@@ -158,8 +146,7 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @param name The name of the meta-data item to remove.
 	 */
-	public boolean removeMetaDataName(String name)
-	{
+	public boolean removeMetaDataName(String name) {
 		if (name == null)
 			return false;
 		return metaData.remove(name);
@@ -172,9 +159,8 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * @return The names of the parameters that will be returned from the
 	 *         interaction.
 	 */
-	public String[] getParameterNames()
-	{
-		return (String[])parameters.keySet().toArray(new String[parameters.size()]);
+	public String[] getParameterNames() {
+		return (String[]) parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/**
@@ -183,33 +169,31 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * @param name The name of the parameter to be set.
 	 * @return The values that specified parameter will be set to.
 	 */
-	public String[] getParameterValues(String name)
-	{
+	public String[] getParameterValues(String name) {
 		if (name == null)
 			return null;
-		List list = (List)parameters.get(name);
+		List<?> list = (List<?>) parameters.get(name);
 		if (list == null)
 			return null;
-		return (String[])list.toArray(new String[list.size()]);
+		return (String[]) list.toArray(new String[list.size()]);
 	}
 
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name The name of the parameter to set.
+	 * @param name   The name of the parameter to set.
 	 * @param values The values to set the parameter to.
 	 */
-	public void setParameterValues(String name, String[] values)
-	{
+	@SuppressWarnings("unchecked")
+	public void setParameterValues(String name, String[] values) {
 		if (name == null)
 			return;
 		if (values == null)
 			parameters.remove(name);
-		else
-		{
-			List list = (List)parameters.get(name);
+		else {
+			List<String> list = (List<String>) parameters.get(name);
 			if (list == null)
-				parameters.put(name, list = new LinkedList());
+				parameters.put(name, list = new LinkedList<String>());
 			else
 				list.clear();
 			for (int i = 0; i < values.length; ++i)
@@ -222,12 +206,11 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 *      ConversationCommand#accept(
-	 *      org.eclipse.vtp.framework.interactions.core.commands.
-	 *      IConversationCommandVisitor)
+	 * ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands.
+	 * IConversationCommandVisitor)
 	 */
-	Object accept(IConversationCommandVisitor visitor)
-	{
+	Object accept(IConversationCommandVisitor visitor) {
 		return visitor.visitMetaDataRequest(this);
 	}
 
@@ -236,36 +219,30 @@ public final class MetaDataRequestCommand extends ConversationCommand
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
-	public Object exportContents()
-	{
-		List parameters = new ArrayList(this.parameters.size() * 2);
-		for (Iterator i = this.parameters.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
-			parameters.add((String)entry.getKey());
-			parameters.add((String)entry.getValue());
+	public Object exportContents() {
+		List<String> parameters = new ArrayList<String>(this.parameters.size() * 2);
+		for (Entry<String, Object> entry : this.parameters.entrySet()) {
+			parameters.add((String) entry.getKey());
+			parameters.add((String) entry.getValue());
 		}
-		return new Object[] { dataName, resultName, filledResultValue,
-							  metaData.toArray(new String[metaData.size()]),
+		return new Object[] { dataName, resultName, filledResultValue, metaData.toArray(new String[metaData.size()]),
 				parameters.toArray(new String[parameters.size()]) };
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 *      java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
-	public void importContents(Object contents)
-	{
-		Object[] array = (Object[])contents;
-		this.dataName = (String)array[0];
-		this.resultName = (String)array[1];
-		this.filledResultValue = (String)array[2];
+	public void importContents(Object contents) {
+		Object[] array = (Object[]) contents;
+		this.dataName = (String) array[0];
+		this.resultName = (String) array[1];
+		this.filledResultValue = (String) array[2];
 		this.metaData.clear();
-		this.metaData.addAll(Arrays.asList( (String[])array[3]));
+		this.metaData.addAll(Arrays.asList((String[]) array[3]));
 		this.parameters.clear();
-		String[] parameters = (String[])array[4];
+		String[] parameters = (String[]) array[4];
 		for (int i = 0; i < parameters.length; i += 2)
 			this.parameters.put(parameters[i], parameters[i + 1]);
 	}

@@ -23,6 +23,7 @@ import org.osgi.service.log.Logger;
  * 
  * @author Lonnie Pryor
  */
+@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
 public class LogTracker extends SingletonTracker implements LogService {
 	/**
 	 * Creates a new Log.
@@ -62,7 +63,6 @@ public class LogTracker extends SingletonTracker implements LogService {
 	 * @see org.osgi.service.log.LogService#log(
 	 * org.osgi.framework.ServiceReference, int, java.lang.String)
 	 */
-	@SuppressWarnings("rawtypes")
 	public void log(ServiceReference reference, int level, String message) {
 		LogService log = (LogService) getService();
 		if (log != null)
@@ -76,7 +76,6 @@ public class LogTracker extends SingletonTracker implements LogService {
 	 * org.osgi.framework.ServiceReference, int, java.lang.String,
 	 * java.lang.Throwable)
 	 */
-	@SuppressWarnings("rawtypes")
 	public void log(ServiceReference reference, int level, String message, Throwable thrown) {
 		LogService log = (LogService) getService();
 		if (log != null)
@@ -90,18 +89,17 @@ public class LogTracker extends SingletonTracker implements LogService {
 	public Logger getLogger(Class clazz) {
 		return null;
 	}
-	
+
 	public Logger getLogger(String message, Class clazz) {
 		return null;
 	}
-	
+
 	public Logger getLogger(Class clazz1, Class clazz2) {
 		return null;
 	}
-	
+
 	public Logger getLogger(Bundle bundle, String message, Class clazz) {
 		return null;
 	}
-	
-	
+
 }

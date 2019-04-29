@@ -17,3 +17,4 @@ Export-Package: org.eclipse.vtp.framework.common,
  org.eclipse.vtp.framework.common.services,
  org.eclipse.vtp.framework.common.support
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.vtp.framework.common

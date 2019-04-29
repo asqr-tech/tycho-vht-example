@@ -123,7 +123,7 @@ public class Action extends Executable
 	 */
 	public Executable execute(Sequence sequence)
 	{
-		Dictionary report = new Hashtable();
+		Dictionary<String, String> report = new Hashtable<String, String>();
 		report.put("event", "action.starting");
 		sequence.context.report(IReporter.SEVERITY_INFO, "Action \""
 				+ getName() + "\" Starting", report);
@@ -142,7 +142,7 @@ public class Action extends Executable
 			t.printStackTrace();
 			actionResult = sequence.context.createResult(null, t);
 		}
-		report = new Hashtable();
+		report = new Hashtable<String, String>();
 		report.put("event", "action.ended");
 		sequence.context.report(IReporter.SEVERITY_INFO, "Action \""
 				+ getName() + "\" Ended", report);
@@ -151,7 +151,7 @@ public class Action extends Executable
 		Throwable cause = actionResult.getFailureCause();
 		if (cause != null && sequence.context.isErrorEnabled())
 		{
-			Hashtable properties = new Hashtable();
+			Hashtable<String, Throwable> properties = new Hashtable<String, Throwable>();
 			properties.put("cause", cause); //$NON-NLS-1$
 			sequence.context.error(cause.getMessage(), properties);
 		}
@@ -185,7 +185,7 @@ public class Action extends Executable
 	 * @see org.eclipse.vtp.framework.engine.runtime.Configurable#
 	 *      getComponentType()
 	 */
-	protected Class getComponentType()
+	protected Class<?> getComponentType()
 	{
 		return descriptor.getType();
 	}

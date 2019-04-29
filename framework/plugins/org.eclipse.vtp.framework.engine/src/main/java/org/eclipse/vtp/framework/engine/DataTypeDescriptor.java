@@ -47,7 +47,7 @@ public final class DataTypeDescriptor
 		if (fields == null)
 			throw new NullPointerException("fields"); //$NON-NLS-1$
 		this.name = name;
-		Map map = new LinkedHashMap();
+		Map<String, FieldDescriptor> map = new LinkedHashMap<String, FieldDescriptor>();
 		for (int i = 0; i < fields.length; ++i)
 		{
 			if (fields[i] == null)

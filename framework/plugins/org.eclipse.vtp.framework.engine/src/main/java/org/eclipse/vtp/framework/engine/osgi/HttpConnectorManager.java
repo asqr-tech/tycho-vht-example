@@ -54,8 +54,8 @@ import org.osgi.service.log.LogService;
  * 
  * @author Lonnie Pryor
  */
-public final class HttpConnectorManager extends SingletonTracker
-{
+@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
+public final class HttpConnectorManager extends SingletonTracker {
 	/** The log to use. */
 	private final LogService log;
 	/** The extension registry to use. */
@@ -73,24 +73,16 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * @param context TODO
 	 * @return
 	 */
-	private static Filter createHttpFilter(BundleContext context)
-	{
-		String config = context
-				.getProperty("org.eclipse.vtp.framework.engine.http.service");
-		try
-		{
+	private static Filter createHttpFilter(BundleContext context) {
+		String config = context.getProperty("org.eclipse.vtp.framework.engine.http.service");
+		try {
 			if (config == null)
-				return context.createFilter(String.format("(OBJECTCLASS=%s)",
-						HttpService.class.getName()));
+				return context.createFilter(String.format("(OBJECTCLASS=%s)", HttpService.class.getName()));
 			else
-				return context
-						.createFilter(String
-								.format(
-										"(&(OBJECTCLASS=%s)(org.eclipse.vtp.framework.engine.http.service=%s))",
-										HttpService.class.getName(), config));
-		}
-		catch (InvalidSyntaxException e)
-		{
+				return context.createFilter(
+						String.format("(&(OBJECTCLASS=%s)(org.eclipse.vtp.framework.engine.http.service=%s))",
+								HttpService.class.getName(), config));
+		} catch (InvalidSyntaxException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
@@ -99,14 +91,12 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * Creates a new HttpConnectorManager.
 	 * 
 	 * @param context The context to operate under.
-	 * @param log The log to use.
-	 * @param log The extension registry to use.
-	 * @param log The process engine to use.
+	 * @param log     The log to use.
+	 * @param log     The extension registry to use.
+	 * @param log     The process engine to use.
 	 */
-	public HttpConnectorManager(BundleContext context, LogService log,
-			IExtensionRegistry extensionRegistry, IProcessEngine processEngine,
-			IReporter reporter)
-	{
+	public HttpConnectorManager(BundleContext context, LogService log, IExtensionRegistry extensionRegistry,
+			IProcessEngine processEngine, IReporter reporter) {
 		super(context, createHttpFilter(context), null);
 		this.log = log;
 		this.extensionRegistry = extensionRegistry;
@@ -119,8 +109,7 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * 
 	 * @param httpService The HTTP service to use.
 	 */
-	private void createHttpConnector(HttpService httpService)
-	{
+	private void createHttpConnector(HttpService httpService) {
 		log.log(LogService.LOG_DEBUG, "Creating HTTP connector...");
 		httpConnectorInstance = new HttpConnectorInstance(httpService);
 		httpConnectorInstance.open();
@@ -130,20 +119,14 @@ public final class HttpConnectorManager extends SingletonTracker
 	/**
 	 * Releases the current HTTP connector.
 	 */
-	private void releaseHttpConnector()
-	{
-		try
-		{
-			if (httpConnectorInstance != null)
-			{
+	private void releaseHttpConnector() {
+		try {
+			if (httpConnectorInstance != null) {
 				log.log(LogService.LOG_DEBUG, "Releasing HTTP connector...");
 				httpConnectorInstance.close();
 			}
-		}
-		finally
-		{
-			if (httpConnectorInstance != null)
-			{
+		} finally {
+			if (httpConnectorInstance != null) {
 				httpConnectorInstance = null;
 				log.log(LogService.LOG_DEBUG, "HTTP connector released.");
 			}
@@ -154,21 +137,16 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 *      selectingService(org.osgi.framework.ServiceReference)
+	 * selectingService(org.osgi.framework.ServiceReference)
 	 */
-	public Object selectingService(ServiceReference reference)
-	{
-		HttpService service = (HttpService)context.getService(reference);
+	public Object selectingService(ServiceReference reference) {
+		HttpService service = (HttpService) context.getService(reference);
 		boolean failed = true;
-		try
-		{
+		try {
 			createHttpConnector(service);
 			failed = false;
-		}
-		finally
-		{
-			if (failed)
-			{
+		} finally {
+			if (failed) {
 				service = null;
 				context.ungetService(reference);
 			}
@@ -180,27 +158,22 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 *      changingSelectedService(org.osgi.framework.ServiceReference,
-	 *      java.lang.Object, org.osgi.framework.ServiceReference)
+	 * changingSelectedService(org.osgi.framework.ServiceReference,
+	 * java.lang.Object, org.osgi.framework.ServiceReference)
 	 */
-	public Object changingSelectedService(ServiceReference oldReference,
-			Object oldService, ServiceReference newReference)
-	{
-		HttpService newService = (HttpService)context.getService(newReference);
+	public Object changingSelectedService(ServiceReference oldReference, Object oldService,
+			ServiceReference newReference) {
+		HttpService newService = (HttpService) context.getService(newReference);
 		releaseHttpConnector();
 		boolean failed = true;
-		try
-		{
+		try {
 			createHttpConnector(newService);
 			failed = false;
-		}
-		finally
-		{
-			if (failed)
-			{
+		} finally {
+			if (failed) {
 				newService = null;
 				context.ungetService(newReference);
-				createHttpConnector((HttpService)oldService);
+				createHttpConnector((HttpService) oldService);
 			}
 		}
 		context.ungetService(oldReference);
@@ -211,17 +184,13 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 *      releasedSelectedService(org.osgi.framework.ServiceReference,
-	 *      java.lang.Object)
+	 * releasedSelectedService(org.osgi.framework.ServiceReference,
+	 * java.lang.Object)
 	 */
-	public void releasedSelectedService(ServiceReference reference, Object service)
-	{
-		try
-		{
+	public void releasedSelectedService(ServiceReference reference, Object service) {
+		try {
 			releaseHttpConnector();
-		}
-		finally
-		{
+		} finally {
 			context.ungetService(reference);
 		}
 	}
@@ -231,8 +200,7 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class HttpConnectorInstance implements IExtensionChangeHandler
-	{
+	private final class HttpConnectorInstance implements IExtensionChangeHandler {
 		/** The definition extension handler. */
 		final IExtensionPoint definitions;
 		/** The definition extension handler. */
@@ -253,24 +221,17 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * 
 		 * @param httpService The HTTP connector to use.
 		 */
-		HttpConnectorInstance(HttpService httpService)
-		{
-			this.definitions = extensionRegistry
-					.getExtensionPoint("org.eclipse.vtp.framework.engine.definitions"); //$NON-NLS-1$
-			this.resources = extensionRegistry
-					.getExtensionPoint("org.eclipse.vtp.framework.engine.resources"); //$NON-NLS-1$
-			this.httpConnector = new HttpConnector(log, processEngine, httpService,
-					reporter);
+		HttpConnectorInstance(HttpService httpService) {
+			this.definitions = extensionRegistry.getExtensionPoint("org.eclipse.vtp.framework.engine.definitions"); //$NON-NLS-1$
+			this.resources = extensionRegistry.getExtensionPoint("org.eclipse.vtp.framework.engine.resources"); //$NON-NLS-1$
+			this.httpConnector = new HttpConnector(log, processEngine, httpService, reporter);
 			httpConnector.configure(null);
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			factory.setValidating(false);
-			try
-			{
+			try {
 				documentBuilder = factory.newDocumentBuilder();
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				log.log(LogService.LOG_ERROR, e.getMessage(), e);
 				throw new IllegalStateException(e);
 			}
@@ -279,71 +240,50 @@ public final class HttpConnectorManager extends SingletonTracker
 		/**
 		 * Activates this HTTP connector instance.
 		 */
-		void open()
-		{
+		void open() {
 			extensionTracker = new ExtensionTracker(extensionRegistry);
-			synchronized (this)
-			{
-				IExtensionPoint[] extensionPoints = new IExtensionPoint[] {
-						definitions, resources };
-				extensionTracker.registerHandler(this, ExtensionTracker
-						.createExtensionPointFilter(extensionPoints));
-				for (int i = 0; i < extensionPoints.length; ++i)
-				{
+			synchronized (this) {
+				IExtensionPoint[] extensionPoints = new IExtensionPoint[] { definitions, resources };
+				extensionTracker.registerHandler(this, ExtensionTracker.createExtensionPointFilter(extensionPoints));
+				for (int i = 0; i < extensionPoints.length; ++i) {
 					IExtension[] extensions = extensionPoints[i].getExtensions();
 					for (int j = 0; j < extensions.length; ++j)
 						addExtension(extensionTracker, extensions[j]);
 				}
 			}
-			Hashtable properties = new Hashtable();
-			properties.put(Constants.SERVICE_PID,
-					"org.eclipse.vtp.framework.engine.http"); //$NON-NLS-1$
-			configRegistration = context.registerService(ManagedService.class
-					.getName(), new HttpConnectorConfig(httpConnector), properties);
-			properties = new Hashtable();
-			properties.put(Constants.SERVICE_PID,
-					"org.eclipse.vtp.framework.engine.http.deployments"); //$NON-NLS-1$
-			deploymentsRegistration = context.registerService(new String[] {
-					ManagedServiceFactory.class.getName(),
-					DeploymentAdmin.class.getName() }, new HttpConnectorDeployments(
-					httpConnector), properties);
+			Hashtable<String, String> properties = new Hashtable<String, String>();
+			properties.put(Constants.SERVICE_PID, "org.eclipse.vtp.framework.engine.http"); //$NON-NLS-1$
+			configRegistration = context.registerService(ManagedService.class.getName(),
+					new HttpConnectorConfig(httpConnector), properties);
+			properties = new Hashtable<String, String>();
+			properties.put(Constants.SERVICE_PID, "org.eclipse.vtp.framework.engine.http.deployments"); //$NON-NLS-1$
+			deploymentsRegistration = context.registerService(
+					new String[] { ManagedServiceFactory.class.getName(), DeploymentAdmin.class.getName() },
+					new HttpConnectorDeployments(httpConnector), properties);
 		}
 
 		/**
 		 * Deactivates this HTTP connector instance.
 		 */
-		void close()
-		{
-			try
-			{
+		void close() {
+			try {
 				if (deploymentsRegistration != null)
 					deploymentsRegistration.unregister();
-			}
-			finally
-			{
+			} finally {
 				deploymentsRegistration = null;
-				try
-				{
+				try {
 					if (configRegistration != null)
 						configRegistration.unregister();
-				}
-				finally
-				{
+				} finally {
 					configRegistration = null;
-					try
-					{
+					try {
 						if (extensionTracker != null)
 							extensionTracker.unregisterHandler(this);
-					}
-					finally
-					{
-						try
-						{
+					} finally {
+						try {
 							if (extensionTracker != null)
 								extensionTracker.close();
-						}
-						finally
-						{
+						} finally {
 							extensionTracker = null;
 						}
 					}
@@ -355,61 +295,45 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler#
-		 *      addExtension(
-		 *      org.eclipse.core.runtime.dynamichelpers.IExtensionTracker,
-		 *      org.eclipse.core.runtime.IExtension)
+		 * addExtension( org.eclipse.core.runtime.dynamichelpers.IExtensionTracker,
+		 * org.eclipse.core.runtime.IExtension)
 		 */
-		public void addExtension(IExtensionTracker tracker, IExtension extension)
-		{
-			Bundle contributor = OSGiUtils.findBundle(extension.getContributor(),
-					context.getBundles());
+		public void addExtension(IExtensionTracker tracker, IExtension extension) {
+			Bundle contributor = OSGiUtils.findBundle(extension.getContributor(), context.getBundles());
 			if (contributor == null)
 				return;
-			synchronized (this)
-			{
+			synchronized (this) {
 				Object[] objects = tracker.getObjects(extension);
 				if (objects != null && objects.length > 0)
 					return;
 				IConfigurationElement[] elements = extension.getConfigurationElements();
-				for (int i = 0; i < elements.length; ++i)
-				{
+				for (int i = 0; i < elements.length; ++i) {
 					String id = elements[i].getAttribute("id"); //$NON-NLS-1$
 					if (id == null)
 						continue;
 					String path = elements[i].getAttribute("path"); //$NON-NLS-1$
 					if (path == null)
 						continue;
-					if (definitions.getUniqueIdentifier().equals(
-							extension.getExtensionPointUniqueIdentifier()))
-					{
+					if (definitions.getUniqueIdentifier().equals(extension.getExtensionPointUniqueIdentifier())) {
 						InputStream input = null;
-						try
-						{
-							httpConnector.registerDefinition(id, new ProcessDefinition(
-									documentBuilder.parse(input = contributor.getEntry(path)
-											.openStream())), contributor);
-						}
-						catch (Exception e)
-						{
+						try {
+							httpConnector.registerDefinition(id,
+									new ProcessDefinition(
+											documentBuilder.parse(input = contributor.getEntry(path).openStream())),
+									contributor);
+						} catch (Exception e) {
 							e.printStackTrace();
 							log.log(LogService.LOG_ERROR, e.getMessage(), e);
 							continue;
-						}
-						finally
-						{
-							try
-							{
+						} finally {
+							try {
 								if (input != null)
 									input.close();
-							}
-							catch (IOException e)
-							{
+							} catch (IOException e) {
 							}
 						}
-					}
-					else
-						httpConnector.registerResouces(id, new ResourceGroup(contributor,
-								path));
+					} else
+						httpConnector.registerResouces(id, new ResourceGroup(contributor, path));
 					tracker.registerObject(extension, id, IExtensionTracker.REF_STRONG);
 				}
 			}
@@ -419,22 +343,17 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler#
-		 *      removeExtension(org.eclipse.core.runtime.IExtension,
-		 *      java.lang.Object[])
+		 * removeExtension(org.eclipse.core.runtime.IExtension, java.lang.Object[])
 		 */
-		public void removeExtension(IExtension extension, Object[] objects)
-		{
-			synchronized (this)
-			{
+		public void removeExtension(IExtension extension, Object[] objects) {
+			synchronized (this) {
 				if (objects == null || objects.length == 0)
 					return;
-				for (int i = 0; i < objects.length; ++i)
-				{
-					if (definitions.getUniqueIdentifier().equals(
-							extension.getExtensionPointUniqueIdentifier()))
-						httpConnector.releaseDefinition((String)objects[i]);
+				for (int i = 0; i < objects.length; ++i) {
+					if (definitions.getUniqueIdentifier().equals(extension.getExtensionPointUniqueIdentifier()))
+						httpConnector.releaseDefinition((String) objects[i]);
 					else
-						httpConnector.releaseResouces((String)objects[i]);
+						httpConnector.releaseResouces((String) objects[i]);
 				}
 			}
 		}
@@ -445,8 +364,7 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class HttpConnectorConfig implements ManagedService
-	{
+	private final class HttpConnectorConfig implements ManagedService {
 		/** The connector to configure. */
 		final HttpConnector connector;
 
@@ -455,8 +373,7 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * 
 		 * @param connector The connector to configure.
 		 */
-		HttpConnectorConfig(HttpConnector connector)
-		{
+		HttpConnectorConfig(HttpConnector connector) {
 			this.connector = connector;
 		}
 
@@ -465,8 +382,7 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * 
 		 * @see org.osgi.service.cm.ManagedService#updated(java.util.Dictionary)
 		 */
-		public void updated(Dictionary properties) throws ConfigurationException
-		{
+		public void updated(Dictionary properties) throws ConfigurationException {
 			connector.configure(properties);
 		}
 	}
@@ -476,9 +392,7 @@ public final class HttpConnectorManager extends SingletonTracker
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class HttpConnectorDeployments implements
-			ManagedServiceFactory, DeploymentAdmin
-	{
+	private final class HttpConnectorDeployments implements ManagedServiceFactory, DeploymentAdmin {
 		/** The connector to deploy to. */
 		final HttpConnector connector;
 
@@ -487,8 +401,7 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * 
 		 * @param connector The connector to deploy to.
 		 */
-		HttpConnectorDeployments(HttpConnector connector)
-		{
+		HttpConnectorDeployments(HttpConnector connector) {
 			this.connector = connector;
 		}
 
@@ -497,8 +410,7 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * 
 		 * @see org.osgi.service.cm.ManagedServiceFactory#getName()
 		 */
-		public String getName()
-		{
+		public String getName() {
 			return connector.toString();
 		}
 
@@ -506,11 +418,9 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.osgi.service.cm.ManagedServiceFactory#updated(java.lang.String,
-		 *      java.util.Dictionary)
+		 * java.util.Dictionary)
 		 */
-		public void updated(String pid, Dictionary properties)
-				throws ConfigurationException
-		{
+		public void updated(String pid, Dictionary properties) throws ConfigurationException {
 			connector.deploy(pid, properties);
 		}
 
@@ -519,8 +429,7 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * 
 		 * @see org.osgi.service.cm.ManagedServiceFactory#deleted(java.lang.String)
 		 */
-		public void deleted(String pid)
-		{
+		public void deleted(String pid) {
 			connector.undeploy(pid);
 		}
 
@@ -528,17 +437,13 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.engine.DeplymentAdmin#deploy(
-		 *      java.util.Dictionary)
+		 * java.util.Dictionary)
 		 */
-		public String deploy(Dictionary properties)
-		{
+		public String deploy(Dictionary<?, ?> properties) {
 			String id = Guid.createGUID();
-			try
-			{
+			try {
 				updated(id, properties);
-			}
-			catch (ConfigurationException e)
-			{
+			} catch (ConfigurationException e) {
 				throw new IllegalArgumentException(e);
 			}
 			return id;
@@ -548,16 +453,12 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.engine.DeplymentAdmin#update(
-		 *      java.lang.String, java.util.Dictionary)
+		 * java.lang.String, java.util.Dictionary)
 		 */
-		public boolean update(String id, Dictionary properties)
-		{
-			try
-			{
+		public boolean update(String id, Dictionary<?, ?> properties) {
+			try {
 				updated(id, properties);
-			}
-			catch (ConfigurationException e)
-			{
+			} catch (ConfigurationException e) {
 				throw new IllegalArgumentException(e);
 			}
 			return true;
@@ -567,10 +468,9 @@ public final class HttpConnectorManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.engine.DeplymentAdmin#undelpoy(
-		 *      java.lang.String)
+		 * java.lang.String)
 		 */
-		public boolean undelpoy(String id)
-		{
+		public boolean undelpoy(String id) {
 			deleted(id);
 			return true;
 		}

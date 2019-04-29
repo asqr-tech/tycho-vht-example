@@ -71,7 +71,7 @@ public class OutputMessageAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "connection.disconnect.hangup");
 					context.report(IReporter.SEVERITY_INFO,
 						"Got disconnect during output.", props);
@@ -86,7 +86,7 @@ public class OutputMessageAction implements IAction
 			{
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "output.message");
 					context.report(IReporter.SEVERITY_INFO, "Sending output.", props);
 				}

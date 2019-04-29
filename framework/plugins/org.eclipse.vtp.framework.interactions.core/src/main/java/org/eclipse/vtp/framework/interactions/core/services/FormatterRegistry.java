@@ -32,7 +32,7 @@ import org.osgi.framework.Bundle;
 public class FormatterRegistry implements IFormatterRegistry
 {
 	/** The formatters by ID. */
-	private final Map formatters;
+	private final Map<String, IFormatter> formatters;
 
 	/**
 	 * Creates a new FormatterRegistry.
@@ -44,7 +44,7 @@ public class FormatterRegistry implements IFormatterRegistry
 		IExtensionPoint point = registry.getExtensionPoint(//
 				"org.eclipse.vtp.framework.interactions.core.formatterTypes"); //$NON-NLS-1$
 		IExtension[] extensions = point.getExtensions();
-		Map formatters = new HashMap(extensions.length);
+		Map<String, IFormatter> formatters = new HashMap<String, IFormatter>(extensions.length);
 		for (int i = 0; i < extensions.length; ++i)
 		{
 			Bundle bundle = Platform.getBundle(extensions[i].getContributor()

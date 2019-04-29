@@ -37,7 +37,7 @@ public final class ServiceDescriptor
 	/** The scope this service is registered at. */
 	private final String scope;
 	/** The type of this service. */
-	private final Class type;
+	private final Class<?> type;
 	/** The identifier of this service. */
 	private final IdentifierDescriptor[] identifiers;
 
@@ -64,7 +64,7 @@ public final class ServiceDescriptor
 	 * @throws NullPointerException If the supplied identifier array or any of its
 	 *           elements are <code>null</code>.
 	 */
-	public ServiceDescriptor(String id, String name, String scope, Class type,
+	public ServiceDescriptor(String id, String name, String scope, Class<?> type,
 			IdentifierDescriptor[] identifiers) throws IllegalArgumentException,
 			NullPointerException
 	{
@@ -97,7 +97,7 @@ public final class ServiceDescriptor
 		else
 			throw new IllegalArgumentException("scope"); //$NON-NLS-1$
 		this.type = type;
-		Map map = new LinkedHashMap();
+		Map<String, IdentifierDescriptor> map = new LinkedHashMap<String, IdentifierDescriptor>();
 		for (int i = 0; i < identifiers.length; ++i)
 		{
 			if (identifiers[i] == null)
@@ -147,7 +147,7 @@ public final class ServiceDescriptor
 	 * 
 	 * @return The type of this service.
 	 */
-	public Class getType()
+	public Class<?> getType()
 	{
 		return type;
 	}

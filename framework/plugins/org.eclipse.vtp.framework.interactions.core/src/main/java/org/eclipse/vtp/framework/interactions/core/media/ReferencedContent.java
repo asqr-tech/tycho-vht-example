@@ -100,9 +100,9 @@ public class ReferencedContent extends Content
 		return true;
 	}
 
-	public List resolve(IMediaProvider mediaProvider)
+	public List<Content> resolve(IMediaProvider mediaProvider)
 	{
-		List ret = new LinkedList();
+		List<Content> ret = new LinkedList<Content>();
 		if (referenceType == STATIC_REF && mediaProvider.hasSharedContent())
 		{
 			ISharedContentProvider scp = mediaProvider.getSharedContentProvider();

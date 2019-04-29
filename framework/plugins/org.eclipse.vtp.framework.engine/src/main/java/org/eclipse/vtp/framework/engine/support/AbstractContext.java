@@ -138,7 +138,7 @@ public abstract class AbstractContext extends AbstractLogger implements
 		Object service = lookupReservedService(identifier);
 		if (service != null)
 			return new Object[] { service };
-		LinkedList results = new LinkedList();
+		LinkedList<Object> results = new LinkedList<Object>();
 		Object[] services = lookupAllLocalServices(identifier);
 		if (services != null)
 			for (int i = 0; i < services.length; ++i)

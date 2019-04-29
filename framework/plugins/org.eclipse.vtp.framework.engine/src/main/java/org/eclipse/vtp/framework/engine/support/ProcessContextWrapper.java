@@ -20,13 +20,12 @@ import org.eclipse.vtp.framework.core.IProcessContext;
  * 
  * @author Lonnie Pryor
  */
-public abstract class ProcessContextWrapper implements IProcessContext
-{
+@SuppressWarnings("rawtypes")
+public abstract class ProcessContextWrapper implements IProcessContext {
 	/**
 	 * Creates a new ProcessContextWrapper.
 	 */
-	protected ProcessContextWrapper()
-	{
+	protected ProcessContextWrapper() {
 	}
 
 	/**
@@ -35,10 +34,8 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * @param identifier The identifier to check.
 	 * @return True if the specified identifier is implemented by the context.
 	 */
-	protected boolean isReservedIdentifier(String identifier)
-	{
-		return AbstractProcessContext.RESERVED_SERVICE_IDENTIFIERS
-				.contains(identifier);
+	protected boolean isReservedIdentifier(String identifier) {
+		return AbstractProcessContext.RESERVED_SERVICE_IDENTIFIERS.contains(identifier);
 	}
 
 	/**
@@ -55,13 +52,11 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IReporter#isSeverityEnabled(int)
 	 */
-	public boolean isSeverityEnabled(int severity)
-	{
+	public boolean isSeverityEnabled(int severity) {
 		return getProcessContext().isSeverityEnabled(severity);
 	}
-	
-	public boolean isReportingEnabled()
-	{
+
+	public boolean isReportingEnabled() {
 		return getProcessContext().isReportingEnabled();
 	}
 
@@ -70,8 +65,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String)
 	 */
-	public void report(int severity, String message)
-	{
+	public void report(int severity, String message) {
 		getProcessContext().report(severity, message);
 	}
 
@@ -79,33 +73,29 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void report(int severity, String message, Dictionary properties)
-	{
+	public void report(int severity, String message, Dictionary properties) {
 		getProcessContext().report(severity, message, properties);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.core.IReporter#report(int,
-	 *      java.lang.String[], java.lang.String)
+	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String[],
+	 * java.lang.String)
 	 */
-	public void report(int severity, String[] categories, String message)
-	{
+	public void report(int severity, String[] categories, String message) {
 		getProcessContext().report(severity, categories, message);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.core.IReporter#report(int,
-	 *      java.lang.String[], java.lang.String, java.util.Dictionary)
+	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String[],
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void report(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	public void report(int severity, String[] categories, String message, Dictionary properties) {
 		getProcessContext().report(severity, categories, message, properties);
 	}
 
@@ -116,8 +106,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String)
 	 */
-	public void log(int severity, String message)
-	{
+	public void log(int severity, String message) {
 		getProcessContext().log(severity, message);
 	}
 
@@ -125,10 +114,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void log(int severity, String message, Dictionary properties)
-	{
+	public void log(int severity, String message, Dictionary properties) {
 		getProcessContext().log(severity, message, properties);
 	}
 
@@ -136,10 +124,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void log(int severity, String[] categories, String message)
-	{
+	public void log(int severity, String[] categories, String message) {
 		getProcessContext().log(severity, categories, message);
 	}
 
@@ -147,11 +134,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void log(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	public void log(int severity, String[] categories, String message, Dictionary properties) {
 		getProcessContext().log(severity, categories, message, properties);
 	}
 
@@ -160,8 +145,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isErrorEnabled()
 	 */
-	public boolean isErrorEnabled()
-	{
+	public boolean isErrorEnabled() {
 		return getProcessContext().isErrorEnabled();
 	}
 
@@ -170,8 +154,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String)
 	 */
-	public void error(String message)
-	{
+	public void error(String message) {
 		getProcessContext().error(message);
 	}
 
@@ -179,10 +162,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void error(String message, Dictionary properties)
-	{
+	public void error(String message, Dictionary properties) {
 		getProcessContext().error(message, properties);
 	}
 
@@ -190,10 +172,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void error(String[] categories, String message)
-	{
+	public void error(String[] categories, String message) {
 		getProcessContext().error(categories, message);
 	}
 
@@ -201,10 +182,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void error(String[] categories, String message, Dictionary properties)
-	{
+	public void error(String[] categories, String message, Dictionary properties) {
 		getProcessContext().error(categories, message, properties);
 	}
 
@@ -213,8 +193,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isWarnEnabled()
 	 */
-	public boolean isWarnEnabled()
-	{
+	public boolean isWarnEnabled() {
 		return getProcessContext().isWarnEnabled();
 	}
 
@@ -223,8 +202,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String)
 	 */
-	public void warn(String message)
-	{
+	public void warn(String message) {
 		getProcessContext().warn(message);
 	}
 
@@ -232,10 +210,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void warn(String message, Dictionary properties)
-	{
+	public void warn(String message, Dictionary properties) {
 		getProcessContext().warn(message, properties);
 	}
 
@@ -243,10 +220,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void warn(String[] categories, String message)
-	{
+	public void warn(String[] categories, String message) {
 		getProcessContext().warn(categories, message);
 	}
 
@@ -254,10 +230,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void warn(String[] categories, String message, Dictionary properties)
-	{
+	public void warn(String[] categories, String message, Dictionary properties) {
 		getProcessContext().warn(categories, message, properties);
 	}
 
@@ -266,8 +241,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isInfoEnabled()
 	 */
-	public boolean isInfoEnabled()
-	{
+	public boolean isInfoEnabled() {
 		return getProcessContext().isInfoEnabled();
 	}
 
@@ -276,8 +250,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String)
 	 */
-	public void info(String message)
-	{
+	public void info(String message) {
 		getProcessContext().info(message);
 	}
 
@@ -285,10 +258,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void info(String message, Dictionary properties)
-	{
+	public void info(String message, Dictionary properties) {
 		getProcessContext().info(message, properties);
 	}
 
@@ -296,10 +268,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void info(String[] categories, String message)
-	{
+	public void info(String[] categories, String message) {
 		getProcessContext().info(categories, message);
 	}
 
@@ -307,10 +278,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void info(String[] categories, String message, Dictionary properties)
-	{
+	public void info(String[] categories, String message, Dictionary properties) {
 		getProcessContext().info(categories, message, properties);
 	}
 
@@ -319,8 +289,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isDebugEnabled()
 	 */
-	public boolean isDebugEnabled()
-	{
+	public boolean isDebugEnabled() {
 		return getProcessContext().isDebugEnabled();
 	}
 
@@ -329,8 +298,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String)
 	 */
-	public void debug(String message)
-	{
+	public void debug(String message) {
 		getProcessContext().debug(message);
 	}
 
@@ -338,10 +306,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void debug(String message, Dictionary properties)
-	{
+	public void debug(String message, Dictionary properties) {
 		getProcessContext().debug(message, properties);
 	}
 
@@ -349,10 +316,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void debug(String[] categories, String message)
-	{
+	public void debug(String[] categories, String message) {
 		getProcessContext().debug(categories, message);
 	}
 
@@ -360,10 +326,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void debug(String[] categories, String message, Dictionary properties)
-	{
+	public void debug(String[] categories, String message, Dictionary properties) {
 		getProcessContext().debug(categories, message, properties);
 	}
 
@@ -373,10 +338,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IServiceRegistry#lookupService(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object lookup(String identifier) throws NullPointerException
-	{
+	public Object lookup(String identifier) throws NullPointerException {
 		if (isReservedIdentifier(identifier))
 			return this;
 		return getProcessContext().lookup(identifier);
@@ -386,11 +350,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IServiceRegistry#lookupAllServices(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object[] lookupAll(String identifier)
-			throws NullPointerException
-	{
+	public Object[] lookupAll(String identifier) throws NullPointerException {
 		if (isReservedIdentifier(identifier))
 			return new Object[] { this };
 		return getProcessContext().lookupAll(identifier);
@@ -403,8 +365,7 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#getProcessID()
 	 */
-	public String getProcessID()
-	{
+	public String getProcessID() {
 		return getProcessContext().getProcessID();
 	}
 
@@ -412,10 +373,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#getProperty(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getProperty(String propertyName) throws NullPointerException
-	{
+	public Object getProperty(String propertyName) throws NullPointerException {
 		return getProcessContext().getProperty(propertyName);
 	}
 
@@ -423,11 +383,9 @@ public abstract class ProcessContextWrapper implements IProcessContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#loadClass(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Class loadClass(String className) throws ClassNotFoundException,
-			NullPointerException
-	{
+	public Class<?> loadClass(String className) throws ClassNotFoundException, NullPointerException {
 		return getProcessContext().loadClass(className);
 	}
 }

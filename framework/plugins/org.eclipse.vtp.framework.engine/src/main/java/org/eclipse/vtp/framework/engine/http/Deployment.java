@@ -39,12 +39,11 @@ import org.osgi.framework.Bundle;
  * 
  * @author Lonnie Pryor
  */
-public class Deployment implements IProcessDescriptor, IResourceManagerRegistry, HttpSessionListener
-{
+public class Deployment implements IProcessDescriptor, IResourceManagerRegistry, HttpSessionListener {
 	/** The process instance. */
 	private final IProcess process;
 	/** The process properties. */
-	private final Dictionary properties;
+	private final Dictionary<?, ?> properties;
 	/** The process contributor. */
 	private final Bundle contributor;
 	/** Comment for reporter. */
@@ -59,42 +58,37 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	/**
 	 * Creates a new HttpDeployment.
 	 * 
-	 * @param engine The process engine to use.
-	 * @param definition The process definition to build from.
-	 * @param properties The process properties.
+	 * @param engine      The process engine to use.
+	 * @param definition  The process definition to build from.
+	 * @param properties  The process properties.
 	 * @param contributor The process contributor.
 	 */
-	public Deployment(IProcessEngine engine, IProcessDefinition definition,
-			Dictionary properties, Bundle contributor, IReporter reporter)
-	{
+	public Deployment(IProcessEngine engine, IProcessDefinition definition, Dictionary<?, ?> properties,
+			Bundle contributor, IReporter reporter) {
 		this.properties = properties;
 		this.contributor = contributor;
 		this.reporter = reporter;
 		process = engine.createProcess(definition, this);
-		String[] resourceManagerIDs = (String[])properties.get("resources"); //$NON-NLS-1$
+		String[] resourceManagerIDs = (String[]) properties.get("resources"); //$NON-NLS-1$
 		if (resourceManagerIDs != null)
 			for (int i = 0; i < resourceManagerIDs.length; ++i)
 				resources.put(resourceManagerIDs[i], null);
-		if(reporter.isReportingEnabled())
-		{
-			Dictionary report = new Hashtable();
+		if (reporter.isReportingEnabled()) {
+			Dictionary<String, String> report = new Hashtable<String, String>();
 			report.put("event", "process.started");
-			reporter.report(
-					IReporter.SEVERITY_INFO, "Process \"" + getID() + "\" Started", report);
+			reporter.report(IReporter.SEVERITY_INFO, "Process \"" + getID() + "\" Started", report);
 		}
 	}
-	
+
 	public DeploymentSession getActiveSession(String sessionId) {
-		synchronized (sessions)
-		{
+		synchronized (sessions) {
 			return sessions.get(sessionId);
 		}
 	}
-	
+
 	public DeploymentSession[] getActiveSessions() {
 		LinkedList<DeploymentSession> list = new LinkedList<DeploymentSession>();
-		synchronized (sessions)
-		{
+		synchronized (sessions) {
 			list.addAll(sessions.values());
 		}
 		return list.toArray(new DeploymentSession[list.size()]);
@@ -105,11 +99,10 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * 
 	 * @return The deployment ID.
 	 */
-	public String getID()
-	{
-		String id = (String)properties.get("process.id"); //$NON-NLS-1$
+	public String getID() {
+		String id = (String) properties.get("process.id"); //$NON-NLS-1$
 		if (id == null)
-			id = (String)properties.get("deployment.id"); //$NON-NLS-1$
+			id = (String) properties.get("deployment.id"); //$NON-NLS-1$
 		return id;
 	}
 
@@ -118,22 +111,18 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * 
 	 * @return The deployment path.
 	 */
-	public String getPath()
-	{
-		return HttpUtils.normalizePath((String)properties.get("path")); //$NON-NLS-1$
+	public String getPath() {
+		return HttpUtils.normalizePath((String) properties.get("path")); //$NON-NLS-1$
 	}
 
 	/**
 	 * Configures an available resource manager.
 	 * 
 	 * @param resourceManagerID The ID of the resource manager.
-	 * @param resourceManager The manager to register.
+	 * @param resourceManager   The manager to register.
 	 */
-	public void setResourceManager(String resourceManagerID,
-			IResourceManager resourceManager)
-	{
-		synchronized (resources)
-		{
+	public void setResourceManager(String resourceManagerID, IResourceManager resourceManager) {
+		synchronized (resources) {
 			if (!resources.containsKey(resourceManagerID))
 				resources.put(resourceManagerID, resourceManager);
 		}
@@ -142,23 +131,23 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	/**
 	 * Preforms the first step in the supplied session.
 	 * 
-	 * @param httpSession The HTTP session.
-	 * @param httpRequest The HTTP request.
+	 * @param httpSession  The HTTP session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 * @return The next document to render.
 	 */
-	public IDocument start(HttpSession httpSession,
-			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
-			String prefix, int depth, Map<Object, Object> variableValues, Map parameterValues, String entryName, String brand, boolean subdialog)
-	{
+	public IDocument start(HttpSession httpSession, HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
+			String prefix, int depth, Map<Object, Object> variableValues, Map<?, ?> parameterValues, String entryName,
+			String brand, boolean subdialog) {
 		if (unregisterSessionListener == null) {
 			synchronized (this) {
 				if (unregisterSessionListener == null) {
 					try {
-						Class<?> manager = Thread.currentThread().getContextClassLoader().loadClass(
-								"org.eclipse.vtp.framework.webapp.HttpSessionListenerManager");
+						Class<?> manager = Thread.currentThread().getContextClassLoader()
+								.loadClass("org.eclipse.vtp.framework.webapp.HttpSessionListenerManager");
 						manager.getMethod("addHttpSessionListener", HttpSessionListener.class).invoke(null, this);
-						unregisterSessionListener = manager.getMethod("removeHttpSessionListener", HttpSessionListener.class);
+						unregisterSessionListener = manager.getMethod("removeHttpSessionListener",
+								HttpSessionListener.class);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -173,15 +162,14 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 		ResultDocument result = null;
 		session.lock();
 		try {
-			result = session.start(httpSession, httpRequest, httpReesponse,
-					prefix, depth, variableValues, parameterValues, entryName, brand, subdialog);
+			result = session.start(httpSession, httpRequest, httpReesponse, prefix, depth, variableValues,
+					parameterValues, entryName, brand, subdialog);
 		} finally {
 			session.unlock();
 		}
 		IDocument document = null;
 		if (result == null || result.isTerminated())
-			document = abort(httpSession, httpRequest, httpReesponse, prefix, depth,
-					variableValues, parameterValues);
+			document = abort(httpSession, httpRequest, httpReesponse, prefix, depth, variableValues, parameterValues);
 		if (result != null && result.getDocument() != null)
 			document = result.getDocument();
 		return document;
@@ -190,17 +178,15 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	/**
 	 * Preforms the next step in the supplied session.
 	 * 
-	 * @param httpSession The HTTP session.
-	 * @param httpRequest The HTTP request.
+	 * @param httpSession  The HTTP session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 * @return The next document to render.
 	 */
-	public IDocument next(HttpSession httpSession,
-			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
-			String prefix, int depth, Map<Object, Object> variableValues, Map parameterValues)
-	{
+	public IDocument next(HttpSession httpSession, HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
+			String prefix, int depth, Map<Object, Object> variableValues, Map<?, ?> parameterValues) {
 		String sessionID = httpSession.getId();
-		DeploymentSession session = null; 
+		DeploymentSession session = null;
 		synchronized (sessions) {
 			session = sessions.get(sessionID);
 			if (session == null) {
@@ -211,34 +197,30 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 		ResultDocument result = null;
 		session.lock();
 		try {
-			result = session.next(httpSession, httpRequest, httpReesponse,
-				prefix, depth, variableValues, parameterValues);
+			result = session.next(httpSession, httpRequest, httpReesponse, prefix, depth, variableValues,
+					parameterValues);
 		} finally {
 			session.unlock();
 		}
 		IDocument document = null;
 		System.out.println("Result: " + result);
-		if(result != null)
-		{
+		if (result != null) {
 			System.out.println("Is Finished: " + result.isTerminated());
 			System.out.println("Document: " + result.getDocument());
 		}
 		if (result == null)
-			document = abort(httpSession, httpRequest, httpReesponse, prefix, depth,
-					variableValues, parameterValues);
+			document = abort(httpSession, httpRequest, httpReesponse, prefix, depth, variableValues, parameterValues);
 		if (result != null && result.getDocument() != null)
 			document = result.getDocument();
 		return document;
 	}
-	
-	public void end(HttpSession httpSession, String prefix, int depth)
-	{
+
+	public void end(HttpSession httpSession, String prefix, int depth) {
 		String sessionID = httpSession.getId();
-		synchronized (sessions)
-		{
+		synchronized (sessions) {
 			DeploymentSession session = sessions.remove(sessionID);
 			System.out.println("Ending Session: " + session);
-			if(session != null)
+			if (session != null)
 				session.end(httpSession, prefix, depth);
 		}
 	}
@@ -246,17 +228,15 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	/**
 	 * Aborts the supplied session.
 	 * 
-	 * @param httpSession The HTTP session.
-	 * @param httpRequest The HTTP request.
+	 * @param httpSession  The HTTP session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 * @return The last document to render.
 	 */
-	public IDocument abort(HttpSession httpSession,
-			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
-			String prefix, int depth, Map<Object, Object> variableValues, Map parameterValues)
-	{
+	public IDocument abort(HttpSession httpSession, HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
+			String prefix, int depth, Map<Object, Object> variableValues, Map<?, ?> parameterValues) {
 		String sessionID = httpSession.getId();
-		DeploymentSession session = null; 
+		DeploymentSession session = null;
 		synchronized (sessions) {
 			session = sessions.get(sessionID);
 			if (session == null) {
@@ -266,12 +246,11 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 		}
 		session.lock();
 		try {
-			return session.abort(httpSession, httpRequest, httpReesponse, prefix, depth,
-					variableValues, parameterValues);
+			return session.abort(httpSession, httpRequest, httpReesponse, prefix, depth, variableValues,
+					parameterValues);
 		} finally {
 			session.unlock();
-			synchronized (sessions)
-			{
+			synchronized (sessions) {
 				sessions.remove(sessionID);
 			}
 		}
@@ -281,8 +260,7 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * dispose.
 	 * 
 	 */
-	public void dispose()
-	{
+	public void dispose() {
 		synchronized (this) {
 			if (unregisterSessionListener != null) {
 				try {
@@ -293,12 +271,11 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 				}
 			}
 		}
-		if(reporter.isReportingEnabled())
-		{
-			Dictionary report = new Hashtable();
+		if (reporter.isReportingEnabled()) {
+			Dictionary<String, String> report = new Hashtable<String, String>();
 			report.put("event", "process.stopped");
-			((IReporter)process.lookupService(IReporter.class.getName())).report(
-					IReporter.SEVERITY_INFO, "Process \"" + getID() + "\" Stopped", report);
+			((IReporter) process.lookupService(IReporter.class.getName())).report(IReporter.SEVERITY_INFO,
+					"Process \"" + getID() + "\" Stopped", report);
 		}
 	}
 
@@ -307,8 +284,7 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#getProcessID()
 	 */
-	public String getProcessID()
-	{
+	public String getProcessID() {
 		return getID();
 	}
 
@@ -316,10 +292,9 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#getProperty(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getProperty(String propertyName) throws NullPointerException
-	{
+	public Object getProperty(String propertyName) throws NullPointerException {
 		return properties.get(propertyName);
 	}
 
@@ -327,10 +302,9 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#
-	 *      getServiceIdentifiers()
+	 * getServiceIdentifiers()
 	 */
-	public String[] getServiceIdentifiers()
-	{
+	public String[] getServiceIdentifiers() {
 		return new String[] { IResourceManagerRegistry.class.getName() };
 	}
 
@@ -338,40 +312,32 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#getService(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getService(String identifier) throws NullPointerException
-	{
-		return IResourceManagerRegistry.class.getName().equals(identifier) ? this
-				: null;
+	public Object getService(String identifier) throws NullPointerException {
+		return IResourceManagerRegistry.class.getName().equals(identifier) ? this : null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#loadClass(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Class<?> loadClass(String className) throws ClassNotFoundException,
-			NullPointerException
-	{
+	public Class<?> loadClass(String className) throws ClassNotFoundException, NullPointerException {
 		return contributor.loadClass(className);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#isSeverityEnabled(
-	 *      int)
+	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#isSeverityEnabled( int)
 	 */
-	public boolean isSeverityEnabled(int severity)
-	{
+	public boolean isSeverityEnabled(int severity) {
 		return reporter.isSeverityEnabled(severity);
 	}
 
-	
-	public boolean isReportingEnabled()
-	{
+	public boolean isReportingEnabled() {
 		return reporter.isReportingEnabled();
 	}
 
@@ -379,11 +345,10 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDescriptor#report(int,
-	 *      java.lang.String[], java.lang.String, java.util.Dictionary)
+	 * java.lang.String[], java.lang.String, java.util.Dictionary)
 	 */
-	public void report(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	@SuppressWarnings({ "rawtypes" })
+	public void report(int severity, String[] categories, String message, Dictionary properties) {
 		reporter.report(severity, categories, message, properties);
 	}
 
@@ -391,12 +356,10 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IResourceManagerRegistry#getResourceManagerIDs()
+	 * IResourceManagerRegistry#getResourceManagerIDs()
 	 */
-	public String[] getResourceManagerIDs()
-	{
-		synchronized (resources)
-		{
+	public String[] getResourceManagerIDs() {
+		synchronized (resources) {
 			return resources.keySet().toArray(new String[resources.size()]);
 		}
 	}
@@ -405,21 +368,19 @@ public class Deployment implements IProcessDescriptor, IResourceManagerRegistry,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IResourceManagerRegistry#getResourceManager(java.lang.String)
+	 * IResourceManagerRegistry#getResourceManager(java.lang.String)
 	 */
-	public IResourceManager getResourceManager(String resourceManagerID)
-	{
-		synchronized (resources)
-		{
+	public IResourceManager getResourceManager(String resourceManagerID) {
+		synchronized (resources) {
 			return resources.get(resourceManagerID);
 		}
 	}
 
-	public void sessionCreated(HttpSessionEvent se) {}
+	public void sessionCreated(HttpSessionEvent se) {
+	}
 
 	public void sessionDestroyed(HttpSessionEvent se) {
-		synchronized (sessions)
-		{
+		synchronized (sessions) {
 			DeploymentSession session = sessions.remove(se.getSession().getId());
 			if (session != null)
 				session.fireDisposedEvent(se.getSession());

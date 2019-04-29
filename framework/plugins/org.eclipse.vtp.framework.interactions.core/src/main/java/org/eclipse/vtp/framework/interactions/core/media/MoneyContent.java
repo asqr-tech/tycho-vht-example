@@ -18,51 +18,42 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-public class MoneyContent extends FormattableContent
-{
+public class MoneyContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "money-content"; //$NON-NLS-1$
 
-	public MoneyContent()
-	{
+	public MoneyContent() {
 	}
 
-	public MoneyContent(Element element)
-	{
+	public MoneyContent(Element element) {
 		super(element);
 	}
 
-	public String getContentTypeName()
-	{
+	public String getContentTypeName() {
 		return "MONEY"; //$NON-NLS-1$
 	}
 
-	public List format(IFormatter formatter, IMediaProvider mediaProvider)
-	{
-		List ret = new LinkedList();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List format(IFormatter formatter, IMediaProvider mediaProvider) {
+		List<Object> ret = new LinkedList<Object>();
 		try {
 			if (getValueType() != VARIABLE_VALUE)
 				ret.addAll(formatter.formatMoney(new BigDecimal(getValue()), Currency.getInstance("USD"),
-						mediaProvider.getFormatManager().getFormat(this, getFormatName()),
-						getFormatOptions(), mediaProvider.getResourceManager()));
-		}
-		catch (Exception e)
-		{
+						mediaProvider.getFormatManager().getFormat(this, getFormatName()), getFormatOptions(),
+						mediaProvider.getResourceManager()));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return ret;
 	}
 
-	public Element store(Element element)
-	{
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+	public Element store(Element element) {
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE, ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
 	}
 
-	public String getContentType()
-	{
+	public String getContentType() {
 		return "org.eclipse.vtp.framework.interactions.core.media.content.money"; //$NON-NLS-1$
 	}
 
@@ -71,8 +62,7 @@ public class MoneyContent extends FormattableContent
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
-	public Content createCopy()
-	{
+	public Content createCopy() {
 		return configureCopy(new MoneyContent());
 	}
 }

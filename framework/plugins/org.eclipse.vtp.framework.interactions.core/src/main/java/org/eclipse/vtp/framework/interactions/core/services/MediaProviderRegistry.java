@@ -39,38 +39,34 @@ import org.eclipse.vtp.framework.interactions.core.media.ISharedContentProvider;
  * 
  * @author Lonnie Pryor
  */
-public class MediaProviderRegistry implements IMediaProviderRegistry
-{
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class MediaProviderRegistry implements IMediaProviderRegistry {
 	/** The media providers by ID. */
-	private final Map mediaProviders;
+	private final Map<String, MediaProvider> mediaProviders;
 	/** The media providers by ID. */
-	private final Map mediaProviderIndex;
+	private final Map<String, String> mediaProviderIndex;
 
 	/**
 	 * Creates a new MediaProviderRegistry.
 	 * 
-	 * @param context The context to operate in.
-	 * @param content The content manager.
-	 * @param formatters The formatters.
-	 * @param resources The resource managers.
+	 * @param context        The context to operate in.
+	 * @param content        The content manager.
+	 * @param formatters     The formatters.
+	 * @param resources      The resource managers.
 	 * @param configurations The configurations to use.
 	 */
-	public MediaProviderRegistry(IProcessContext context,
-			IContentTypeRegistry content, IFormatterRegistry formatters,
-			IResourceManagerRegistry resources,
-			MediaProviderConfiguration[] configurations,
-			MediaProviderBindingConfiguration[] bindings)
-	{
-		Map mediaProviders = new HashMap(configurations.length);
-		Map contentTypes = new HashMap();
+	public MediaProviderRegistry(IProcessContext context, IContentTypeRegistry content, IFormatterRegistry formatters,
+			IResourceManagerRegistry resources, MediaProviderConfiguration[] configurations,
+			MediaProviderBindingConfiguration[] bindings) {
+		Map<String, MediaProvider> mediaProviders = new HashMap<String, MediaProvider>(configurations.length);
+		Map<?, ?> contentTypes = new HashMap<Object, Object>();
 		for (int i = 0; i < configurations.length; ++i)
-			mediaProviders.put(configurations[i].getID(), new MediaProvider(context,
-					content, formatters, resources, configurations[i], contentTypes));
+			mediaProviders.put(configurations[i].getID(),
+					new MediaProvider(context, content, formatters, resources, configurations[i], contentTypes));
 		this.mediaProviders = Collections.unmodifiableMap(mediaProviders);
-		Map mediaProviderIndex = new HashMap(bindings.length);
+		Map<String, String> mediaProviderIndex = new HashMap<String, String>(bindings.length);
 		for (int i = 0; i < bindings.length; ++i)
-			mediaProviderIndex.put(bindings[i].getKey(), bindings[i]
-					.getMediaProviderID());
+			mediaProviderIndex.put(bindings[i].getKey(), bindings[i].getMediaProviderID());
 		this.mediaProviderIndex = Collections.unmodifiableMap(mediaProviderIndex);
 	}
 
@@ -78,37 +74,31 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IMediaProviderRegistry#getMediaProviderIDs()
+	 * IMediaProviderRegistry#getMediaProviderIDs()
 	 */
-	public String[] getMediaProviderIDs()
-	{
-		return (String[])mediaProviders.keySet().toArray(
-				new String[mediaProviders.size()]);
+	public String[] getMediaProviderIDs() {
+		return (String[]) mediaProviders.keySet().toArray(new String[mediaProviders.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IMediaProviderRegistry#getMediaProvider(java.lang.String)
+	 * IMediaProviderRegistry#getMediaProvider(java.lang.String)
 	 */
-	public IMediaProvider getMediaProvider(String mediaProviderID)
-	{
-		return (IMediaProvider)mediaProviders.get(mediaProviderID);
+	public IMediaProvider getMediaProvider(String mediaProviderID) {
+		return (IMediaProvider) mediaProviders.get(mediaProviderID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
-	 *      IMediaProviderRegistry#lookupMediaProviderID(java.lang.String,
-	 *      java.lang.String, java.lang.String)
+	 * IMediaProviderRegistry#lookupMediaProviderID(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
-	public String lookupMediaProviderID(String brandID,
-			String interactionTypeID, String langugageID)
-	{
-		return (String)mediaProviderIndex.get(brandID + ":" + interactionTypeID + ":" 
-				+ langugageID);
+	public String lookupMediaProviderID(String brandID, String interactionTypeID, String langugageID) {
+		return (String) mediaProviderIndex.get(brandID + ":" + interactionTypeID + ":" + langugageID);
 	}
 
 	/**
@@ -116,44 +106,36 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class MediaProvider implements IMediaProvider, IFormatManager,
-			ISharedContentProvider
-	{
+	public final class MediaProvider implements IMediaProvider, IFormatManager, ISharedContentProvider {
 		/** The supported content types. */
-		private final List contentTypes;
+		private final List<Object> contentTypes;
 		/** The formatter instance. */
 		private final IFormatter formatter;
 		/** The resource manager instance. */
 		private final IResourceManager resourceManager;
 		/** The supported content types. */
-		private final Map sharedContent;
+		private final Map<String, Content> sharedContent;
 
 		/**
 		 * Creates a new MediaProvider.
 		 * 
-		 * @param context The context to operate in.
-		 * @param content The content manager.
-		 * @param formatters The formatters.
-		 * @param resources The resource managers.
+		 * @param context       The context to operate in.
+		 * @param content       The content manager.
+		 * @param formatters    The formatters.
+		 * @param resources     The resource managers.
 		 * @param configuration The configuration for this item.
-		 * @param cache The cache of embedded types.
+		 * @param cache         The cache of embedded types.
 		 */
-		MediaProvider(IProcessContext context, IContentTypeRegistry content,
-				IFormatterRegistry formatters, IResourceManagerRegistry resources,
-				MediaProviderConfiguration configuration, Map cache)
-		{
-			List contentTypes = new ArrayList(Arrays.asList(content
-					.getContentTypeIDs()));
+		MediaProvider(IProcessContext context, IContentTypeRegistry content, IFormatterRegistry formatters,
+				IResourceManagerRegistry resources, MediaProviderConfiguration configuration, Map<?, ?> cache) {
+			List<Object> contentTypes = new ArrayList<Object>(Arrays.asList(content.getContentTypeIDs()));
 			for (int i = 0; i < contentTypes.size(); ++i)
-				contentTypes
-						.set(i, content.getContentType((String)contentTypes.get(i)));
+				contentTypes.set(i, content.getContentType((String) contentTypes.get(i)));
 			this.contentTypes = Collections.unmodifiableList(contentTypes);
 			this.formatter = formatters.getFormatter(configuration.getFormatterID());
-			this.resourceManager = resources.getResourceManager(configuration
-					.getResourceManagerID());
-			SharedContentConfiguration[] contentConfigurations = configuration
-					.getSharedContent();
-			Map sharedContent = new HashMap(contentConfigurations.length);
+			this.resourceManager = resources.getResourceManager(configuration.getResourceManagerID());
+			SharedContentConfiguration[] contentConfigurations = configuration.getSharedContent();
+			Map<String, Content> sharedContent = new HashMap<String, Content>(contentConfigurations.length);
 			for (int i = 0; i < contentConfigurations.length; ++i)
 				sharedContent.put(contentConfigurations[i].getName(),
 						contentConfigurations[i].getContent().createCopy());
@@ -164,10 +146,9 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IMediaProvider#
-		 *      getSupportedContentTypes()
+		 * getSupportedContentTypes()
 		 */
-		public List getSupportedContentTypes()
-		{
+		public List getSupportedContentTypes() {
 			return contentTypes;
 		}
 
@@ -175,10 +156,9 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IMediaProvider#
-		 *      getFormatManager()
+		 * getFormatManager()
 		 */
-		public IFormatManager getFormatManager()
-		{
+		public IFormatManager getFormatManager() {
 			return this;
 		}
 
@@ -186,10 +166,9 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IMediaProvider#
-		 *      getFormatter()
+		 * getFormatter()
 		 */
-		public IFormatter getFormatter()
-		{
+		public IFormatter getFormatter() {
 			return formatter;
 		}
 
@@ -197,10 +176,9 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IMediaProvider#
-		 *      getResourceManager()
+		 * getResourceManager()
 		 */
-		public IResourceManager getResourceManager()
-		{
+		public IResourceManager getResourceManager() {
 			return resourceManager;
 		}
 
@@ -208,10 +186,9 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IMediaProvider#
-		 *      hasSharedContent()
+		 * hasSharedContent()
 		 */
-		public boolean hasSharedContent()
-		{
+		public boolean hasSharedContent() {
 			return !sharedContent.isEmpty();
 		}
 
@@ -219,10 +196,9 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IMediaProvider#
-		 *      getSharedContentProvider()
+		 * getSharedContentProvider()
 		 */
-		public ISharedContentProvider getSharedContentProvider()
-		{
+		public ISharedContentProvider getSharedContentProvider() {
 			return sharedContent.isEmpty() ? null : this;
 		}
 
@@ -230,11 +206,10 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatManager#
-		 *      getFormat(org.eclipse.vtp.framework.interactions.core.media.FormattableContent,
-		 *      java.lang.String)
+		 * getFormat(org.eclipse.vtp.framework.interactions.core.media.
+		 * FormattableContent, java.lang.String)
 		 */
-		public String getFormat(FormattableContent content, String formatName)
-		{
+		public String getFormat(FormattableContent content, String formatName) {
 			return formatter.getDefaultFormatDefintion(content, formatName);
 		}
 
@@ -242,11 +217,10 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatManager#
-		 *      getFormats( org.eclipse.vtp.framework.interactions.core.media.
-		 *      FormattableContent)
+		 * getFormats( org.eclipse.vtp.framework.interactions.core.media.
+		 * FormattableContent)
 		 */
-		public List getFormats(FormattableContent content)
-		{
+		public List getFormats(FormattableContent content) {
 			return formatter.getDefaultFormats(content);
 		}
 
@@ -254,22 +228,20 @@ public class MediaProviderRegistry implements IMediaProviderRegistry
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.
-		 *      ISharedContentProvider#listSharedContent()
+		 * ISharedContentProvider#listSharedContent()
 		 */
-		public List listSharedContent()
-		{
-			return new ArrayList(sharedContent.keySet());
+		public List<String> listSharedContent() {
+			return new ArrayList<String>(sharedContent.keySet());
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.media.
-		 *      ISharedContentProvider#getSharedContent(java.lang.String)
+		 * ISharedContentProvider#getSharedContent(java.lang.String)
 		 */
-		public Content getSharedContent(String contentName)
-		{
-			Content content = (Content)sharedContent.get(contentName);
+		public Content getSharedContent(String contentName) {
+			Content content = (Content) sharedContent.get(contentName);
 			if (content == null)
 				return null;
 			return content.createCopy();

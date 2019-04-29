@@ -81,7 +81,7 @@ public class MetaDataMessageAction implements IAction
 		{
 			if(context.isReportingEnabled())
 			{
-				Dictionary props = new Hashtable();
+				Dictionary<String, String> props = new Hashtable<String, String>();
 				props.put("event", "error.disconnect.hangup");
 				context.report(IReporter.SEVERITY_INFO,
 					"Got disconnect during interaction.", props);
@@ -100,7 +100,7 @@ public class MetaDataMessageAction implements IAction
 						getClass().getName().lastIndexOf('.') + 1));
 				if(context.isReportingEnabled())
 				{
-					Dictionary props = new Hashtable();
+					Dictionary<String, String> props = new Hashtable<String, String>();
 					props.put("event", "metadata.message");
 					context.report(IReporter.SEVERITY_INFO, "Sending meta-data.", props);
 				}

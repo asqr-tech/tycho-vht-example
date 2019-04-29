@@ -29,15 +29,13 @@ import org.eclipse.vtp.framework.spi.IProcessDescriptor;
  * 
  * @author Lonnie Pryor
  */
-public abstract class AbstractProcessContext extends AbstractContext implements
-		IProcessContext
-{
-	/** The service identifiers that will return this context. */
-	protected static final Set RESERVED_SERVICE_IDENTIFIERS;
 
-	static
-	{
-		Set identifiers = new HashSet(4);
+public abstract class AbstractProcessContext extends AbstractContext implements IProcessContext {
+	/** The service identifiers that will return this context. */
+	protected static final Set<String> RESERVED_SERVICE_IDENTIFIERS;
+
+	static {
+		Set<String> identifiers = new HashSet<String>(4);
 		identifiers.add(IReporter.class.getName());
 		identifiers.add(ILogger.class.getName());
 		identifiers.add(IContext.class.getName());
@@ -48,36 +46,32 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	/** The process descriptor. */
 	protected final IProcessDescriptor descriptor;
 	/** The service identifiers provided by the descriptor. */
-	protected final Set providedServiceIdentifiers;
+	protected final Set<String> providedServiceIdentifiers;
 
 	/**
 	 * Creates a new AbstractProcessContext.
 	 * 
 	 * @param descriptor The process descriptor.
-	 * @throws NullPointerException If the supplied descriptor is
-	 *           <code>null</code>.
+	 * @throws NullPointerException If the supplied descriptor is <code>null</code>.
 	 */
-	protected AbstractProcessContext(IProcessDescriptor descriptor)
-			throws NullPointerException
-	{
+	protected AbstractProcessContext(IProcessDescriptor descriptor) throws NullPointerException {
 		if (descriptor == null)
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
 		this.descriptor = descriptor;
-		this.providedServiceIdentifiers = Collections.unmodifiableSet(new HashSet(
-				Arrays.asList(descriptor.getServiceIdentifiers())));
+		this.providedServiceIdentifiers = Collections
+				.unmodifiableSet(new HashSet<String>(Arrays.asList(descriptor.getServiceIdentifiers())));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.support.AbstractReporter#doReport( int,
-	 *      java.lang.String[], java.lang.String, java.util.Dictionary)
+	 * java.lang.String[], java.lang.String, java.util.Dictionary)
 	 */
-	protected void doReport(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected void doReport(int severity, String[] categories, String message, Dictionary properties) {
 		if (properties == null)
-			properties = new Hashtable();
+			properties = new Hashtable<String, String>();
 		if (properties.get("scope") == null) //$NON-NLS-1$
 			properties.put("scope", "process"); //$NON-NLS-1$ //$NON-NLS-2$
 		properties.put("process.id", getProcessID()); //$NON-NLS-1$
@@ -89,13 +83,11 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IReporter#isSeverityEnabled(int)
 	 */
-	public boolean isSeverityEnabled(int severity)
-	{
+	public boolean isSeverityEnabled(int severity) {
 		return descriptor.isSeverityEnabled(severity);
 	}
-	
-	public boolean isReportingEnabled()
-	{
+
+	public boolean isReportingEnabled() {
 		return descriptor.isReportingEnabled();
 	}
 
@@ -103,10 +95,9 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.support.AbstractServiceRegistry#
-	 *      lookupReservedService(java.lang.String)
+	 * lookupReservedService(java.lang.String)
 	 */
-	protected Object lookupReservedService(String identifier)
-	{
+	protected Object lookupReservedService(String identifier) {
 		if (RESERVED_SERVICE_IDENTIFIERS.contains(identifier))
 			return this;
 		return null;
@@ -116,10 +107,9 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.support.AbstractServiceRegistry#
-	 *      lookupLocalService(java.lang.String)
+	 * lookupLocalService(java.lang.String)
 	 */
-	protected Object lookupLocalService(String identifier)
-	{
+	protected Object lookupLocalService(String identifier) {
 		if (providedServiceIdentifiers.contains(identifier))
 			return descriptor.getService(identifier);
 		return null;
@@ -129,10 +119,9 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.support.AbstractServiceRegistry#
-	 *      lookupAllLocalServices(java.lang.String)
+	 * lookupAllLocalServices(java.lang.String)
 	 */
-	protected Object[] lookupAllLocalServices(String identifier)
-	{
+	protected Object[] lookupAllLocalServices(String identifier) {
 		if (providedServiceIdentifiers.contains(identifier))
 			return new Object[] { descriptor.getService(identifier) };
 		return null;
@@ -143,8 +132,7 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#getProcessID()
 	 */
-	public final String getProcessID()
-	{
+	public final String getProcessID() {
 		return descriptor.getProcessID();
 	}
 
@@ -152,11 +140,9 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#getProperty(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public final Object getProperty(String propertyName)
-			throws NullPointerException
-	{
+	public final Object getProperty(String propertyName) throws NullPointerException {
 		return descriptor.getProperty(propertyName);
 	}
 
@@ -164,11 +150,9 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#loadClass(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public final Class loadClass(String className) throws ClassNotFoundException,
-			NullPointerException
-	{
+	public final Class<?> loadClass(String className) throws ClassNotFoundException, NullPointerException {
 		return descriptor.loadClass(className);
 	}
 }

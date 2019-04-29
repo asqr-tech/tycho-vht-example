@@ -58,10 +58,9 @@ import org.eclipse.vtp.framework.spi.IRunnableCommandVisitor;
  * 
  * @author Lonnie Pryor
  */
-public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
-		IRenderingQueue, IRunnableCommandVisitor, IControllerCommandVisitor,
-		IInteractionTypeSelection
-{
+@SuppressWarnings({ "rawtypes" })
+public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory, IRenderingQueue,
+		IRunnableCommandVisitor, IControllerCommandVisitor, IInteractionTypeSelection {
 	/** The execution ID. */
 	private final String id;
 	/** The process session. */
@@ -71,7 +70,7 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	/** The HTTP response. */
 	private final HttpServletResponse httpResponse;
 	/** The execution parameters. */
-	private final Map parameters;
+	private final Map<String, String[]> parameters;
 	/** The current interaction type registry. */
 	private IInteractionTypeRegistry interactionTypeRegistry = null;
 	/** The current interaction type registry. */
@@ -86,25 +85,21 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	/**
 	 * Creates a new DeploymentExecution.
 	 * 
-	 * @param id The execution ID.
-	 * @param session The process session.
-	 * @param httpRequest The HTTP request.
+	 * @param id           The execution ID.
+	 * @param session      The process session.
+	 * @param httpRequest  The HTTP request.
 	 * @param httpResponse The HTTP response.
 	 */
-	public DeploymentExecution(String id, DeploymentSession session,
-			HttpServletRequest httpRequest, HttpServletResponse httpResponse,
-			Map parameterValues)
-	{
+	public DeploymentExecution(String id, DeploymentSession session, HttpServletRequest httpRequest,
+			HttpServletResponse httpResponse, Map<?, ?> parameterValues) {
 		this.id = id;
 		this.session = session;
 		this.httpRequest = httpRequest;
 		this.httpResponse = httpResponse;
-		this.parameters = new HashMap();
-		for (Iterator i = parameterValues.entrySet().iterator(); i.hasNext();)
-		{
-			Map.Entry entry = (Map.Entry)i.next();
-			parameters.put(entry.getKey(), entry.getValue());
-		}
+		this.parameters = new HashMap<String, String[]>();
+		for (Map.Entry entry : parameterValues.entrySet())
+			parameters.put((String) entry.getKey(), (String[]) entry.getValue());
+
 //		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
 //		if (ServletFileUpload.isMultipartContent(new ServletRequestContext(
 //				httpRequest)))
@@ -152,59 +147,46 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * 
 	 * @return The next document in the interaction.
 	 */
-	public ResultDocument doNext()
-	{
+	public ResultDocument doNext() {
 		IExecution execution = session.getSession().createExecution(this);
-		IReporter reporter = (IReporter)execution.lookupService(IReporter.class.getName());
-		if(reporter.isReportingEnabled())
-		{
-			Dictionary report = new Hashtable();
+		IReporter reporter = (IReporter) execution.lookupService(IReporter.class.getName());
+		if (reporter.isReportingEnabled()) {
+			Dictionary<String, String> report = new Hashtable<String, String>();
 			report.put("event", "execution.started");
-			reporter.report(
-					IReporter.SEVERITY_INFO, "Execution \"" + id + "\" Started", report);
+			reporter.report(IReporter.SEVERITY_INFO, "Execution \"" + id + "\" Started", report);
 		}
-		try
-		{
-			interactionTypeRegistry = (IInteractionTypeRegistry)execution
+		try {
+			interactionTypeRegistry = (IInteractionTypeRegistry) execution
 					.lookupService(IInteractionTypeRegistry.class.getName());
-			variableRegistry = (IVariableRegistry)execution
-					.lookupService(IVariableRegistry.class.getName());
-			IPlatformSelector selector = (IPlatformSelector)execution
-					.lookupService(IPlatformSelector.class.getName());
+			variableRegistry = (IVariableRegistry) execution.lookupService(IVariableRegistry.class.getName());
+			IPlatformSelector selector = (IPlatformSelector) execution.lookupService(IPlatformSelector.class.getName());
 			if (selector == null)
 				return null;
 			platform = selector.getSelectedPlatform();
 			if (platform == null)
 				return null;
-			while (true)
-			{
+			while (true) {
 				if (!execution.hasNextStep())
 					return null;
 				command = execution.nextStep();
 				System.out.println("Processing execution step: " + command);
 				IDocument document = null;
-				if (command instanceof ConversationCommand)
-				{
+				if (command instanceof ConversationCommand) {
 					urlEncoded = true;
 					document = platform.createDocument(this, this);
-				}
-				else
-					document = (IDocument)command.accept(this);
+				} else
+					document = (IDocument) command.accept(this);
 				if (document != null)
 					return new ResultDocument(document, !execution.hasNextStep());
 			}
-		}
-		finally
-		{
+		} finally {
 			platform = null;
 			variableRegistry = null;
 			interactionTypeRegistry = null;
-			if(reporter.isReportingEnabled())
-			{
-				Dictionary report = new Hashtable();
+			if (reporter.isReportingEnabled()) {
+				Dictionary<String, String> report = new Hashtable<String, String>();
 				report.put("event", "execution.ended");
-				reporter.report(
-						IReporter.SEVERITY_INFO, "Execution \"" + id + "\" Ended", report);
+				reporter.report(IReporter.SEVERITY_INFO, "Execution \"" + id + "\" Ended", report);
 			}
 			execution.dispose();
 		}
@@ -215,27 +197,21 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * 
 	 * @return The abort document and ends the interaction.
 	 */
-	public IDocument doAbort()
-	{
+	public IDocument doAbort() {
 		IExecution execution = session.getSession().createExecution(this);
-		try
-		{
-			if (!"true".equals(session.getAttribute("vtp.ended")))
-			{
-				IReporter reporter = (IReporter)execution.lookupService(IReporter.class.getName());
-				if(reporter.isReportingEnabled())
-				{
-					Dictionary report = new Hashtable();
+		try {
+			if (!"true".equals(session.getAttribute("vtp.ended"))) {
+				IReporter reporter = (IReporter) execution.lookupService(IReporter.class.getName());
+				if (reporter.isReportingEnabled()) {
+					Dictionary<String, String> report = new Hashtable<String, String>();
 					report.put("event", "session.terminated");
-					reporter.report(
-							IReporter.SEVERITY_INFO, "Session \"" + session.getSessionID()
-									+ "\" Terminated", report);
+					reporter.report(IReporter.SEVERITY_INFO, "Session \"" + session.getSessionID() + "\" Terminated",
+							report);
 				}
 			}
-			interactionTypeRegistry = (IInteractionTypeRegistry)execution
+			interactionTypeRegistry = (IInteractionTypeRegistry) execution
 					.lookupService(IInteractionTypeRegistry.class.getName());
-			IPlatformSelector selector = (IPlatformSelector)execution
-					.lookupService(IPlatformSelector.class.getName());
+			IPlatformSelector selector = (IPlatformSelector) execution.lookupService(IPlatformSelector.class.getName());
 			if (selector == null)
 				return null;
 			platform = selector.getSelectedPlatform();
@@ -244,9 +220,7 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 			command = new EndMessageCommand();
 			urlEncoded = true;
 			return platform.createDocument(this, this);
-		}
-		finally
-		{
+		} finally {
 			platform = null;
 			interactionTypeRegistry = null;
 			execution.dispose();
@@ -258,30 +232,26 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#getExecutionID()
 	 */
-	public String getExecutionID()
-	{
+	public String getExecutionID() {
 		return id;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#
-	 *      getParameterNames()
+	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor# getParameterNames()
 	 */
-	public String[] getParameterNames()
-	{
-		return (String[])parameters.keySet().toArray(new String[parameters.size()]);
+	public String[] getParameterNames() {
+		return (String[]) parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#getParameter(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public String getParameter(String parameterName) throws NullPointerException
-	{
+	public String getParameter(String parameterName) throws NullPointerException {
 		String[] values = getParameters(parameterName);
 		return values == null || values.length == 0 ? null : values[0];
 	}
@@ -290,12 +260,10 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#getParameters(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public String[] getParameters(String parameterName)
-			throws NullPointerException
-	{
-		String[] values = (String[])parameters.get(parameterName);
+	public String[] getParameters(String parameterName) throws NullPointerException {
+		String[] values = (String[]) parameters.get(parameterName);
 		if (values == null || values.length == 0)
 			return null;
 		String[] copy = new String[values.length];
@@ -307,11 +275,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#setParameter(
-	 *      java.lang.String, java.lang.String)
+	 * java.lang.String, java.lang.String)
 	 */
-	public void setParameter(String parameterName, String value)
-			throws NullPointerException
-	{
+	public void setParameter(String parameterName, String value) throws NullPointerException {
 		setParameters(parameterName, value == null ? null : new String[] { value });
 	}
 
@@ -319,15 +285,12 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#setParameters(
-	 *      java.lang.String, java.lang.String[])
+	 * java.lang.String, java.lang.String[])
 	 */
-	public void setParameters(String parameterName, String[] values)
-			throws NullPointerException
-	{
+	public void setParameters(String parameterName, String[] values) throws NullPointerException {
 		if (values == null || values.length == 0)
 			clearParameter(parameterName);
-		else
-		{
+		else {
 			String[] copy = new String[values.length];
 			System.arraycopy(values, 0, copy, 0, values.length);
 			parameters.put(parameterName, copy);
@@ -339,10 +302,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#clearParameter(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void clearParameter(String parameterName) throws NullPointerException
-	{
+	public void clearParameter(String parameterName) throws NullPointerException {
 		parameters.remove(parameterName);
 	}
 
@@ -350,10 +312,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#
-	 *      getServiceIdentifiers()
+	 * getServiceIdentifiers()
 	 */
-	public String[] getServiceIdentifiers()
-	{
+	public String[] getServiceIdentifiers() {
 		return new String[] { IInteractionTypeSelection.class.getName() };
 	}
 
@@ -361,22 +322,19 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IExecutionDescriptor#getService(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getService(String identifier) throws NullPointerException
-	{
-		return IInteractionTypeSelection.class.getName().equals(identifier) ? this
-				: null;
+	public Object getService(String identifier) throws NullPointerException {
+		return IInteractionTypeSelection.class.getName().equals(identifier) ? this : null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory#
-	 *      setUrlEncoded(boolean)
+	 * setUrlEncoded(boolean)
 	 */
-	public void setUrlEncoded(boolean urlEncoded)
-	{
+	public void setUrlEncoded(boolean urlEncoded) {
 		this.urlEncoded = urlEncoded;
 	}
 
@@ -384,10 +342,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory#
-	 *      createAbortLink()
+	 * createAbortLink()
 	 */
-	public ILink createAbortLink()
-	{
+	public ILink createAbortLink() {
 		return new Link(HttpConnector.ABORT_PATH);
 	}
 
@@ -395,10 +352,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory#
-	 *      createNextLink()
+	 * createNextLink()
 	 */
-	public ILink createNextLink()
-	{
+	public ILink createNextLink() {
 		return new Link(HttpConnector.NEXT_PATH);
 	}
 
@@ -406,15 +362,14 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory#
-	 *      createResourceLink(java.lang.String)
+	 * createResourceLink(java.lang.String)
 	 */
-	public ILink createResourceLink(String path)
-	{
+	public ILink createResourceLink(String path) {
 		if (path == null)
 			return null;
-		else if(path.startsWith("http://"))
+		else if (path.startsWith("http://"))
 			return new Link(path, false);
-		else if(path.startsWith("dtmf:"))
+		else if (path.startsWith("dtmf:"))
 			return new Link(path, false);
 		else if (path.startsWith("/")) //$NON-NLS-1$
 			return new Link(HttpConnector.RESOURCES_PATH + path, false);
@@ -426,10 +381,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IRenderingQueue#
-	 *      isEmpty()
+	 * isEmpty()
 	 */
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return command == null || !(command instanceof ConversationCommand);
 	}
 
@@ -437,26 +391,24 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IRenderingQueue#
-	 *      peek()
+	 * peek()
 	 */
-	public ConversationCommand peek()
-	{
+	public ConversationCommand peek() {
 		if (isEmpty())
 			return null;
-		return (ConversationCommand)command;
+		return (ConversationCommand) command;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IRenderingQueue#
-	 *      next()
+	 * next()
 	 */
-	public ConversationCommand next()
-	{
+	public ConversationCommand next() {
 		if (isEmpty())
 			return null;
-		ConversationCommand command = (ConversationCommand)this.command;
+		ConversationCommand command = (ConversationCommand) this.command;
 		this.command = null;
 		return command;
 	}
@@ -465,11 +417,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IRunnableCommandVisitor#
-	 *      visitRunnable(org.eclipse.vtp.framework.spi.IRunnableCommand)
+	 * visitRunnable(org.eclipse.vtp.framework.spi.IRunnableCommand)
 	 */
-	public Object visitRunnable(IRunnableCommand runnableCommand)
-			throws NullPointerException
-	{
+	public Object visitRunnable(IRunnableCommand runnableCommand) throws NullPointerException {
 		runnableCommand.run();
 		return null;
 	}
@@ -478,30 +428,26 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.common.commands.IControllerCommandVisitor#
-	 *      visitInclude(org.eclipse.vtp.framework.common.commands.IncludeCommand)
+	 * visitInclude(org.eclipse.vtp.framework.common.commands.IncludeCommand)
 	 */
-	public Object visitInclude(IncludeCommand includeCommand)
-	{
+	public Object visitInclude(IncludeCommand includeCommand) {
 		ControllerDocument doc = new ControllerDocument();
 		doc.setTarget(includeCommand.getTargetProcessURI());
 		String[] targetNames = includeCommand.getVariableNames();
-		for (int i = 0; i < targetNames.length; ++i)
-		{
-			doc.setVariableValue(targetNames[i], exportVariable(variableRegistry
-					.getVariable(includeCommand.getVariableValue(targetNames[i]))));
+		for (int i = 0; i < targetNames.length; ++i) {
+			doc.setVariableValue(targetNames[i],
+					exportVariable(variableRegistry.getVariable(includeCommand.getVariableValue(targetNames[i]))));
 		}
 		String[] outgoing = includeCommand.getOutgoingPaths();
-		for (int i = 0; i < outgoing.length; ++i)
-		{
+		for (int i = 0; i < outgoing.length; ++i) {
 			String[] names = includeCommand.getOutgoingDataNames(outgoing[i]);
 			for (int j = 0; j < names.length; ++j)
-				doc.setOutgoingDataValue(outgoing[i], names[j], includeCommand
-						.getOutgoingDataValue(outgoing[i], names[j]));
+				doc.setOutgoingDataValue(outgoing[i], names[j],
+						includeCommand.getOutgoingDataValue(outgoing[i], names[j]));
 		}
 		String[] paramNames = includeCommand.getParameterNames();
 		for (int i = 0; i < paramNames.length; ++i)
-			doc.setParameterValues(paramNames[i], includeCommand
-					.getParameterValues(paramNames[i]));
+			doc.setParameterValues(paramNames[i], includeCommand.getParameterValues(paramNames[i]));
 		return doc;
 	}
 
@@ -509,16 +455,14 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.common.commands.IControllerCommandVisitor#
-	 *      visitExit(org.eclipse.vtp.framework.common.commands.ExitCommand)
+	 * visitExit(org.eclipse.vtp.framework.common.commands.ExitCommand)
 	 */
-	public Object visitExit(ExitCommand exitCommand)
-	{
+	public Object visitExit(ExitCommand exitCommand) {
 		ControllerDocument doc = new ControllerDocument();
 		doc.setParameterValues("exit", new String[] { exitCommand.getExitValue() });
 		String[] vars = exitCommand.getVariableNames();
 		for (int i = 0; i < vars.length; ++i)
-			doc.setVariableValue(vars[i], exportVariable(variableRegistry
-					.getVariable(vars[i])));
+			doc.setVariableValue(vars[i], exportVariable(variableRegistry.getVariable(vars[i])));
 		return doc;
 	}
 
@@ -526,10 +470,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.common.commands.IControllerCommandVisitor#
-	 *      visitForward(org.eclipse.vtp.framework.common.commands.ForwardCommand)
+	 * visitForward(org.eclipse.vtp.framework.common.commands.ForwardCommand)
 	 */
-	public Object visitForward(ForwardCommand forwardCommand)
-	{
+	public Object visitForward(ForwardCommand forwardCommand) {
 		// TODO
 		return null;
 	}
@@ -538,11 +481,9 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommandVisitor#
-	 *      visitUnknown(org.eclipse.vtp.framework.spi.ICommand)
+	 * visitUnknown(org.eclipse.vtp.framework.spi.ICommand)
 	 */
-	public Object visitUnknown(ICommand unknownCommand)
-			throws NullPointerException
-	{
+	public Object visitUnknown(ICommand unknownCommand) throws NullPointerException {
 		return null;
 	}
 
@@ -550,54 +491,45 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.IInteractionTypeSelection#
-	 *      getSelectedInteractionType()
+	 * getSelectedInteractionType()
 	 */
-	public IInteractionType getSelectedInteractionType()
-	{
+	public IInteractionType getSelectedInteractionType() {
 		if (interactionTypeRegistry == null)
 			return null;
 		if (platform == null)
 			return null;
-		return interactionTypeRegistry.getInteractionType(platform
-				.getInteractionTypeID());
+		return interactionTypeRegistry.getInteractionType(platform.getInteractionTypeID());
 	}
 
-	private Map exportVariable(IDataObject variable)
-	{
+	private Map<String, Object> exportVariable(IDataObject variable) {
 		if (variable == null)
 			return null;
-		Map data = new HashMap();
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put(null, variable.getType().getName());
 		data.put("OBJECT_ID", variable.getId());
-		if (variable instanceof IArrayObject)
-		{
-			IArrayObject array = (IArrayObject)variable;
+		if (variable instanceof IArrayObject) {
+			IArrayObject array = (IArrayObject) variable;
 			Object[] elements = new Object[array.getLength().getValue().intValue()];
 			for (int i = 0; i < elements.length; ++i)
 				elements[i] = exportVariable(array.getElement(i));
 			data.put("elements", elements);
-		}
-		else if (variable instanceof IMapObject)
-		{
-			IMapObject map = (IMapObject)variable;
+		} else if (variable instanceof IMapObject) {
+			IMapObject map = (IMapObject) variable;
 			Map<String, IDataObject> values = map.getValues();
-			for(Map.Entry<String, IDataObject> entry : values.entrySet())
-			{
+			for (Map.Entry<String, IDataObject> entry : values.entrySet()) {
 				data.put(entry.getKey(), exportVariable(entry.getValue()));
 			}
-		}
-		else if (variable instanceof IBooleanObject)
-			data.put("value", ((IBooleanObject)variable).getValue());
+		} else if (variable instanceof IBooleanObject)
+			data.put("value", ((IBooleanObject) variable).getValue());
 		else if (variable instanceof IDateObject)
-			data.put("value", ((IDateObject)variable).getValue());
+			data.put("value", ((IDateObject) variable).getValue());
 		else if (variable instanceof IDecimalObject)
-			data.put("value", ((IDecimalObject)variable).getValue());
+			data.put("value", ((IDecimalObject) variable).getValue());
 		else if (variable instanceof INumberObject)
-			data.put("value", ((INumberObject)variable).getValue());
+			data.put("value", ((INumberObject) variable).getValue());
 		else if (variable instanceof IStringObject)
-			data.put("value", ((IStringObject)variable).getValue());
-		else
-		{
+			data.put("value", ((IStringObject) variable).getValue());
+		else {
 			String[] fields = variable.getType().getFieldNames();
 			for (int i = 0; i < fields.length; ++i)
 				data.put(fields[i], exportVariable(variable.getField(fields[i])));
@@ -610,63 +542,51 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class Link implements ILink
-	{
+	private final class Link implements ILink {
 		/** The link path. */
 		private final String path;
 		/** The link parameters. */
-		private final Map parameters = new HashMap();
+		private final Map<String, String[]> parameters = new HashMap<String, String[]>();
 
 		/**
 		 * Creates a new Link.
 		 * 
 		 * @param path The link path.
 		 */
-		Link(String path)
-		{
+		Link(String path) {
 			this(path, true);
 		}
-		
-		Link(String path, boolean appendMode)
-		{
-			if(path.startsWith("http://") || path.startsWith("dtmf:"))
-			{
+
+		Link(String path, boolean appendMode) {
+			if (path.startsWith("http://") || path.startsWith("dtmf:")) {
 				this.path = path;
 				return;
 			}
 			StringBuffer buffer = new StringBuffer();
-			String contextPath = HttpUtils
-					.normalizePath(httpRequest.getContextPath());
+			String contextPath = HttpUtils.normalizePath(httpRequest.getContextPath());
 			if (!contextPath.equals("/")) //$NON-NLS-1$
 				buffer.append(contextPath);
-			String servletPath = HttpUtils
-					.normalizePath(httpRequest.getServletPath());
+			String servletPath = HttpUtils.normalizePath(httpRequest.getServletPath());
 			if (!servletPath.equals("/")) //$NON-NLS-1$
 				buffer.append(servletPath);
-			for (StringTokenizer st = new StringTokenizer(HttpUtils
-					.normalizePath(path), "/"); st.hasMoreTokens();) //$NON-NLS-1$
+			for (StringTokenizer st = new StringTokenizer(HttpUtils.normalizePath(path), "/"); st.hasMoreTokens();) //$NON-NLS-1$
 			{
-				try
-				{
+				try {
 					String token = URLEncoder.encode(st.nextToken(), "UTF-8"); //$NON-NLS-1$
 					StringBuffer b = new StringBuffer();
-					for (int i = 0; i < token.length(); ++i)
-					{
+					for (int i = 0; i < token.length(); ++i) {
 						if (token.charAt(i) == '+')
 							b.append("%20"); //$NON-NLS-1$
 						else
 							b.append(token.charAt(i));
 					}
 					buffer.append('/').append(b.toString());
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 			this.path = buffer.toString();
-			if(appendMode)
-			{
+			if (appendMode) {
 				String[] mode = getParameters("MODE"); //$NON-NLS-1$
 				if (mode != null && mode.length > 0)
 					setParameters("MODE", mode); //$NON-NLS-1$
@@ -679,13 +599,11 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 		 * @param The URL to encode;
 		 * @return The encoded URL.
 		 */
-		private String encode(String url)
-		{
+		private String encode(String url) {
 			String encoded = null;
 			if (urlEncoded)
 				encoded = httpResponse.encodeURL(url);
-			else if (url.startsWith("/")
-					&& !url.startsWith(httpRequest.getContextPath() + "/"))
+			else if (url.startsWith("/") && !url.startsWith(httpRequest.getContextPath() + "/"))
 				encoded = httpRequest.getContextPath() + url;
 			else
 				encoded = url;
@@ -696,22 +614,19 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.platforms.ILink#
-		 *      setParameter(java.lang.String, java.lang.String)
+		 * setParameter(java.lang.String, java.lang.String)
 		 */
-		public void setParameter(String parameterName, String parameterValue)
-		{
-			setParameters(parameterName, parameterValue == null ? null
-					: new String[] { parameterValue });
+		public void setParameter(String parameterName, String parameterValue) {
+			setParameters(parameterName, parameterValue == null ? null : new String[] { parameterValue });
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.platforms.ILink#
-		 *      setParameters(java.lang.String, java.lang.String[])
+		 * setParameters(java.lang.String, java.lang.String[])
 		 */
-		public void setParameters(String parameterName, String[] parameterValue)
-		{
+		public void setParameters(String parameterName, String[] parameterValue) {
 			if (parameterName == null)
 				return;
 			if (parameterValue == null)
@@ -725,32 +640,26 @@ public class DeploymentExecution implements IExecutionDescriptor, ILinkFactory,
 		 * 
 		 * @see java.lang.Object#toString()
 		 */
-		public String toString()
-		{
+		public String toString() {
 			if (parameters.isEmpty())
 				return encode(path);
 			StringBuffer buffer = new StringBuffer(path).append('?');
-			for (Iterator i = parameters.entrySet().iterator(); i.hasNext();)
-			{
-				Map.Entry entry = (Map.Entry)i.next();
-				String name = (String)entry.getKey();
-				String[] values = (String[])entry.getValue();
+			for (Iterator<?> i = parameters.entrySet().iterator(); i.hasNext();) {
+				Map.Entry entry = (Map.Entry) i.next();
+				String name = (String) entry.getKey();
+				String[] values = (String[]) entry.getValue();
 				if (values.length == 0)
 					continue;
-				try
-				{
+				try {
 					buffer.append(URLEncoder.encode(name, "UTF-8")); //$NON-NLS-1$
 					buffer.append('=');
-					for (int j = 0; j < values.length; ++j)
-					{
+					for (int j = 0; j < values.length; ++j) {
 						if (j > 0)
 							buffer.append(',');
 						buffer.append(URLEncoder.encode(values[j], "UTF-8")); //$NON-NLS-1$
 					}
 					buffer.append('&');
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

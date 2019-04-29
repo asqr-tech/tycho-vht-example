@@ -40,8 +40,8 @@ import org.osgi.service.log.LogService;
  * 
  * @author Lonnie Pryor
  */
-public final class ProcessEngineManager extends SingletonTracker
-{
+@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
+public final class ProcessEngineManager extends SingletonTracker {
 	/** The log to use. */
 	private final LogService log;
 	/** Comment for reporter. */
@@ -55,11 +55,9 @@ public final class ProcessEngineManager extends SingletonTracker
 	 * Creates a new ExtensionRegistryTracker.
 	 * 
 	 * @param context The context to operate under.
-	 * @param log The log to use.
+	 * @param log     The log to use.
 	 */
-	public ProcessEngineManager(BundleContext context, LogService log,
-			IReporter reporter)
-	{
+	public ProcessEngineManager(BundleContext context, LogService log, IReporter reporter) {
 		super(context, IExtensionRegistry.class.getName(), null);
 		this.log = log;
 		this.reporter = reporter;
@@ -70,15 +68,14 @@ public final class ProcessEngineManager extends SingletonTracker
 	 * 
 	 * @param extensionRegistry The extension registry to use.
 	 */
-	private void createProcessEngine(IExtensionRegistry extensionRegistry)
-	{
+	private void createProcessEngine(IExtensionRegistry extensionRegistry) {
 		log.log(LogService.LOG_DEBUG, "Creating process engine...");
 		processEngineInstance = new ProcessEngineInstance(extensionRegistry);
 		processEngineInstance.open();
 		log.log(LogService.LOG_DEBUG, "Process engine created.");
 		log.log(LogService.LOG_DEBUG, "Creating HTTP connector manager...");
-		httpConnectorManager = new HttpConnectorManager(context, log,
-				extensionRegistry, processEngineInstance.processEngine, reporter);
+		httpConnectorManager = new HttpConnectorManager(context, log, extensionRegistry,
+				processEngineInstance.processEngine, reporter);
 		httpConnectorManager.open();
 		log.log(LogService.LOG_DEBUG, "HTTP connector manager created.");
 	}
@@ -86,35 +83,24 @@ public final class ProcessEngineManager extends SingletonTracker
 	/**
 	 * Releases the current process engine.
 	 */
-	private void releaseProcessEngine()
-	{
-		try
-		{
-			if (httpConnectorManager != null)
-			{
+	private void releaseProcessEngine() {
+		try {
+			if (httpConnectorManager != null) {
 				log.log(LogService.LOG_DEBUG, "Releasing HTTP connector manager...");
 				httpConnectorManager.close();
 			}
-		}
-		finally
-		{
-			if (httpConnectorManager != null)
-			{
+		} finally {
+			if (httpConnectorManager != null) {
 				httpConnectorManager = null;
 				log.log(LogService.LOG_DEBUG, "HTTP connector manager released.");
 			}
-			try
-			{
-				if (processEngineInstance != null)
-				{
+			try {
+				if (processEngineInstance != null) {
 					log.log(LogService.LOG_DEBUG, "Releasing process engine...");
 					processEngineInstance.close();
 				}
-			}
-			finally
-			{
-				if (processEngineInstance != null)
-				{
+			} finally {
+				if (processEngineInstance != null) {
 					processEngineInstance = null;
 					log.log(LogService.LOG_DEBUG, "Process engine released.");
 				}
@@ -126,22 +112,16 @@ public final class ProcessEngineManager extends SingletonTracker
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 *      selectingService(org.osgi.framework.ServiceReference)
+	 * selectingService(org.osgi.framework.ServiceReference)
 	 */
-	public Object selectingService(ServiceReference reference)
-	{
-		IExtensionRegistry service = (IExtensionRegistry)context
-				.getService(reference);
+	public Object selectingService(ServiceReference reference) {
+		IExtensionRegistry service = (IExtensionRegistry) context.getService(reference);
 		boolean failed = true;
-		try
-		{
+		try {
 			createProcessEngine(service);
 			failed = false;
-		}
-		finally
-		{
-			if (failed)
-			{
+		} finally {
+			if (failed) {
 				service = null;
 				context.ungetService(reference);
 			}
@@ -153,28 +133,22 @@ public final class ProcessEngineManager extends SingletonTracker
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 *      changingSelectedService(org.osgi.framework.ServiceReference,
-	 *      java.lang.Object, org.osgi.framework.ServiceReference)
+	 * changingSelectedService(org.osgi.framework.ServiceReference,
+	 * java.lang.Object, org.osgi.framework.ServiceReference)
 	 */
-	public Object changingSelectedService(ServiceReference oldReference,
-			Object oldService, ServiceReference newReference)
-	{
-		IExtensionRegistry newService = (IExtensionRegistry)context
-				.getService(newReference);
+	public Object changingSelectedService(ServiceReference oldReference, Object oldService,
+			ServiceReference newReference) {
+		IExtensionRegistry newService = (IExtensionRegistry) context.getService(newReference);
 		releaseProcessEngine();
 		boolean failed = true;
-		try
-		{
+		try {
 			createProcessEngine(newService);
 			failed = false;
-		}
-		finally
-		{
-			if (failed)
-			{
+		} finally {
+			if (failed) {
 				newService = null;
 				context.ungetService(newReference);
-				createProcessEngine((IExtensionRegistry)oldService);
+				createProcessEngine((IExtensionRegistry) oldService);
 			}
 		}
 		context.ungetService(oldReference);
@@ -185,17 +159,13 @@ public final class ProcessEngineManager extends SingletonTracker
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 *      releasedSelectedService(org.osgi.framework.ServiceReference,
-	 *      java.lang.Object)
+	 * releasedSelectedService(org.osgi.framework.ServiceReference,
+	 * java.lang.Object)
 	 */
-	public void releasedSelectedService(ServiceReference reference, Object service)
-	{
-		try
-		{
+	public void releasedSelectedService(ServiceReference reference, Object service) {
+		try {
 			releaseProcessEngine();
-		}
-		finally
-		{
+		} finally {
 			context.ungetService(reference);
 		}
 	}
@@ -205,8 +175,7 @@ public final class ProcessEngineManager extends SingletonTracker
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ProcessEngineInstance implements IExtensionChangeHandler
-	{
+	private final class ProcessEngineInstance implements IExtensionChangeHandler {
 		/** The extension registry to use. */
 		final IExtensionRegistry extensionRegistry;
 		/** The action extension handler. */
@@ -229,70 +198,50 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * 
 		 * @param extensionRegistry The extension registry to use.
 		 */
-		ProcessEngineInstance(IExtensionRegistry extensionRegistry)
-		{
+		ProcessEngineInstance(IExtensionRegistry extensionRegistry) {
 			this.extensionRegistry = extensionRegistry;
-			this.actions = extensionRegistry
-					.getExtensionPoint("org.eclipse.vtp.framework.core.actions"); //$NON-NLS-1$
-			this.configurations = extensionRegistry
-					.getExtensionPoint("org.eclipse.vtp.framework.core.configurations"); //$NON-NLS-1$
-			this.observers = extensionRegistry
-					.getExtensionPoint("org.eclipse.vtp.framework.core.observers"); //$NON-NLS-1$
-			this.services = extensionRegistry
-					.getExtensionPoint("org.eclipse.vtp.framework.core.services"); //$NON-NLS-1$
+			this.actions = extensionRegistry.getExtensionPoint("org.eclipse.vtp.framework.core.actions"); //$NON-NLS-1$
+			this.configurations = extensionRegistry.getExtensionPoint("org.eclipse.vtp.framework.core.configurations"); //$NON-NLS-1$
+			this.observers = extensionRegistry.getExtensionPoint("org.eclipse.vtp.framework.core.observers"); //$NON-NLS-1$
+			this.services = extensionRegistry.getExtensionPoint("org.eclipse.vtp.framework.core.services"); //$NON-NLS-1$
 			this.processEngine = new ProcessEngine(extensionRegistry);
 		}
 
 		/**
 		 * Activates this process engine instance.
 		 */
-		void open()
-		{
+		void open() {
 			extensionTracker = new ExtensionTracker(extensionRegistry);
-			synchronized (this)
-			{
-				IExtensionPoint[] extensionPoints = new IExtensionPoint[] { actions,
-						configurations, observers, services };
-				extensionTracker.registerHandler(this, ExtensionTracker
-						.createExtensionPointFilter(extensionPoints));
-				for (int i = 0; i < extensionPoints.length; ++i)
-				{
+			synchronized (this) {
+				IExtensionPoint[] extensionPoints = new IExtensionPoint[] { actions, configurations, observers,
+						services };
+				extensionTracker.registerHandler(this, ExtensionTracker.createExtensionPointFilter(extensionPoints));
+				for (int i = 0; i < extensionPoints.length; ++i) {
 					IExtension[] extensions = extensionPoints[i].getExtensions();
 					for (int j = 0; j < extensions.length; ++j)
 						addExtension(extensionTracker, extensions[j]);
 				}
 			}
-			registration = context.registerService(IProcessEngine.class.getName(),
-					processEngine, null);
+			registration = context.registerService(IProcessEngine.class.getName(), processEngine, null);
 		}
 
 		/**
 		 * Deactivates this process engine instance.
 		 */
-		void close()
-		{
-			try
-			{
+		void close() {
+			try {
 				if (registration != null)
 					registration.unregister();
-			}
-			finally
-			{
+			} finally {
 				registration = null;
-				try
-				{
+				try {
 					if (extensionTracker != null)
 						extensionTracker.unregisterHandler(this);
-				}
-				finally
-				{
-					try
-					{
+				} finally {
+					try {
 						if (extensionTracker != null)
 							extensionTracker.close();
-					}
-					finally
-					{
+					} finally {
 						extensionTracker = null;
 					}
 				}
@@ -303,18 +252,15 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * Loads an action descriptor.
 		 * 
 		 * @param contributor The bundle that contributed the element.
-		 * @param element The configuration element to load from.
+		 * @param element     The configuration element to load from.
 		 * @return A new action descriptor.
 		 */
-		ActionDescriptor loadAction(Bundle contributor,
-				IConfigurationElement element)
-		{
+		ActionDescriptor loadAction(Bundle contributor, IConfigurationElement element) {
 			System.out.println("Loading action class: " + element.getAttribute("type"));
 			return new ActionDescriptor(element.getAttribute("id"), //$NON-NLS-1$
 					element.getAttribute("name"), //$NON-NLS-1$
 					loadClass(contributor, element.getAttribute("type")), //$NON-NLS-1$
-					Boolean.TRUE.toString().equalsIgnoreCase(
-							element.getAttribute("blocking")) //$NON-NLS-1$
+					Boolean.TRUE.toString().equalsIgnoreCase(element.getAttribute("blocking")) //$NON-NLS-1$
 			);
 		}
 
@@ -322,12 +268,10 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * Loads a configuration descriptor.
 		 * 
 		 * @param contributor The bundle that contributed the element.
-		 * @param element The configuration element to load from.
+		 * @param element     The configuration element to load from.
 		 * @return A new configuration descriptor.
 		 */
-		ConfigurationDescriptor loadConfiguration(Bundle contributor,
-				IConfigurationElement element)
-		{
+		ConfigurationDescriptor loadConfiguration(Bundle contributor, IConfigurationElement element) {
 			return new ConfigurationDescriptor(element.getAttribute("id"), //$NON-NLS-1$
 					element.getAttribute("name"), //$NON-NLS-1$
 					element.getAttribute("xml-namespace"), //$NON-NLS-1$
@@ -340,17 +284,14 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * Loads an observer descriptor.
 		 * 
 		 * @param contributor The bundle that contributed the element.
-		 * @param element The configuration element to load from.
+		 * @param element     The configuration element to load from.
 		 * @return A new observer descriptor.
 		 */
-		ObserverDescriptor loadObserver(Bundle contributor,
-				IConfigurationElement element)
-		{
+		ObserverDescriptor loadObserver(Bundle contributor, IConfigurationElement element) {
 			return new ObserverDescriptor(element.getAttribute("id"), //$NON-NLS-1$
 					element.getAttribute("name"), //$NON-NLS-1$
 					loadClass(contributor, element.getAttribute("type")), //$NON-NLS-1$
-					Boolean.TRUE.toString().equalsIgnoreCase(
-							element.getAttribute("blocking")) //$NON-NLS-1$
+					Boolean.TRUE.toString().equalsIgnoreCase(element.getAttribute("blocking")) //$NON-NLS-1$
 			);
 		}
 
@@ -358,24 +299,18 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * Loads a service descriptor.
 		 * 
 		 * @param contributor The bundle that contributed the element.
-		 * @param element The configuration element to load from.
+		 * @param element     The configuration element to load from.
 		 * @return A new service descriptor.
 		 */
-		ServiceDescriptor loadService(Bundle contributor,
-				IConfigurationElement element)
-		{
-			IConfigurationElement[] identifierElements = element
-					.getChildren("identifier"); //$NON-NLS-1$
+		ServiceDescriptor loadService(Bundle contributor, IConfigurationElement element) {
+			IConfigurationElement[] identifierElements = element.getChildren("identifier"); //$NON-NLS-1$
 			IdentifierDescriptor[] identifiers = new IdentifierDescriptor[identifierElements.length];
-			for (int i = 0; i < identifierElements.length; ++i)
-			{
-				IConfigurationElement[] qualifierElements = identifierElements[i]
-						.getChildren("qualifier"); //$NON-NLS-1$
+			for (int i = 0; i < identifierElements.length; ++i) {
+				IConfigurationElement[] qualifierElements = identifierElements[i].getChildren("qualifier"); //$NON-NLS-1$
 				String[] qualifiers = new String[qualifierElements.length];
 				for (int j = 0; j < qualifierElements.length; ++j)
 					qualifiers[j] = qualifierElements[j].getAttribute("name"); //$NON-NLS-1$
-				identifiers[i] = new IdentifierDescriptor(identifierElements[i]
-						.getAttribute("name"), qualifiers); //$NON-NLS-1$
+				identifiers[i] = new IdentifierDescriptor(identifierElements[i].getAttribute("name"), qualifiers); //$NON-NLS-1$
 			}
 			return new ServiceDescriptor(element.getAttribute("id"), //$NON-NLS-1$
 					element.getAttribute("name"), //$NON-NLS-1$
@@ -388,19 +323,14 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * Loads a class defined in the specified contributor.
 		 * 
 		 * @param contributor The bundle that contributed the element.
-		 * @param className The name of the class to load.
+		 * @param className   The name of the class to load.
 		 * @return A class defined in the specified contributor.
 		 * @throws IllegalStateException If the specified class is not found.
 		 */
-		Class loadClass(Bundle contributor, String className)
-				throws IllegalStateException
-		{
-			try
-			{
+		Class loadClass(Bundle contributor, String className) throws IllegalStateException {
+			try {
 				return contributor.loadClass(className);
-			}
-			catch (ClassNotFoundException e)
-			{
+			} catch (ClassNotFoundException e) {
 				throw new IllegalStateException(e);
 			}
 		}
@@ -411,8 +341,7 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * @param extension The extension to find the point of.
 		 * @return Our reference of the specified exetension's point.
 		 */
-		private IExtensionPoint getExtensionPoint(IExtension extension)
-		{
+		private IExtensionPoint getExtensionPoint(IExtension extension) {
 			String epuid = extension.getExtensionPointUniqueIdentifier();
 			if (actions.getUniqueIdentifier().equals(epuid))
 				return actions;
@@ -429,88 +358,73 @@ public final class ProcessEngineManager extends SingletonTracker
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler#
-		 *      addExtension(
-		 *      org.eclipse.core.runtime.dynamichelpers.IExtensionTracker,
-		 *      org.eclipse.core.runtime.IExtension)
+		 * addExtension( org.eclipse.core.runtime.dynamichelpers.IExtensionTracker,
+		 * org.eclipse.core.runtime.IExtension)
 		 */
-		public void addExtension(IExtensionTracker tracker, IExtension extension)
-		{
-			try
-            {
-	            Bundle contributor = OSGiUtils.findBundle(extension.getContributor(),
-	            		context.getBundles());
-	            if (contributor == null)
-	            	return;
-	            synchronized (this)
-	            {
-	            	Object[] objects = tracker.getObjects(extension);
-	            	if (objects != null && objects.length > 0)
-	            		return;
-	            	IExtensionPoint point = getExtensionPoint(extension);
-	            	if (point == null)
-	            		return;
-	            	IConfigurationElement[] elements = extension.getConfigurationElements();
-	            	for (int i = 0; i < elements.length; ++i)
-	            	{
-	            		Object descriptor = null;
-	            		if (actions == point)
-	            			descriptor = loadAction(contributor, elements[i]);
-	            		else if (configurations == point)
-	            			descriptor = loadConfiguration(contributor, elements[i]);
-	            		else if (observers == point)
-	            			descriptor = loadObserver(contributor, elements[i]);
-	            		else if (services == point)
-	            			descriptor = loadService(contributor, elements[i]);
-	            		if (descriptor == null)
-	            			continue;
-	            		tracker.registerObject(extension, descriptor,
-	            				IExtensionTracker.REF_STRONG);
-	            		if (actions == point)
-	            			processEngine.registerAction((ActionDescriptor)descriptor);
-	            		else if (configurations == point)
-	            			processEngine
-	            					.registerConfiguration((ConfigurationDescriptor)descriptor);
-	            		else if (observers == point)
-	            			processEngine.registerObserver((ObserverDescriptor)descriptor);
-	            		else if (services == point)
-	            			processEngine.registerService((ServiceDescriptor)descriptor);
-	            	}
-	            }
-            }
-            catch(Exception e)
-            {
-	            e.printStackTrace();
-            }
+		public void addExtension(IExtensionTracker tracker, IExtension extension) {
+			try {
+				Bundle contributor = OSGiUtils.findBundle(extension.getContributor(), context.getBundles());
+				if (contributor == null)
+					return;
+				synchronized (this) {
+					Object[] objects = tracker.getObjects(extension);
+					if (objects != null && objects.length > 0)
+						return;
+					IExtensionPoint point = getExtensionPoint(extension);
+					if (point == null)
+						return;
+					IConfigurationElement[] elements = extension.getConfigurationElements();
+					for (int i = 0; i < elements.length; ++i) {
+						Object descriptor = null;
+						if (actions == point)
+							descriptor = loadAction(contributor, elements[i]);
+						else if (configurations == point)
+							descriptor = loadConfiguration(contributor, elements[i]);
+						else if (observers == point)
+							descriptor = loadObserver(contributor, elements[i]);
+						else if (services == point)
+							descriptor = loadService(contributor, elements[i]);
+						if (descriptor == null)
+							continue;
+						tracker.registerObject(extension, descriptor, IExtensionTracker.REF_STRONG);
+						if (actions == point)
+							processEngine.registerAction((ActionDescriptor) descriptor);
+						else if (configurations == point)
+							processEngine.registerConfiguration((ConfigurationDescriptor) descriptor);
+						else if (observers == point)
+							processEngine.registerObserver((ObserverDescriptor) descriptor);
+						else if (services == point)
+							processEngine.registerService((ServiceDescriptor) descriptor);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.core.runtime.dynamichelpers.IExtensionChangeHandler#
-		 *      removeExtension(org.eclipse.core.runtime.IExtension,
-		 *      java.lang.Object[])
+		 * removeExtension(org.eclipse.core.runtime.IExtension, java.lang.Object[])
 		 */
-		public void removeExtension(IExtension extension, Object[] objects)
-		{
-			synchronized (this)
-			{
+		public void removeExtension(IExtension extension, Object[] objects) {
+			synchronized (this) {
 				if (objects == null || objects.length <= 0)
 					return;
 				IExtensionPoint point = getExtensionPoint(extension);
 				if (point == null)
 					return;
-				for (int i = 0; i < objects.length; ++i)
-				{
+				for (int i = 0; i < objects.length; ++i) {
 					Object descriptor = objects[i];
 					if (actions == point)
-						processEngine.unregisterAction((ActionDescriptor)descriptor);
+						processEngine.unregisterAction((ActionDescriptor) descriptor);
 					else if (configurations == point)
-						processEngine
-								.unregisterConfiguration((ConfigurationDescriptor)descriptor);
+						processEngine.unregisterConfiguration((ConfigurationDescriptor) descriptor);
 					else if (observers == point)
-						processEngine.unregisterObserver((ObserverDescriptor)descriptor);
+						processEngine.unregisterObserver((ObserverDescriptor) descriptor);
 					else if (services == point)
-						processEngine.unregisterService((ServiceDescriptor)descriptor);
+						processEngine.unregisterService((ServiceDescriptor) descriptor);
 				}
 			}
 		}

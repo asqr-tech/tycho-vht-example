@@ -40,6 +40,7 @@ public class LanguageSelection implements ILanguageSelection, IScriptable
 	 * @param context The session context.
 	 * @param languageRegistry The language registry.
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public LanguageSelection(ISessionContext context,
 			ILanguageRegistry languageRegistry, IBrandSelection brandSelection,
 			IMediaProviderRegistry mediaProviderRegistry)

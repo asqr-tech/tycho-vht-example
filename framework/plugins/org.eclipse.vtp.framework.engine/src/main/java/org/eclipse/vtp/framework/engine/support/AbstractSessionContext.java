@@ -32,11 +32,11 @@ public abstract class AbstractSessionContext extends AbstractContext implements
 		ISessionContext
 {
 	/** The service identifiers that will return this context. */
-	protected static final Set RESERVED_SERVICE_IDENTIFIERS;
+	protected static final Set<String> RESERVED_SERVICE_IDENTIFIERS;
 
 	static
 	{
-		Set identifiers = new HashSet(
+		Set<String> identifiers = new HashSet<String>(
 				AbstractProcessContext.RESERVED_SERVICE_IDENTIFIERS.size() + 1);
 		identifiers.addAll(AbstractProcessContext.RESERVED_SERVICE_IDENTIFIERS);
 		identifiers.add(ISessionContext.class.getName());
@@ -48,7 +48,7 @@ public abstract class AbstractSessionContext extends AbstractContext implements
 	/** The session descriptor. */
 	protected final ISessionDescriptor descriptor;
 	/** The service identifiers provided by the descriptor. */
-	protected final Set providedServiceIdentifiers;
+	protected final Set<String> providedServiceIdentifiers;
 
 	/**
 	 * Creates a new AbstractSessionContext.
@@ -69,7 +69,7 @@ public abstract class AbstractSessionContext extends AbstractContext implements
 			throw new NullPointerException("descriptor"); //$NON-NLS-1$
 		this.processContext = processContext;
 		this.descriptor = descriptor;
-		this.providedServiceIdentifiers = Collections.unmodifiableSet(new HashSet(
+		this.providedServiceIdentifiers = Collections.unmodifiableSet(new HashSet<String>(
 				Arrays.asList(descriptor.getServiceIdentifiers())));
 	}
 	/*
@@ -78,11 +78,12 @@ public abstract class AbstractSessionContext extends AbstractContext implements
 	 * @see org.eclipse.vtp.framework.spi.support.AbstractReporter#doReport(
 	 *      int, java.lang.String[], java.lang.String, java.util.Dictionary)
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void doReport(int severity, String[] categories, String message,
 			Dictionary properties)
 	{
 		if (properties == null)
-			properties = new Hashtable();
+			properties = new Hashtable<String, Object>();
 		if (properties.get("scope") == null) //$NON-NLS-1$
 			properties.put("scope", "session"); //$NON-NLS-1$ //$NON-NLS-2$
 		properties.put("session.id", getSessionID()); //$NON-NLS-1$
@@ -205,7 +206,7 @@ public abstract class AbstractSessionContext extends AbstractContext implements
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#loadClass(
 	 *      java.lang.String)
 	 */
-	public final Class loadClass(String className) throws ClassNotFoundException,
+	public final Class<?> loadClass(String className) throws ClassNotFoundException,
 			NullPointerException
 	{
 		return processContext.loadClass(className);

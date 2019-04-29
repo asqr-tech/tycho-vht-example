@@ -113,7 +113,7 @@ public abstract class AbstractPlatform implements IPlatform
 		return null;
 	}
 	
-	public Map processMetaDataResponse(MetaDataConfiguration configuration, IActionContext context)
+	public Map<?, ?> processMetaDataResponse(MetaDataConfiguration configuration, IActionContext context)
 	{
 		return Collections.EMPTY_MAP;
 	}

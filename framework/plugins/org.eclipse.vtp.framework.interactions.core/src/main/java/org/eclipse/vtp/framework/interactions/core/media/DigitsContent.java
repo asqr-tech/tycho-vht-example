@@ -16,45 +16,38 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
-public class DigitsContent extends FormattableContent
-{
+public class DigitsContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "digits-content"; //$NON-NLS-1$
 
-	public DigitsContent()
-	{
+	public DigitsContent() {
 	}
 
-	public DigitsContent(Element element)
-	{
+	public DigitsContent(Element element) {
 		super(element);
 	}
 
-	public String getContentTypeName()
-	{
+	public String getContentTypeName() {
 		return "DIGITS"; //$NON-NLS-1$
 	}
 
-	public List format(IFormatter formatter, IMediaProvider mediaProvider)
-	{
-		List ret = new LinkedList();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List format(IFormatter formatter, IMediaProvider mediaProvider) {
+		List<Object> ret = new LinkedList<Object>();
 		if (getValueType() != VARIABLE_VALUE)
-			ret.addAll(formatter.formatDigits(getValue(), mediaProvider
-					.getFormatManager().getFormat(this, getFormatName()), getFormatOptions(), mediaProvider
-					.getResourceManager()));
+			ret.addAll(formatter.formatDigits(getValue(),
+					mediaProvider.getFormatManager().getFormat(this, getFormatName()), getFormatOptions(),
+					mediaProvider.getResourceManager()));
 		return ret;
 	}
 
-	public Element store(Element element)
-	{
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+	public Element store(Element element) {
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE, ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
 	}
 
-	public String getContentType()
-	{
+	public String getContentType() {
 		return "org.eclipse.vtp.framework.interactions.core.media.content.digits"; //$NON-NLS-1$
 	}
 
@@ -63,8 +56,7 @@ public class DigitsContent extends FormattableContent
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
-	public Content createCopy()
-	{
+	public Content createCopy() {
 		return configureCopy(new DigitsContent());
 	}
 

@@ -25,7 +25,7 @@ public final class ActionDescriptor
 	/** The name of this action. */
 	private final String name;
 	/** The type of this action. */
-	private final Class type;
+	private final Class<?> type;
 	/** True if this action is blocking. */
 	private final boolean blocking;
 
@@ -45,7 +45,7 @@ public final class ActionDescriptor
 	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	public ActionDescriptor(String id, String name, Class type, boolean blocking)
+	public ActionDescriptor(String id, String name, Class<?> type, boolean blocking)
 			throws IllegalArgumentException, NullPointerException
 	{
 		if (id == null)
@@ -91,7 +91,7 @@ public final class ActionDescriptor
 	 * 
 	 * @return The type of this action.
 	 */
-	public Class getType()
+	public Class<?> getType()
 	{
 		return type;
 	}

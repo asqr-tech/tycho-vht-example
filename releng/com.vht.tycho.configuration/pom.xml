@@ -19,9 +19,27 @@
 			<url>${eclipse-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
-
+		<repository>
+			<id>orbit-local-release</id>
+			<url>file:///A:/EclipseWorkspace/Maven-Repo/orbit-buildrepo-R20160520211859</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>vht-online-release</id>
+			<url>http://build.vhtcx.com/downloads/Elements/repository</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>nebula-latest-release</id>
+			<url>https://download.eclipse.org/nebula/releases/latest/</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>additional-repos</id>
+			<url>file:///A:/EclipseWorkspace/Maven-Repo/Additional-Jars/</url>
+			<layout>default</layout>
+		</repository>
 	</repositories>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -72,4 +90,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

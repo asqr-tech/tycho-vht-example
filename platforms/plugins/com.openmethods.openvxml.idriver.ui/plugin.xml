@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElementExporter">
+      <primitive-configuration-exporter
+            class="com.openmethods.openvxml.idriver.ui.export.IDriverInitConfigurationExporter"
+            id="com.openmethods.openvxml.idriver.actions.idriverinit">
+      </primitive-configuration-exporter>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.elements.core.primitiveElement">
+      <primitive
+            id="com.openmethods.openvxml.idriver.actions.idriverinit"
+            name="IDriver Initializer">
+         <information_provider
+               class="com.openmethods.openvxml.idriver.ui.IDriverInitInformationProvider">
+         </information_provider>
+      </primitive>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.editors.core.componentPropertiesPanelProvider">
+      <provider
+            class="com.openmethods.openvxml.idriver.ui.properties.IDriverInitPropertiesPanelProvider">
+      </provider>
+   </extension>
+
+</plugin>

@@ -18,39 +18,34 @@ import java.lang.reflect.Modifier;
  * 
  * @author Lonnie Pryor
  */
-public final class DescriptorUtils
-{
+public final class DescriptorUtils {
 	/**
-	 * Returns true if the specified type is a public, concrete class with at
-	 * least one public constructor.
+	 * Returns true if the specified type is a public, concrete class with at least
+	 * one public constructor.
 	 * 
 	 * @param type The type to check.
-	 * @return True if the specified type is a public, concrete class with at
-	 *         least one public constructor.
+	 * @return True if the specified type is a public, concrete class with at least
+	 *         one public constructor.
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	public static boolean isValidImplementation(Class type)
-			throws NullPointerException
-	{
+	public static boolean isValidImplementation(Class<?> type) throws NullPointerException {
 		return isValidImplementation(type, Object.class);
 	}
 
 	/**
-	 * Returns true if the specified type is a public, concrete class with at
-	 * least one public constructor and is assignable to the specified type.
+	 * Returns true if the specified type is a public, concrete class with at least
+	 * one public constructor and is assignable to the specified type.
 	 * 
-	 * @param type The type to check.
+	 * @param type             The type to check.
 	 * @param assignableToType The type the first type must be assignable to.
-	 * @return True if the specified type is a public, concrete class with at
-	 *         least one public constructor and is assignable to the specified
-	 *         type.
+	 * @return True if the specified type is a public, concrete class with at least
+	 *         one public constructor and is assignable to the specified type.
 	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 * @throws NullPointerException If the supplied assignable to type is
-	 *           <code>null</code>.
+	 *                              <code>null</code>.
 	 */
-	public static boolean isValidImplementation(Class type, Class assignableToType)
-			throws NullPointerException
-	{
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static boolean isValidImplementation(Class type, Class assignableToType) throws NullPointerException {
 		if (type == null)
 			throw new NullPointerException("type"); //$NON-NLS-1$
 		if (assignableToType == null)

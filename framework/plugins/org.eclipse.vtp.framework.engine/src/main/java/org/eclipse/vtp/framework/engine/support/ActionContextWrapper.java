@@ -22,13 +22,12 @@ import org.eclipse.vtp.framework.core.IActionResult;
  * 
  * @author Lonnie Pryor
  */
-public abstract class ActionContextWrapper implements IActionContext
-{
+@SuppressWarnings("rawtypes")
+public abstract class ActionContextWrapper implements IActionContext {
 	/**
 	 * Creates a new ActionContextWrapper.
 	 */
-	protected ActionContextWrapper()
-	{
+	protected ActionContextWrapper() {
 	}
 
 	/**
@@ -37,10 +36,8 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * @param identifier The identifier to check.
 	 * @return True if the specified identifier is implemented by the context.
 	 */
-	protected boolean isReservedIdentifier(String identifier)
-	{
-		return AbstractActionContext.RESERVED_SERVICE_IDENTIFIERS
-				.contains(identifier);
+	protected boolean isReservedIdentifier(String identifier) {
+		return AbstractActionContext.RESERVED_SERVICE_IDENTIFIERS.contains(identifier);
 	}
 
 	/**
@@ -57,13 +54,11 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.spi.IReporter#isSeverityEnabled(int)
 	 */
-	public boolean isSeverityEnabled(int severity)
-	{
+	public boolean isSeverityEnabled(int severity) {
 		return getActionContext().isSeverityEnabled(severity);
 	}
-	
-	public boolean isReportingEnabled()
-	{
+
+	public boolean isReportingEnabled() {
 		return getActionContext().isReportingEnabled();
 	}
 
@@ -72,8 +67,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String)
 	 */
-	public void report(int severity, String message)
-	{
+	public void report(int severity, String message) {
 		getActionContext().report(severity, message);
 	}
 
@@ -81,33 +75,29 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void report(int severity, String message, Dictionary properties)
-	{
+	public void report(int severity, String message, Dictionary properties) {
 		getActionContext().report(severity, message, properties);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.core.IReporter#report(int,
-	 *      java.lang.String[], java.lang.String)
+	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String[],
+	 * java.lang.String)
 	 */
-	public void report(int severity, String[] categories, String message)
-	{
+	public void report(int severity, String[] categories, String message) {
 		getActionContext().report(severity, categories, message);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.core.IReporter#report(int,
-	 *      java.lang.String[], java.lang.String, java.util.Dictionary)
+	 * @see org.eclipse.vtp.framework.core.IReporter#report(int, java.lang.String[],
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void report(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	public void report(int severity, String[] categories, String message, Dictionary properties) {
 		getActionContext().report(severity, categories, message, properties);
 	}
 
@@ -118,8 +108,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String)
 	 */
-	public void log(int severity, String message)
-	{
+	public void log(int severity, String message) {
 		getActionContext().log(severity, message);
 	}
 
@@ -127,10 +116,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void log(int severity, String message, Dictionary properties)
-	{
+	public void log(int severity, String message, Dictionary properties) {
 		getActionContext().log(severity, message, properties);
 	}
 
@@ -138,10 +126,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void log(int severity, String[] categories, String message)
-	{
+	public void log(int severity, String[] categories, String message) {
 		getActionContext().log(severity, categories, message);
 	}
 
@@ -149,11 +136,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#log(int, java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void log(int severity, String[] categories, String message,
-			Dictionary properties)
-	{
+	public void log(int severity, String[] categories, String message, Dictionary properties) {
 		getActionContext().log(severity, categories, message, properties);
 	}
 
@@ -162,8 +147,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isErrorEnabled()
 	 */
-	public boolean isErrorEnabled()
-	{
+	public boolean isErrorEnabled() {
 		return getActionContext().isErrorEnabled();
 	}
 
@@ -172,8 +156,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String)
 	 */
-	public void error(String message)
-	{
+	public void error(String message) {
 		getActionContext().error(message);
 	}
 
@@ -181,10 +164,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void error(String message, Dictionary properties)
-	{
+	public void error(String message, Dictionary properties) {
 		getActionContext().error(message, properties);
 	}
 
@@ -192,10 +174,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void error(String[] categories, String message)
-	{
+	public void error(String[] categories, String message) {
 		getActionContext().error(categories, message);
 	}
 
@@ -203,10 +184,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#error(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void error(String[] categories, String message, Dictionary properties)
-	{
+	public void error(String[] categories, String message, Dictionary properties) {
 		getActionContext().error(categories, message, properties);
 	}
 
@@ -215,8 +195,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isWarnEnabled()
 	 */
-	public boolean isWarnEnabled()
-	{
+	public boolean isWarnEnabled() {
 		return getActionContext().isWarnEnabled();
 	}
 
@@ -225,8 +204,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String)
 	 */
-	public void warn(String message)
-	{
+	public void warn(String message) {
 		getActionContext().warn(message);
 	}
 
@@ -234,10 +212,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void warn(String message, Dictionary properties)
-	{
+	public void warn(String message, Dictionary properties) {
 		getActionContext().warn(message, properties);
 	}
 
@@ -245,10 +222,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void warn(String[] categories, String message)
-	{
+	public void warn(String[] categories, String message) {
 		getActionContext().warn(categories, message);
 	}
 
@@ -256,10 +232,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#warn(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void warn(String[] categories, String message, Dictionary properties)
-	{
+	public void warn(String[] categories, String message, Dictionary properties) {
 		getActionContext().warn(categories, message, properties);
 	}
 
@@ -268,8 +243,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isInfoEnabled()
 	 */
-	public boolean isInfoEnabled()
-	{
+	public boolean isInfoEnabled() {
 		return getActionContext().isInfoEnabled();
 	}
 
@@ -278,8 +252,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String)
 	 */
-	public void info(String message)
-	{
+	public void info(String message) {
 		getActionContext().info(message);
 	}
 
@@ -287,10 +260,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void info(String message, Dictionary properties)
-	{
+	public void info(String message, Dictionary properties) {
 		getActionContext().info(message, properties);
 	}
 
@@ -298,10 +270,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void info(String[] categories, String message)
-	{
+	public void info(String[] categories, String message) {
 		getActionContext().info(categories, message);
 	}
 
@@ -309,10 +280,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#info(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void info(String[] categories, String message, Dictionary properties)
-	{
+	public void info(String[] categories, String message, Dictionary properties) {
 		getActionContext().info(categories, message, properties);
 	}
 
@@ -321,8 +291,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#isDebugEnabled()
 	 */
-	public boolean isDebugEnabled()
-	{
+	public boolean isDebugEnabled() {
 		return getActionContext().isDebugEnabled();
 	}
 
@@ -331,8 +300,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String)
 	 */
-	public void debug(String message)
-	{
+	public void debug(String message) {
 		getActionContext().debug(message);
 	}
 
@@ -340,10 +308,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String,
-	 *      java.util.Dictionary)
+	 * java.util.Dictionary)
 	 */
-	public void debug(String message, Dictionary properties)
-	{
+	public void debug(String message, Dictionary properties) {
 		getActionContext().debug(message, properties);
 	}
 
@@ -351,10 +318,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String[],
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void debug(String[] categories, String message)
-	{
+	public void debug(String[] categories, String message) {
 		getActionContext().debug(categories, message);
 	}
 
@@ -362,10 +328,10 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ILogger#debug(java.lang.String[],
-	 *      java.lang.String, java.util.Dictionary)
+	 * java.lang.String, java.util.Dictionary)
 	 */
-	public void debug(String[] categories, String message, Dictionary properties)
-	{
+
+	public void debug(String[] categories, String message, Dictionary properties) {
 		getActionContext().debug(categories, message, properties);
 	}
 
@@ -375,10 +341,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IServiceRegistry#lookupService(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object lookup(String identifier) throws NullPointerException
-	{
+	public Object lookup(String identifier) throws NullPointerException {
 		if (isReservedIdentifier(identifier))
 			return this;
 		return getActionContext().lookup(identifier);
@@ -388,10 +353,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IServiceRegistry#lookupAllServices(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object[] lookupAll(String identifier) throws NullPointerException
-	{
+	public Object[] lookupAll(String identifier) throws NullPointerException {
 		if (isReservedIdentifier(identifier))
 			return new Object[] { this };
 		return getActionContext().lookupAll(identifier);
@@ -404,8 +368,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#getProcessID()
 	 */
-	public String getProcessID()
-	{
+	public String getProcessID() {
 		return getActionContext().getProcessID();
 	}
 
@@ -413,10 +376,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#getProperty(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getProperty(String propertyName) throws NullPointerException
-	{
+	public Object getProperty(String propertyName) throws NullPointerException {
 		return getActionContext().getProperty(propertyName);
 	}
 
@@ -424,11 +386,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IProcessContext#loadClass(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Class loadClass(String className) throws ClassNotFoundException,
-			NullPointerException
-	{
+	public Class<?> loadClass(String className) throws ClassNotFoundException, NullPointerException {
 		return getActionContext().loadClass(className);
 	}
 
@@ -439,8 +399,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getSessionID()
 	 */
-	public String getSessionID()
-	{
+	public String getSessionID() {
 		return getActionContext().getSessionID();
 	}
 
@@ -449,8 +408,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getSessionStartTime()
 	 */
-	public Date getSessionStartTime()
-	{
+	public Date getSessionStartTime() {
 		return getActionContext().getSessionStartTime();
 	}
 
@@ -459,8 +417,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getAttributeNames()
 	 */
-	public String[] getAttributeNames()
-	{
+	public String[] getAttributeNames() {
 		return getActionContext().getAttributeNames();
 	}
 
@@ -468,10 +425,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getAttribute(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getAttribute(String attributeName) throws NullPointerException
-	{
+	public Object getAttribute(String attributeName) throws NullPointerException {
 		return getActionContext().getAttribute(attributeName);
 	}
 
@@ -479,11 +435,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#setAttribute(
-	 *      java.lang.String, java.lang.Object)
+	 * java.lang.String, java.lang.Object)
 	 */
-	public void setAttribute(String attributeName, Object attributeValue)
-			throws NullPointerException
-	{
+	public void setAttribute(String attributeName, Object attributeValue) throws NullPointerException {
 		getActionContext().setAttribute(attributeName, attributeValue);
 	}
 
@@ -491,15 +445,13 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#clearAttribute(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void clearAttribute(String attributeName) throws NullPointerException
-	{
+	public void clearAttribute(String attributeName) throws NullPointerException {
 		getActionContext().clearAttribute(attributeName);
 	}
-	
-	public Object getInheritedAttribute(String attributeName) throws NullPointerException
-	{
+
+	public Object getInheritedAttribute(String attributeName) throws NullPointerException {
 		return getActionContext().getInheritedAttribute(attributeName);
 	}
 
@@ -510,8 +462,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#getExecutionID()
 	 */
-	public String getExecutionID()
-	{
+	public String getExecutionID() {
 		return getActionContext().getExecutionID();
 	}
 
@@ -520,8 +471,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#getParameterNames()
 	 */
-	public String[] getParameterNames()
-	{
+	public String[] getParameterNames() {
 		return getActionContext().getParameterNames();
 	}
 
@@ -529,10 +479,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#getParameter(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public String getParameter(String parameterName) throws NullPointerException
-	{
+	public String getParameter(String parameterName) throws NullPointerException {
 		return getActionContext().getParameter(parameterName);
 	}
 
@@ -540,11 +489,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#getParameters(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public String[] getParameters(String parameterName)
-			throws NullPointerException
-	{
+	public String[] getParameters(String parameterName) throws NullPointerException {
 		return getActionContext().getParameters(parameterName);
 	}
 
@@ -552,11 +499,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#setParameter(
-	 *      java.lang.String, java.lang.String)
+	 * java.lang.String, java.lang.String)
 	 */
-	public void setParameter(String parameterName, String value)
-			throws NullPointerException
-	{
+	public void setParameter(String parameterName, String value) throws NullPointerException {
 		getActionContext().setParameter(parameterName, value);
 	}
 
@@ -564,11 +509,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#setParameters(
-	 *      java.lang.String, java.lang.String[])
+	 * java.lang.String, java.lang.String[])
 	 */
-	public void setParameters(String parameterName, String[] values)
-			throws NullPointerException
-	{
+	public void setParameters(String parameterName, String[] values) throws NullPointerException {
 		getActionContext().setParameters(parameterName, values);
 	}
 
@@ -576,10 +519,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IExecutionContext#clearParameter(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void clearParameter(String parameterName) throws NullPointerException
-	{
+	public void clearParameter(String parameterName) throws NullPointerException {
 		getActionContext().clearParameter(parameterName);
 	}
 
@@ -590,16 +532,16 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IActionContext#getActionID()
 	 */
-	public String getActionID()
-	{
+	public String getActionID() {
 		return getActionContext().getActionID();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.vtp.framework.core.IActionContext#getActionName()
 	 */
-	public String getActionName()
-	{
+	public String getActionName() {
 		return getActionContext().getActionName();
 	}
 
@@ -608,8 +550,7 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IActionContext#getActionState()
 	 */
-	public int getActionState()
-	{
+	public int getActionState() {
 		return getActionContext().getActionState();
 	}
 
@@ -617,10 +558,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IActionContext#createResult(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public IActionResult createResult(String resultName)
-	{
+	public IActionResult createResult(String resultName) {
 		return getActionContext().createResult(resultName);
 	}
 
@@ -628,15 +568,13 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.IActionContext#createResult(
-	 *      java.lang.String, java.lang.Throwable)
+	 * java.lang.String, java.lang.Throwable)
 	 */
-	public IActionResult createResult(String resultName, Throwable failureCause)
-	{
+	public IActionResult createResult(String resultName, Throwable failureCause) {
 		return getActionContext().createResult(resultName, failureCause);
 	}
 
-	public String[] getRootAttributeNames()
-	{
+	public String[] getRootAttributeNames() {
 		return getActionContext().getRootAttributeNames();
 	}
 
@@ -644,10 +582,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getAttribute(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public Object getRootAttribute(String attributeName) throws NullPointerException
-	{
+	public Object getRootAttribute(String attributeName) throws NullPointerException {
 		return getActionContext().getRootAttribute(attributeName);
 	}
 
@@ -655,11 +592,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#setAttribute(
-	 *      java.lang.String, java.lang.Object)
+	 * java.lang.String, java.lang.Object)
 	 */
-	public void setRootAttribute(String attributeName, Object attributeValue)
-			throws NullPointerException
-	{
+	public void setRootAttribute(String attributeName, Object attributeValue) throws NullPointerException {
 		getActionContext().setRootAttribute(attributeName, attributeValue);
 	}
 
@@ -667,10 +602,9 @@ public abstract class ActionContextWrapper implements IActionContext
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#clearAttribute(
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public void clearRootAttribute(String attributeName) throws NullPointerException
-	{
+	public void clearRootAttribute(String attributeName) throws NullPointerException {
 		getActionContext().clearRootAttribute(attributeName);
 	}
 }

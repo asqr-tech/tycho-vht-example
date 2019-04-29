@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="elementType" name="OpenVXML Editor Element Type" schema="schema/elementType.exsd"/>
+   <extension-point id="configurationManagers" name="Eclipse Voice Tools Configuration Managers" schema="schema/configurationManagers.exsd"/>
+   <extension-point id="workflowProjectFactories" name="Workflow Project Factories" schema="schema/workflowProjectFactories.exsd"/>
+   <extension-point id="paperSize" name="VTP Paper Size" schema="schema/paperSize.exsd"/>
+   <extension-point id="configurationContexts" name="Configuration Contexts" schema="schema/configurationContexts.exsd"/>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.paperSize">
+      <paper_size
+            id="org.eclipse.vtp.desktop.model.core.Letter"
+            landscapeHeight="816"
+            landscapeWidth="1012"
+            name="Letter (8.5 x 11)"
+            portraitHeight="1012"
+            portraitWidth="816"/>
+   </extension>
+   <extension
+         id="WorkflowProjectBuilder"
+         name="Workflow Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="false">
+         <run
+               class="org.eclipse.vtp.desktop.model.core.builders.WorkflowProjectBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="WorkflowProjectNature"
+         name="Workflow Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.eclipse.vtp.desktop.model.core.natures.WorkflowProjectNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.eclipse.vtp.desktop.model.core.WorkflowProjectBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.workflowProjectFactories">
+      <project-factory
+            class="org.eclipse.vtp.desktop.model.core.internal.WorkflowProjectFactory"
+            nature-id="org.eclipse.vtp.desktop.model.core.WorkflowProjectNature">
+      </project-factory>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.eclipse.vtp.desktop.model.core.internal.IsWorkflowProjectPropertyTester"
+            id="org.eclipse.vtp.desktop.model.core.isWorkflowProjectTester"
+            namespace="org.eclipse.vtp.desktop.model.core"
+            properties="isWorkflow"
+            type="org.eclipse.core.resources.IProject">
+      </propertyTester>
+   </extension>
+   <extension
+         point="org.eclipse.vtp.desktop.model.core.configurationContexts">
+      <context
+            class="org.eclipse.vtp.desktop.model.core.internal.branding.BrandContext"
+            id="org.eclipse.vtp.desktop.model.core.brandcontext">
+      </context>
+      <context-binding
+            context-id="org.eclipse.vtp.desktop.model.core.brandcontext"
+            filter-class="org.eclipse.vtp.desktop.model.core.IWorkflowProject">
+      </context-binding>
+   </extension>
+   <extension
+         id="workflowmarker"
+         name="Workflow Marker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+
+</plugin>

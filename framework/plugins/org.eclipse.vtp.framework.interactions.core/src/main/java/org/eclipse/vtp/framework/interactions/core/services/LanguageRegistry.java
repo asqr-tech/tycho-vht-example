@@ -26,8 +26,7 @@ import org.eclipse.vtp.framework.interactions.core.configurations.LanguageConfig
  * 
  * @author Lonnie Pryor
  */
-public class LanguageRegistry implements ILanguageRegistry, IScriptable
-{
+public class LanguageRegistry implements ILanguageRegistry, IScriptable {
 	/** The available languages. */
 	private final Map<String, List<String>> languageMapping;
 
@@ -36,14 +35,11 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable
 	 * 
 	 * @param configurations The configurations to use.
 	 */
-	public LanguageRegistry(LanguageConfiguration[] configurations)
-	{
+	public LanguageRegistry(LanguageConfiguration[] configurations) {
 		Map<String, List<String>> mapping = new HashMap<String, List<String>>();
-		for (int i = 0; i < configurations.length; ++i)
-		{
+		for (int i = 0; i < configurations.length; ++i) {
 			List<String> languages = mapping.get(configurations[i].getInteractionType());
-			if(languages == null)
-			{
+			if (languages == null) {
 				languages = new ArrayList<String>();
 				mapping.put(configurations[i].getInteractionType(), languages);
 			}
@@ -56,96 +52,80 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageRegistry#
-	 *      getLanguageIDs()
+	 * getLanguageIDs()
 	 */
-	public String[] getLanguageIDs(String interactionType)
-	{
+	public String[] getLanguageIDs(String interactionType) {
 		List<String> languages = languageMapping.get(interactionType);
-		if(languages == null)
+		if (languages == null)
 			return new String[0];
 		return languages.toArray(new String[languages.size()]);
 	}
 
-	public boolean clearEntry(String name)
-	{
+	public boolean clearEntry(String name) {
 		return false;
 	}
 
-	public boolean clearItem(int index)
-	{
+	public boolean clearItem(int index) {
 		return false;
 	}
 
-	public Object getEntry(String name)
-	{
+	public Object getEntry(String name) {
 		return null;
 	}
 
-	public String[] getFunctionNames()
-	{
-		return new String[] {"getLanguage"};
+	public String[] getFunctionNames() {
+		return new String[] { "getLanguage" };
 	}
 
-	public Object getItem(int index)
-	{
-		if(index > -1 && index < languageMapping.size())
+	@SuppressWarnings("unlikely-arg-type")
+	public Object getItem(int index) {
+		if (index > -1 && index < languageMapping.size())
 			return languageMapping.get(index);
 		return null;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return "Languages";
 	}
 
-	public String[] getPropertyNames()
-	{
+	public String[] getPropertyNames() {
 		return new String[0];
 	}
 
-	public boolean hasEntry(String name)
-	{
+	public boolean hasEntry(String name) {
 		return false;
 	}
 
-	public boolean hasItem(int index)
-	{
+	public boolean hasItem(int index) {
 		return index > -1 && index < languageMapping.size();
 	}
 
-	public boolean hasValue()
-	{
+	public boolean hasValue() {
 		return false;
 	}
 
-	public Object invokeFunction(String name, Object[] arguments)
-	{
-		if("getLanguage".equals(name))
-		{
-			if(arguments.length > 0)
+	public Object invokeFunction(String name, Object[] arguments) {
+		if ("getLanguage".equals(name)) {
+			if (arguments.length > 0)
 				return arguments[0];
 		}
 		return null;
 	}
 
-	public boolean setEntry(String name, Object value)
-	{
+	public boolean setEntry(String name, Object value) {
 		return false;
 	}
 
-	public boolean setItem(int index, Object value) 
-	{
+	public boolean setItem(int index, Object value) {
 		return false;
 	}
 
-	public Object toValue()
-	{
+	public Object toValue() {
 		return null;
 	}
 
 	@Override
-	public boolean isMutable()
-	{
+	public boolean isMutable() {
 		return false;
 	}
 }

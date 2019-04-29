@@ -13,6 +13,7 @@ package org.eclipse.vtp.framework.interactions.core.media;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
@@ -78,7 +79,7 @@ public interface IFormatter
 	 * @return A list of <code>org.eclipse.vtp.framework.interactions.core.media.Content</code>
 	 * objects that contain the formatted elements of the provided date.
 	 */
-	List<Content> formatDate(Calendar date, String formatDefinition, String formatOptions, IResourceManager resourceManager);
+	Collection<? extends TextContent> formatDate(Calendar date, String formatDefinition, String formatOptions, IResourceManager resourceManager);
 
 	/**
 	 * Transforms the supplied string of digits into a language specific

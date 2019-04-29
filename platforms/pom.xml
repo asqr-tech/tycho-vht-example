@@ -2,9 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.vht.tycho</groupId>
 	<artifactId>com.vht.tycho.platforms</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -22,6 +20,18 @@
 		<module>features/com.openmethods.openvxml.platforms.prophecy.feature</module>
 		<module>features/com.openmethods.openvxml.platforms.vtop.feature</module>
 		<module>features/com.openmethods.openvxml.platforms.vxmlb.feature</module>
-		<module>com.openmethods.openvxml.idriver</module>
+		<!-- Plugins -->
+		<module>plugins/com.openmethods.openvxml.idriver</module>
+		<module>plugins/com.openmethods.openvxml.idriver.runtime</module>
+		<module>plugins/com.openmethods.openvxml.idriver.ui</module>
+		<module>plugins/com.openmethods.openvxml.platforms.avp</module>
+		<module>plugins/com.openmethods.openvxml.platforms.avpwithidriver</module>
+		<module>plugins/com.openmethods.openvxml.platforms.cvp</module>
+		<module>plugins/com.openmethods.openvxml.platforms.dialogic</module>
+		<module>plugins/com.openmethods.openvxml.platforms.genesys</module>
+		<module>plugins/com.openmethods.openvxml.platforms.prophecy</module>
+		<module>plugins/com.openmethods.openvxml.platforms.vtop</module>
+		<module>plugins/com.openmethods.openvxml.platforms.vxmlb</module>
+		<module>plugins/com.openmethods.openvxml.platforms.vxmlbwithidriver</module>
 	</modules>
 </project>

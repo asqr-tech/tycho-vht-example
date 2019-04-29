@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.vtp.framework.core.services">
+      <service
+            id="com.openmethods.openvxml.platforms.vxmlb.services.platform"
+            lazy="true"
+            name="VXML-b Platform"
+            scope="execution"
+            type="com.openmethods.openvxml.platforms.vxmlb.services.VXMLBVoicePlatform">
+         <identifier
+               name="org.eclipse.vtp.framework.interactions.core.platforms.IPlatform">
+            <qualifier
+                  name="MODE=VXMLB">
+            </qualifier>
+         </identifier>
+      </service>
+   </extension>
+
+</plugin>

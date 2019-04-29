@@ -20,9 +20,9 @@ import java.util.Dictionary;
  */
 public interface DeploymentAdmin
 {
-	String deploy(Dictionary properties);
+	String deploy(Dictionary<?, ?> properties);
 
-	boolean update(String id, Dictionary properties);
+	boolean update(String id, Dictionary<?, ?> properties);
 
 	boolean undelpoy(String id);
 }

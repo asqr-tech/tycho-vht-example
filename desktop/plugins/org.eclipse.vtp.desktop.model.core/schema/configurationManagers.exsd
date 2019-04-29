@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.vtp.desktop.model.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.vtp.desktop.model.core" id="configurationManagers" name="Eclipse Voice Tools Configuration Managers"/>
+      </appInfo>
+      <documentation>
+         Each element of an application has its own configuration area in the CallDesign.xml document.  This configuration area is broken into sections, each section having its own unique xml tag name and namespace.  There is one section present in the configuration area by default: the custom configuration section.&lt;br&gt;
+&lt;br&gt;
+The custom configuration section is a free-form storage location without any rules on the data that it contains.  The element&apos;s implementation is responsible for managing the custom configuration section content.  The &lt;code&gt;&amp;lt;costom-config&amp;gt;&lt;/code&gt; xml element is passed to the org.eclipse.vtp.desktop.model.core.Element#readConfiguration(org.w3c.dom.Element) function for this purpose.&lt;br&gt;
+&lt;br&gt;
+Sections other than the custom configuration section are managed by implementations of org.eclipse.vtp.desktop.core.configuration.ConfigurationManager.  When an element is encountered while loading the CallDesign.xml document, its configuration area is processed.  The custom configuration section is passed to the element&apos;s implementation for processing first.  Any other xml tags present in the configuration are then assumed to have an associated ConfigurationManager.&lt;br&gt;
+&lt;br&gt;
+The configurationManager extension point provides the ability to register a ConfigurationManager implementation.  Extensions are indexed by the ConfigurationManagerRegistry class.  The configuration section&apos;s xml tag name and namespace are used to locate the correct implementation in the registry.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="configuration-manager" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="configuration-manager">
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  An identifier that must be unique among all configuration managers.  It is suggested you follow the reverse domain naming convention for this identifier as is done with most other items of this type.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="xml-namespace" type="string">
+            <annotation>
+               <documentation>
+                  The namespace present on the configuration section xml tag.  Though this attribute is required, it can be left as an empty string to indicate it should inherit the document namespace.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="xml-tag" type="string">
+            <annotation>
+               <documentation>
+                  The name of the xml tag this configuration manager will be responsible for.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The implementation of &lt;code&gt;org.eclipse.vtp.frame.core.configuration.ConfigurationManager&lt;/code&gt; that will manage the configuration section.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.vtp.frame.core.configuration.ConfigurationManager"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         VTP 3.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;pre&gt;
+   &lt;extension point=&quot;org.eclipse.vtp.desktop.core.configurationManagers&quot;&gt;
+      &lt;configuration-manager
+            class=&quot;org.eclipse.vtp.desktop.core.configuration.media.MediaBindingManager&quot;
+            id=&quot;org.eclipse.vtp.configuration.media&quot;
+            xml-namespace=&quot;http://eclipse.org/vtp/xml/configuration/media&quot;
+            xml-tag=&quot;bindings&quot;/&gt;
+   &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         All extensions of this extension point must implement &lt;code&gt;org.eclipse.vtp.desktop.core.ConfigurationManager&lt;/code&gt;.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         The core VTP toolset supplies two implementations of this extension point:&lt;br&gt;
+&lt;ul&gt;
+ &lt;li&gt;&lt;code&gt;org.eclipse.vtp.desktop.core.configuration.AttachedDataManager&lt;/code&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;org.eclipse.vtp.desktop.core.configuration.MediaBindingManager&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2004, 2006-2007 OpenMethods, LLC&lt;br&gt;
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+&lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;&lt;br&gt;
+&lt;br&gt;
+Contributors:&lt;br&gt;
+Trip Gilman (OpenMethods)
+      </documentation>
+   </annotation>
+
+</schema>

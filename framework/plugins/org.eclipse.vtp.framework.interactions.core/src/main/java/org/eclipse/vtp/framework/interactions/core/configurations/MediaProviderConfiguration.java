@@ -37,7 +37,7 @@ public class MediaProviderConfiguration implements IConfiguration,
 	/** The ID of the resource manager for this media provider. */
 	private String resourceManagerID = ""; //$NON-NLS-1$
 	/** The shared content in this media provider. */
-	private final Set sharedContent = new HashSet();
+	private final Set<SharedContentConfiguration> sharedContent = new HashSet<SharedContentConfiguration>();
 
 	/**
 	 * Creates a new MediaProviderConfiguration.
@@ -183,7 +183,7 @@ public class MediaProviderConfiguration implements IConfiguration,
 			String sharedContentName = NAME_SHARED_CONTENT;
 			if (prefix != null && prefix.length() > 0)
 				sharedContentName = prefix + ":" + sharedContentName; //$NON-NLS-1$
-			for (Iterator i = sharedContent.iterator(); i.hasNext();)
+			for (Iterator<SharedContentConfiguration> i = sharedContent.iterator(); i.hasNext();)
 			{
 				Element sharedContentElement = configurationElement.getOwnerDocument()
 						.createElementNS(NAMESPACE_URI, sharedContentName);
