@@ -2,7 +2,7 @@
 <feature
       id="com.openmethods.openvxml.platforms.vtop.feature"
       label="VTOP Platform Extension Feature"
-      version="1.0.0.201904290541"
+      version="1.0.0.201905020847"
       provider-name="OPENMETHODS">
 
    <description url="http://www.example.com/description">
@@ -19,9 +19,9 @@
 
    <plugin
          id="com.openmethods.openvxml.platforms.vtop"
-         download-size="8"
-         install-size="15"
-         version="1.0.0.201904231117"
+         download-size="7"
+         install-size="14"
+         version="5.0.0.201904021121"
          unpack="false"/>
 
 </feature>

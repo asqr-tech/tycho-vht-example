@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='2'>
-  <unit id='com.openmethods.openvxml.platforms.vtop.feature.feature.group' version='1.0.0.201904290541' singleton='false'>
-    <update id='com.openmethods.openvxml.platforms.vtop.feature.feature.group' range='[0.0.0,1.0.0.201904290541)' severity='0'/>
+  <unit id='com.openmethods.openvxml.platforms.vtop.feature.feature.group' version='1.0.0.201905020847' singleton='false'>
+    <update id='com.openmethods.openvxml.platforms.vtop.feature.feature.group' range='[0.0.0,1.0.0.201905020847)' severity='0'/>
     <properties size='8'>
       <property name='org.eclipse.equinox.p2.name' value='VTOP Platform Extension Feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -13,11 +13,11 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop.feature.feature.group' version='1.0.0.201904290541'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop.feature.feature.group' version='1.0.0.201905020847'/>
     </provides>
     <requires size='2'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop' range='[1.0.0.201904231117,1.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop.feature.feature.jar' range='[1.0.0.201904290541,1.0.0.201904290541]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop' range='[5.0.0.201904021121,5.0.0.201904021121]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop.feature.feature.jar' range='[1.0.0.201905020847,1.0.0.201905020847]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -33,7 +33,7 @@
       [Enter Copyright Description here.]
     </copyright>
   </unit>
-  <unit id='com.openmethods.openvxml.platforms.vtop.feature.feature.jar' version='1.0.0.201904290541'>
+  <unit id='com.openmethods.openvxml.platforms.vtop.feature.feature.jar' version='1.0.0.201905020847'>
     <properties size='7'>
       <property name='org.eclipse.equinox.p2.name' value='VTOP Platform Extension Feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -44,15 +44,15 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop.feature.feature.jar' version='1.0.0.201904290541'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vtop.feature.feature.jar' version='1.0.0.201905020847'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='com.openmethods.openvxml.platforms.vtop.feature' version='1.0.0.201904290541'/>
+      <provided namespace='org.eclipse.update.feature' name='com.openmethods.openvxml.platforms.vtop.feature' version='1.0.0.201905020847'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='com.openmethods.openvxml.platforms.vtop.feature' version='1.0.0.201904290541'/>
+      <artifact classifier='org.eclipse.update.feature' id='com.openmethods.openvxml.platforms.vtop.feature' version='1.0.0.201905020847'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>

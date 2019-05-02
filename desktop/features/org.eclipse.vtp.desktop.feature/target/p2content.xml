@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='2'>
-  <unit id='org.eclipse.vtp.desktop.feature.feature.group' version='4.0.0.201904290541' singleton='false'>
-    <update id='org.eclipse.vtp.desktop.feature.feature.group' range='[0.0.0,4.0.0.201904290541)' severity='0'/>
+  <unit id='org.eclipse.vtp.desktop.feature.feature.group' version='4.0.0.201905020847' singleton='false'>
+    <update id='org.eclipse.vtp.desktop.feature.feature.group' range='[0.0.0,4.0.0.201905020847)' severity='0'/>
     <properties size='7'>
       <property name='org.eclipse.equinox.p2.name' value='VTP Desktop feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -12,44 +12,44 @@
       <property name='maven-version' value='4.0.0-SNAPSHOT'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.feature.feature.group' version='4.0.0.201904290541'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.feature.feature.group' version='4.0.0.201905020847'/>
     </provides>
     <requires size='35'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.themes.attraction' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.themes.mantis' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.voice' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.media.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.projects.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.projects.voice' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.views' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.themes.attraction' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.themes.mantis' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.voice' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.media.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.projects.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.projects.voice' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.views' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='javax.xml' range='[1.3.4.v201005080400,1.3.4.v201005080400]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.xml.resolver' range='[1.2.0.v201005080400,1.2.0.v201005080400]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.xml.serializer' range='[2.7.1.v201005080400,2.7.1.v201005080400]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.themes.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.export' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.media.voice' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.elements.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.interactive.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.interactive.voice' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.legacy' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.projects.interactive.core' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.editors.themes.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.export' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.media.voice' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.elements.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.interactive.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.interactive.voice' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.model.legacy' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.projects.interactive.core' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='javax.activation' range='[1.1.0.v201211130549,1.1.0.v201211130549]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='javax.mail' range='[1.4.0.v201005080615,1.4.0.v201005080615]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.attacheddata.ui' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.database.ui' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.interactive.ui' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.standard.ui' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.webservice.ui' range='[4.0.0.201904231117,4.0.0.201904231117]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.attacheddata.ui' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.database.ui' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.interactive.ui' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.standard.ui' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.modules.webservice.ui' range='[5.1.0.201904021120,5.1.0.201904021120]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='javax.wsdl' range='[1.6.2.v201012040545,1.6.2.v201012040545]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.xerces' range='[2.9.0.v201101211617,2.9.0.v201101211617]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.commons.discovery' range='[0.2.0.v201004190315,0.2.0.v201004190315]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='javax.xml.soap' range='[1.3.0.v201105210645,1.3.0.v201105210645]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='javax.xml.rpc' range='[1.1.0.v201209140446,1.1.0.v201209140446]'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.derby' range='[10.11.1.1_v201605202053,10.11.1.1_v201605202053]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.feature.feature.jar' range='[4.0.0.201904290541,4.0.0.201904290541]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.feature.feature.jar' range='[4.0.0.201905020847,4.0.0.201905020847]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -65,7 +65,7 @@
       [Enter Copyright Description here.]
     </copyright>
   </unit>
-  <unit id='org.eclipse.vtp.desktop.feature.feature.jar' version='4.0.0.201904290541'>
+  <unit id='org.eclipse.vtp.desktop.feature.feature.jar' version='4.0.0.201905020847'>
     <properties size='6'>
       <property name='org.eclipse.equinox.p2.name' value='VTP Desktop feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -75,15 +75,15 @@
       <property name='maven-version' value='4.0.0-SNAPSHOT'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.feature.feature.jar' version='4.0.0.201904290541'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.vtp.desktop.feature.feature.jar' version='4.0.0.201905020847'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='org.eclipse.vtp.desktop.feature' version='4.0.0.201904290541'/>
+      <provided namespace='org.eclipse.update.feature' name='org.eclipse.vtp.desktop.feature' version='4.0.0.201905020847'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='org.eclipse.vtp.desktop.feature' version='4.0.0.201904290541'/>
+      <artifact classifier='org.eclipse.update.feature' id='org.eclipse.vtp.desktop.feature' version='4.0.0.201905020847'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>

@@ -23,7 +23,7 @@ import org.osgi.service.log.Logger;
  * 
  * @author Lonnie Pryor
  */
-@SuppressWarnings({ "rawtypes", "deprecation", "unchecked" })
+@SuppressWarnings({ "rawtypes" })
 public class LogTracker extends SingletonTracker implements LogService {
 	/**
 	 * Creates a new Log.

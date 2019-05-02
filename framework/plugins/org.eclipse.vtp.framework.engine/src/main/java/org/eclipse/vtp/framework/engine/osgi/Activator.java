@@ -52,7 +52,7 @@ import org.w3c.dom.Document;
  * @version 1.0
  * @since 3.0
  */
-@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class Activator extends AbstractReporter
 		implements BundleActivator, LogListener, ServiceTrackerCustomizer<Object, Object> {
 	private static final String[] REPORT_LEVELS = { "ERROR", "WARN", "INFO", "DEBUG" };

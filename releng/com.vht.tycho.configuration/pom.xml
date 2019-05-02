@@ -10,7 +10,7 @@
 	<properties>
 		<tycho.version>1.3.0</tycho.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<eclipse-repo.url>http://download.eclipse.org/releases/2019-03</eclipse-repo.url>
+		<eclipse-repo.url>https://download.eclipse.org/releases/2019-03/</eclipse-repo.url>
 	</properties>
 
 	<repositories>
@@ -20,13 +20,13 @@
 			<layout>p2</layout>
 		</repository>
 		<repository>
-			<id>orbit-local-release</id>
-			<url>file:///A:/EclipseWorkspace/Maven-Repo/orbit-buildrepo-R20160520211859</url>
+			<id>orbit-oxygen3a</id>
+			<url>https://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository/</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>vht-online-release</id>
-			<url>http://build.vhtcx.com/downloads/Elements/repository</url>
+			<url>file:///A:/EclipseWorkspace/Maven-Repo/OpenVXML</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>

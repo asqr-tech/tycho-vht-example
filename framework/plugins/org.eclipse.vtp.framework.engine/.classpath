@@ -5,6 +5,6 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.common"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/TychoApacheJars"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Additonal Jars"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
