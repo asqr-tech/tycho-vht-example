@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.vtp.framework.feature"
       label="VTP Framework feature"
-      version="4.0.0.201905020847">
+      version="4.0.0.201905061149">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -18,72 +18,72 @@
 
    <plugin
          id="org.eclipse.vtp.framework.common"
-         download-size="132"
-         install-size="280"
-         version="5.1.0.201904021120"
+         download-size="133"
+         install-size="279"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.core"
-         download-size="10"
-         install-size="27"
-         version="5.1.0.201904021120"
+         download-size="11"
+         install-size="29"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.databases"
-         download-size="32"
-         install-size="64"
-         version="5.1.0.201904021120"
+         download-size="33"
+         install-size="65"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.engine"
-         download-size="818"
-         install-size="1090"
-         version="5.1.0.201904021120"
+         download-size="167"
+         install-size="367"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.interactions.core"
-         download-size="247"
-         install-size="551"
-         version="5.1.0.201904021120"
+         download-size="237"
+         install-size="536"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.interactions.voice"
-         download-size="132"
-         install-size="283"
-         version="5.1.0.201904021120"
+         download-size="125"
+         install-size="267"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.scripting.rhino"
-         download-size="10"
-         install-size="18"
-         version="5.1.0.201904021120"
+         download-size="11"
+         install-size="19"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.spi"
-         download-size="7"
-         install-size="7"
-         version="5.1.0.201904021120"
+         download-size="8"
+         install-size="8"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.util"
-         download-size="41"
-         install-size="79"
-         version="5.1.0.201904021120"
+         download-size="42"
+         install-size="80"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.framework.webservices"
-         download-size="26"
-         install-size="52"
-         version="5.1.0.201904021120"
+         download-size="28"
+         install-size="53"
+         version="4.0.0.201905061149"
          unpack="false"/>
 
 	<plugin

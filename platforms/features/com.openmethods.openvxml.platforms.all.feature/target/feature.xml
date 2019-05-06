@@ -2,7 +2,7 @@
 <feature
       id="com.openmethods.openvxml.platforms.all.feature"
       label="OpenVXML Platforms Updatesite"
-      version="4.0.0.201905020847"
+      version="4.0.0.201905061149"
       provider-name="OPENMETHODS">
 
    <description url="http://www.example.com/description">
@@ -19,26 +19,26 @@
 
    <includes
          id="com.openmethods.openvxml.platforms.avp.feature"
-         version="1.0.0.201905020847"/>
+         version="1.0.0.201905061149"/>
 
    <includes
          id="com.openmethods.openvxml.platforms.cvp.feature"
-         version="1.0.0.201905020847"/>
+         version="1.0.0.201905061149"/>
 
    <includes
          id="com.openmethods.openvxml.platforms.genesys.feature"
-         version="1.0.0.201905020847"/>
+         version="1.0.0.201905061149"/>
 
    <includes
          id="com.openmethods.openvxml.platforms.vxmlb.feature"
-         version="1.0.0.201905020847"/>
+         version="1.0.0.201905061149"/>
 
    <includes
          id="com.openmethods.openvxml.platforms.prophecy.feature"
-         version="1.0.0.201905020847"/>
+         version="1.0.0.201905061149"/>
 
    <includes
          id="com.openmethods.openvxml.platforms.vtop.feature"
-         version="1.0.0.201905020847"/>
+         version="1.0.0.201905061149"/>
 
 </feature>

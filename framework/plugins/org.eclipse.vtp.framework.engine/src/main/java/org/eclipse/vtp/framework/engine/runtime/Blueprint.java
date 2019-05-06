@@ -179,7 +179,7 @@ public class Blueprint {
 	 */
 	private Map<String, Object> buildServices(IProcessDefinition definition,
 			List<ServiceDescriptor> serviceDescriptors) {
-		Map<String, LinkedList> serviceIndex = new HashMap<String, LinkedList>(serviceDescriptors.size());
+		Map<String, Object> serviceIndex = new HashMap<String, Object>(serviceDescriptors.size());
 		for (Iterator<ServiceDescriptor> i = serviceDescriptors.iterator(); i.hasNext();) {
 			ServiceDescriptor descriptor = (ServiceDescriptor) i.next();
 			Service service = new Service(this, definition.getServiceConfiguration(descriptor.getId()), descriptor);
@@ -191,7 +191,7 @@ public class Blueprint {
 				list.addLast(service);
 			}
 		}
-		return Collections.unmodifiableMap(new HashMap<String, LinkedList>(serviceIndex));
+		return Collections.unmodifiableMap(new HashMap<String, Object>(serviceIndex));
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class Blueprint {
 		for (int i = 0; i < observerDescriptors.length; ++i)
 			observerIndex.put(observerDescriptors[i].getId(), observerDescriptors[i]);
 		// Index the executable instances.
-		Map<String, Executable> executableIndex = new HashMap<String, Executable>();
+		Map<String, Object> executableIndex = new HashMap<String, Object>();
 		// Index each action instance.
 		String[] actionIDs = definition.getActionInstanceIDs();
 		for (int i = 0; i < actionIDs.length; ++i) {
@@ -244,7 +244,7 @@ public class Blueprint {
 				}
 			}
 		}
-		return Collections.unmodifiableMap(new HashMap<String, Executable>(executableIndex));
+		return Collections.unmodifiableMap(new HashMap(executableIndex));
 	}
 
 	/**

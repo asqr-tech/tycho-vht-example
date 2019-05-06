@@ -6,5 +6,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.common"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Additonal Jars"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.interactions.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.spi"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.vtp.framework.util"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

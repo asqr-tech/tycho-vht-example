@@ -2,7 +2,7 @@
 <feature
       id="com.openmethods.openvxml.idriver.feature"
       label="Feature"
-      version="4.0.0.201905020847"
+      version="4.0.0.201905061149"
       provider-name="OPENMETHODS">
 
    <description url="http://www.example.com/description">
@@ -19,23 +19,23 @@
 
    <plugin
          id="com.openmethods.openvxml.idriver"
-         download-size="731"
-         install-size="2180"
-         version="5.0.0.201904021121"
+         download-size="732"
+         install-size="2178"
+         version="1.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="com.openmethods.openvxml.idriver.runtime"
-         download-size="6"
-         install-size="9"
-         version="5.0.0.201904021121"
+         download-size="7"
+         install-size="10"
+         version="1.0.0.201905061149"
          unpack="false"/>
 
    <plugin
          id="com.openmethods.openvxml.idriver.ui"
-         download-size="9"
+         download-size="10"
          install-size="18"
-         version="5.0.0.201904021121"
+         version="1.0.0.201905061149"
          unpack="false"/>
 
    <plugin

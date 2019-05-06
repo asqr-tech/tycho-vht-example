@@ -20,13 +20,13 @@
 			<layout>p2</layout>
 		</repository>
 		<repository>
-			<id>orbit-oxygen3a</id>
-			<url>https://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository/</url>
+			<id>orbit-2019-03</id>
+			<url>https://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>vht-online-release</id>
-			<url>file:///A:/EclipseWorkspace/Maven-Repo/OpenVXML</url>
+			<url>http://build.vhtcx.com/downloads/Elements/repository</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>

@@ -2,7 +2,7 @@
 <feature
       id="com.openmethods.openvxml.platforms.vxmlb.feature"
       label="VXML-b Support for OpenVXML"
-      version="1.0.0.201905020847"
+      version="1.0.0.201905061149"
       provider-name="OPENMETHODS">
 
    <description url="http://www.example.com/description">
@@ -19,13 +19,13 @@
 
    <includes
          id="com.openmethods.openvxml.idriver.feature"
-         version="4.0.0.201905020847"/>
+         version="4.0.0.201905061149"/>
 
    <plugin
          id="com.openmethods.openvxml.platforms.vxmlb"
-         download-size="1017"
-         install-size="1163"
-         version="5.0.0.201904021121"
+         download-size="12"
+         install-size="23"
+         version="1.0.0.201905061149"
          unpack="false"/>
 
 </feature>
