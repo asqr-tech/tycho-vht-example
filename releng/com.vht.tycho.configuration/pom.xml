@@ -34,11 +34,6 @@
 			<url>https://download.eclipse.org/nebula/releases/latest/</url>
 			<layout>p2</layout>
 		</repository>
-		<repository>
-			<id>additional-repos</id>
-			<url>file:///A:/EclipseWorkspace/Maven-Repo/Additional-Jars/</url>
-			<layout>default</layout>
-		</repository>
 	</repositories>
 	<build>
 		<plugins>

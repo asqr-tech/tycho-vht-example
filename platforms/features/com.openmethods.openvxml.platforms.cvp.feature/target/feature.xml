@@ -2,7 +2,7 @@
 <feature
       id="com.openmethods.openvxml.platforms.cvp.feature"
       label="Cisco Voice Portal Support for OpenVXML"
-      version="1.0.0.201905061149"
+      version="1.0.0.201905100227"
       provider-name="OPENMETHODS">
 
    <description url="http://www.example.com/description">
@@ -21,7 +21,7 @@
          id="com.openmethods.openvxml.platforms.cvp"
          download-size="14"
          install-size="27"
-         version="1.0.0.201905061149"
+         version="1.0.0.201905100227"
          unpack="false"/>
 
 </feature>
