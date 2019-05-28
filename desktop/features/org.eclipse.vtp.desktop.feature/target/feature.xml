@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.vtp.desktop.feature"
       label="VTP Desktop feature"
-      version="4.0.0.201905100227">
+      version="4.0.0.201905280542">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -19,71 +19,71 @@
    <plugin
          id="org.eclipse.vtp.desktop.core"
          download-size="38"
-         install-size="56"
-         version="4.0.0.201905100227"
+         install-size="57"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.editors.core"
          download-size="168"
          install-size="333"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.editors.themes.attraction"
          download-size="18"
          install-size="36"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.editors.themes.mantis"
          download-size="19"
          install-size="37"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.editors.voice"
          download-size="15"
          install-size="27"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.media.core"
          download-size="121"
          install-size="253"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.model.core"
          download-size="263"
          install-size="578"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.projects.core"
          download-size="115"
          install-size="235"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.projects.voice"
          download-size="19"
          install-size="37"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.views"
          download-size="40"
          install-size="65"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
@@ -111,56 +111,56 @@
          id="org.eclipse.vtp.desktop.editors.themes.core"
          download-size="16"
          install-size="22"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.export"
          download-size="85"
          install-size="186"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.media.voice"
          download-size="168"
          install-size="334"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.model.elements.core"
          download-size="86"
          install-size="196"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.model.interactive.core"
          download-size="101"
          install-size="203"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.model.interactive.voice"
          download-size="22"
          install-size="44"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.model.legacy"
          download-size="70"
          install-size="145"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.desktop.projects.interactive.core"
          download-size="101"
          install-size="209"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
@@ -181,35 +181,35 @@
          id="org.eclipse.vtp.modules.attacheddata.ui"
          download-size="53"
          install-size="113"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.modules.database.ui"
          download-size="116"
          install-size="238"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.modules.interactive.ui"
          download-size="219"
          install-size="446"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.modules.standard.ui"
          download-size="246"
          install-size="497"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.vtp.modules.webservice.ui"
          download-size="219"
          install-size="475"
-         version="4.0.0.201905100227"
+         version="4.0.0.201905280542"
          unpack="false"/>
 
    <plugin

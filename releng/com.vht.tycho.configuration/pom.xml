@@ -25,8 +25,8 @@
 			<layout>p2</layout>
 		</repository>
 		<repository>
-			<id>vht-online-release</id>
-			<url>http://build.vhtcx.com/downloads/Elements/repository</url>
+			<id>build-vht</id>
+			<url>file:///C:/OpenVXML</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>

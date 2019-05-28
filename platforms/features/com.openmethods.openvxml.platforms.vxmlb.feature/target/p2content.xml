@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='2'>
-  <unit id='com.openmethods.openvxml.platforms.vxmlb.feature.feature.group' version='1.0.0.201905100227' singleton='false'>
-    <update id='com.openmethods.openvxml.platforms.vxmlb.feature.feature.group' range='[0.0.0,1.0.0.201905100227)' severity='0'/>
+  <unit id='com.openmethods.openvxml.platforms.vxmlb.feature.feature.group' version='1.0.0.201905280542' singleton='false'>
+    <update id='com.openmethods.openvxml.platforms.vxmlb.feature.feature.group' range='[0.0.0,1.0.0.201905280542)' severity='0'/>
     <properties size='8'>
       <property name='org.eclipse.equinox.p2.name' value='VXML-b Support for OpenVXML'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -13,12 +13,12 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb.feature.feature.group' version='1.0.0.201905100227'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb.feature.feature.group' version='1.0.0.201905280542'/>
     </provides>
     <requires size='3'>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.idriver.feature.feature.group' range='[4.0.0.201905100227,4.0.0.201905100227]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb' range='[1.0.0.201905100227,1.0.0.201905100227]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb.feature.feature.jar' range='[1.0.0.201905100227,1.0.0.201905100227]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.idriver.feature.feature.group' range='[4.0.0.201905280542,4.0.0.201905280542]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb' range='[1.0.0.201905280542,1.0.0.201905280542]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb.feature.feature.jar' range='[1.0.0.201905280542,1.0.0.201905280542]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -34,7 +34,7 @@
       [Enter Copyright Description here.]
     </copyright>
   </unit>
-  <unit id='com.openmethods.openvxml.platforms.vxmlb.feature.feature.jar' version='1.0.0.201905100227'>
+  <unit id='com.openmethods.openvxml.platforms.vxmlb.feature.feature.jar' version='1.0.0.201905280542'>
     <properties size='7'>
       <property name='org.eclipse.equinox.p2.name' value='VXML-b Support for OpenVXML'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -45,15 +45,15 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb.feature.feature.jar' version='1.0.0.201905100227'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='com.openmethods.openvxml.platforms.vxmlb.feature.feature.jar' version='1.0.0.201905280542'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='com.openmethods.openvxml.platforms.vxmlb.feature' version='1.0.0.201905100227'/>
+      <provided namespace='org.eclipse.update.feature' name='com.openmethods.openvxml.platforms.vxmlb.feature' version='1.0.0.201905280542'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='com.openmethods.openvxml.platforms.vxmlb.feature' version='1.0.0.201905100227'/>
+      <artifact classifier='org.eclipse.update.feature' id='com.openmethods.openvxml.platforms.vxmlb.feature' version='1.0.0.201905280542'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
